@@ -1,0 +1,51 @@
+*
+*     @(#)  1.2 date 12/9/91 line.width 
+*
+*
+*     Filename    : line.width
+*     Version     : 1.2
+*     Retrieved   : 92/01/09 20:03:42
+*     Last change : 91/12/09 09:54:03
+*
+*     Copyright : Practical Technology International Limited  
+*
+*     Width defintion file
+*
+*
+* 1st  value : index number of line thickness
+* 
+* 2nd  value : line thickness (mm)
+* 
+* 3rd  value : pen diameter associated with that line
+*              thickness (mm)
+* 
+* 4th  value : Line end type.
+*              1 Square ends 
+*              2 Round  ends
+*              4 Extended square ends
+*
+* 5th  value : Used in conjuction with the value
+*              of the 4th value for fonted lines.
+* 
+1,0.35,0.25,1,0 
+2,0.50,0.25,1,0 
+3,0.75,0.25,1,0 
+4,0.35,0.25,2,0 
+5,0.50,0.25,2,0 
+6,0.75,0.25,2,0 
+7,0.35,0.25,4,0 
+8,0.50,0.25,4,0 
+9,0.75,0.25,4,0 
+10,1.00,0.35,1,0
+11,2.00,0.35,1,0
+12,3.00,0.35,1,0
+13,4.00,0.35,1,0
+14,1.00,0.35,2,0
+15,2.00,0.35,2,0
+16,3.00,0.35,2,0
+17,4.00,0.35,2,0
+18,1.00,0.35,4,0
+19,2.00,0.35,4,0
+20,3.00,0.35,4,0
+21,4.00,0.35,4,0
+

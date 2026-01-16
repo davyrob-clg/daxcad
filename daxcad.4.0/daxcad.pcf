@@ -1,0 +1,35 @@
+*
+*     @(#)  1.1 date 11/17/91 daxcad.pcf 
+*
+*
+*     Filename    : daxcad.pcf
+*     Version     : 1.1
+*     Retrieved   : 92/01/30 21:26:49
+*     Last change : 91/11/17 17:36:38
+*
+*     Copyright : Practical Technology International Limited  
+*
+*     Main program configuration file
+*
+*
+* This is an example of a configuration file
+* Note: a comment is an '*' in column one
+*       Data is signified by an uppercase key word
+*       followed by lower case data (delimitted by spaces)
+*
+*   Newcompact can have two possible values TRUE or FALSE
+*              This defines if the new comapct is being used
+NEWCOMPACT false
+*
+*
+*   Compercent can have two possible values TRUE or FALSE
+*              This defines if the values in COMPLEVEL are percentage
+*              values or entity counts
+COMPERCENT true
+*
+*
+*   Complevel can any value between 1 to 32000 
+*             This defines the threashold level for a compact to take place
+COMPLEVEL 20
+*
+*

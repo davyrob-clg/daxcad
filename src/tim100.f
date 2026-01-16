@@ -1,0 +1,1835 @@
+C
+C        /* SCCS id Keywords             @(#)  412.1 date 6/11/92 tim100.f   */
+C
+C
+      FUNCTION ANINT( X )
+C
+      ANINT = AINT( X + SIGN( 0.5, X ) )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 arc.ftn Daxcad revision 1.8
+      SUBROUTINE ARC( X, Y, R, ANG1, ANG2 )
+C     =====================================
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( R.LE.0.0 ) GOTO 9999
+C
+      RR = ABS(R)
+C
+C***** COMPUTE ARC PARAMETERS
+C
+      D = ATAN(1.0)/45.0
+      RAD1 = D*ANG1
+      RAD2 = D*ANG2
+C
+      XS = RR*COS(RAD1)
+      YS = RR*SIN(RAD1)
+      XE = RR*COS(RAD2)
+      YE = RR*SIN(RAD2)
+C
+C***** CHECK FOR CURRENT POSITION OF CENTRE
+C
+      XX = X
+      YY = Y
+      IF( X.EQ.999.0) XX = XP
+      IF( Y.EQ.999.0) YY = YP
+C
+C***** MOVE TO START OF ARC
+C
+      XM = XX + XS
+      YM = YY + YS
+      CALL PLOTB( XM, YM, 3 )
+C
+C***** OUTPUT LINE MODE COMMAND
+C
+      CALL LNMODE
+C
+      XP = XX + XE
+      YP = YY + YE
+      XS = XSTEPS( XS )
+      YS = YSTEPS( YS )
+      XE = XSTEPS( XE )
+      YE = YSTEPS( YE )
+      RX = RX + ( XE - XS )
+      RY = RY + ( YE - YS )
+C
+      RT = AMOD( AMOD( ANG2 - ANG1, 360.0 ) + 360.0, 360.0 )
+      IF( RT.LT.0.0 ) RT = 360.0 - RT
+C
+      RR = XSTEPS ( RR )
+C
+      RT = XSTEPS ( R*RT )
+C
+C***** SEND ARC COMMAND
+C
+      IWRK(1) = 36
+      JWRK = 2
+      CALL VDG( XS, YS, 0 )
+      CALL VDG( XE, YE, 0 )
+      CALL VDG( RR, RT, 0 )
+      CALL BENES
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 axisb.ftn Daxcad revision 1.8
+      SUBROUTINE AXISB(XK,YK,IBCD,NAANT,AXLEN,THETA,STARV,DVAL)
+C
+      DIMENSION IBCD(1), ITH10(2)
+C     UNIT INCH
+C     DATA COF1,COF2,COF3,COF4,COF5,COF6,COF7,COF8,COF9,COF10,COF11,ICF/
+C    * 1.0,-0.1,0.11,-0.07,0.325,0.075,0.14,0.07,0.07,0.05,3.,1/
+C     UNIT CENTIMETER
+      DATA COF1,COF2,COF3,COF4,COF5,COF6,COF7,COF8,COF9,COF10,COF11,ICF/
+     * 2.0,-0.254,0.2,-0.175,0.405,0.170,0.35,0.17,0.088,0.127,1.5,2/
+      DATA ITH10/ 2H*1, 2H0   /
+C
+      KN=NAANT
+      A=COF1
+C
+C     FIX PLACE OF TEXT AND TIC MARKS
+C
+      IF(KN)1,2,2
+1     A=-A
+      KN=-KN
+C
+C     FIND EXPONENT
+C
+2     EX=0.0
+      ADV=ABS(DVAL)*COF1
+      IF(ADV)3,7,3
+3     IF(ADV-99.0)6,4,4
+4     ADV=ADV*0.1
+      EX=EX+1.
+      GO TO 3
+5     ADV=ADV*10.0
+      EX=EX-1.
+6     IF(ADV-0.01)5,7,7
+7     XVAL=STARV*10.0**(-EX)
+      ADV=COF1*DVAL*10.0**(-EX)
+      STH=THETA*0.0174533
+      CTH=COS(STH)
+      STH=SIN(STH)
+      DXB=COF2
+      DYB=COF10*(COF11*A-1.)
+      XN=XK+DXB*CTH-DYB*STH
+      YN=YK+DYB*CTH+DXB*STH
+      NTIC=AXLEN+1.0
+      NT=NTIC/2
+      IS=1
+      NK=2
+C
+C     WRITE TEXT AND VALUES
+C
+11    DO 20 I=IS,NTIC,ICF
+      CALL NUMBEB(XN,YN,COF3,XVAL,THETA,NK)
+      XVAL=XVAL+ADV
+      XN=XN+COF1*CTH
+      YN=YN+COF1*STH
+      IF(NT.GT.0) GO TO 20
+      NT=NTIC
+      Z=KN
+      IF(EX)12,13,12
+12    Z=Z+7.0
+13    DXB=COF4*Z+AXLEN*0.5
+      DYB=COF5*A-COF6
+      XR=XK+DXB*CTH-DYB*STH
+      YR=YK+DXB*STH+DYB*CTH
+      CALL SYMBOB(XR,YR,COF7,IBCD,THETA,KN)
+      IF(EX) 14,20,14
+14    Z=Z-5.0
+      XR=XR+Z*CTH*COF7
+      YR=YR+Z*STH*COF7
+      CALL SYMBOB(XR,YR,COF7,ITH10,THETA,3)
+      XR=XR+(3.0*CTH-0.8*STH)*COF7
+      YR=YR+(3.0*STH+0.8*CTH)*COF7
+      CALL NUMBEB(XR,YR,COF8,EX,THETA,-1)
+20    NT=NT-ICF
+C
+C  PLOT AXIS AND TIC-MARKS
+C
+      CALL PLOTB(XK+AXLEN*CTH,YK+AXLEN*STH,3)
+      DXB=-COF9*A*STH
+      DYB=COF9*A*CTH
+      A=NTIC-1
+      XN=XK+A*CTH
+      YN=YK+A*STH
+      DO 30 I=1,NTIC
+      CALL PLOTB(XN,YN,2)
+      CALL PLOTB(XN+DXB,YN+DYB,1)
+      CALL PLOTB(XN,YN,3)
+      XN=XN-CTH
+      YN=YN-STH
+30    CONTINUE
+      RETURN
+      END
+*
+*
+C       @(#)  256.1 date 12/16/89 benes.ftn Daxcad revision 1.8
+      SUBROUTINE BENES()
+C     ==================
+C
+      include 'include/pendat.inc'
+ 
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F,IPASS,NBLK
+      EQUIVALENCE (CHOUT,IES(1))
+      CHARACTER*512 CHOUT
+      INTEGER*2 STREAM_ID
+      INTEGER*4 STATUS,RETPTR,BUFLEN,RETLEN,KEY(3)
+      INTEGER*4 SEEK_KEY(3)
+      INTEGER*4 BUFFLEN
+      CHARACTER*9 PATHNAME
+      IF(IPASS-1)500,510,520
+C
+C
+C     First pass: assign device.
+C
+500   CONTINUE
+C      PATHNAME(1:9)=SIOS(LFN)(1:9)
+C      WRITE(10,*) '[LFN]',LFN
+C      CALL STREAM_$OPEN  (PATHNAME,INT2(9),STREAM_$OVERWRITE,
+C     1STREAM_$NO_CONC_WRITE,STREAM_ID,STATUS)
+C      IF(STATUS.NE.0) GOTO 1000
+C      CALL SIO_$CONTROL (STREAM_ID,SIO_$SPEED,SIO_$9600,STATUS)
+C      IF(STATUS.NE.0)GOTO 1000
+C      CALL SIO_$CONTROL (STREAM_ID,SIO_$INPUT_SYNC,.TRUE.,STATUS)
+C      IF(STATUS.NE.0) GOTO 1000
+C      CALL SIO_$CONTROL(STREAM_ID,SIO_$RAW,.TRUE.,STATUS)
+C      IF(STATUS.NE.0) GOTO 1000
+      IPASS=1
+      GOTO 9999
+C
+C     OUTPUT BUFFER
+C
+510   IWRK(2) = JWRK - 2
+C
+C      WRITE(10,*) 'BENES:',JWRK
+      DO 20 I = 1, JWRK
+C
+      JES = JES + 1
+C      WRITE(10,'(A,2I4,Z10)')  'TIM100 BENES:[JES]',JES,I,IWRK(I)
+      IES( JES ) = IWRK( I ) + 32
+ 
+      IF( JES.LT.LES ) GOTO 20
+C
+C      IF( LDMP.GT.0 ) CALL DUMP
+C
+C      WRITE(10,*) 'TIM100 [BENES] LFN,JES,LES',LFN,JES,LES
+      IF( LFN.LE.0 )GOTO 50
+C
+C      OUTPUT BUFFER
+C
+       DO 30 IC=1,LES
+C       WRITE(10,'(3A,I5)') '"',CHOUT(IC:IC),'"',ICHAR(CHOUT(IC:IC))
+       II=IC*4
+       CHOUT(IC:IC)=CHOUT(II:II)
+C       WRITE(10,'(A,Z10)') 'TIM100 BENES:OUTPUT BUFFER:',
+C     +                        ICHAR(CHOUT(IC:IC))
+  30   CONTINUE
+C
+C     Write to device.
+      BUFFLEN= LES
+C      CALL STREAM_$PUT_CHR(STRID,IADDR(CHOUT),BUFFLEN,
+C     1SEEK_KEY,STATUS)
+C      WRITE(10,*) 'STRID ',STRID,STREAM_ID
+C      IF(STATUS.NE.0) GOTO 1000
+      WRITE(LFN,'(A128)') CHOUT
+C
+ 50   NBYTES = LES - 4
+      IES(1) = 63 + 32
+      IES(2) = 29 + 32
+      IES(3) = NBYTES/64 + 32
+      IES(4) = MOD( NBYTES, 64 ) + 32
+      JES = 4
+C
+   20 CONTINUE
+C
+      JWRK = 2+MODE
+C
+ 9999 RETURN
+C
+C     close stream
+C
+520   continue
+      CLOSE(LFN)
+C
+      GOTO 9999
+C
+C     REPORT ERROR
+C
+      END
+*
+*
+C       @(#)  256.1 date 12/16/89 chmode.ftn Daxcad revision 1.8
+      SUBROUTINE CHMODE
+C     =================
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+C      WRITE(10,*) 'TIM100 [CHMODE]'
+      CALL ZZZVCL
+C
+C***** RESET CHARACTER MODE FLAG
+C
+      IMC = 0
+C
+      IF( IPEN.EQ.IPENX ) GOTO 10
+      IPENX = IPEN
+C
+C***** OUTPUT NEW PEN COMMAND
+C
+      IWRK(1) = 8
+      JWRK = 2
+      CALL VDG( FLOAT( IPEN - 1 ), 0.0, 0 )
+      CALL BENES
+C
+   10 IF( ITHK.EQ.0 .OR. IATTS(2).EQ.0 ) GOTO 20
+      ITHK = 0
+C
+C***** OUTPUT NEW LINE THICKNESS
+C
+      IWRK(1) = 50
+      JWRK = 2
+      CALL VDG( TWDTH, TGAP, 0 )
+      CALL BENES
+C
+   20 IF( MLC.EQ.MLCX ) GOTO 30
+C
+C***** OUTPUT NEW LINE COMMAND
+C
+      IWRK(1) = 2
+      JWRK = 2
+      CALL VDG( FLOAT(MLC), 0.0, 0 )
+      CALL BENES
+C
+      MLVX = MLC
+      IF( MLV.NE.MLVX ) IML = 1
+C
+      MLCX = MLC
+C
+   30 IF( ITXR.EQ.0 )GOTO 40
+      ITXR = 0
+C
+C***** OUTPUT NEW TEXT RATIOS
+C
+      IWRK(1) = 4
+      JWRK = 2
+      CALL VDG( TXR(1), TXR(2), 0 )
+      CALL VDG( TXR(3), TXR(4), 0 )
+      CALL VDG( TXR(5), TXR(6), 0 )
+      CALL BENES
+C
+C
+C***** CHECK FOR NEW CHARACTER MODE
+C
+   40 IF( MC.EQ.MCX ) GOTO 9999
+C
+C***** OUTPUT NEW CHARACTER MODE
+C
+      IWRK(1) = 6
+      JWRK = 2
+      CALL VDG( FLOAT(MC), 0.0, 0 )
+      CALL BENES
+C
+      MCX = MC
+C
+ 9999 CONTINUE
+C      WRITE(10,*) 'RETURN FROM [CHMODE]'
+      END
+*
+*
+C       @(#)  256.1 date 12/16/89 circlb.ftn Daxcad revision 1.8
+      SUBROUTINE CIRCLB( X, Y, R )
+C     ============================
+ 
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( R.LE.0.0 ) GOTO 9999
+C
+C
+C***** OUTPUT LINE MODE CHARACTERISTICS
+C
+      CALL LNMODE
+C
+C***** CHECK FOR CURRENT POSITION OF CENTRE
+C
+      XX = X
+      YY = Y
+      IF( X.EQ.999.0 ) XX = XP
+      IF( Y.EQ.999.0 ) YY = YP
+C
+C***** COMPUTE CIRCLE PARAMETERS
+C
+      DX = XSTEPS( XX - XP )
+      DY = YSTEPS( YY - YP )
+C
+      XP = XX
+      YP = YY
+      RX = RX + DX
+      RY = RY + DY
+C
+      RADIUS = XSTEPS( R )
+C
+C***** SEND CIRCLE COMMAND
+C
+      IWRK(1) = 37
+      JWRK = 2
+      CALL VDG( DX, DY, 0 )
+      CALL VDG( RADIUS, 0.0, 0 )
+      CALL BENES
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 dash.ftn Daxcad revision 1.8
+      SUBROUTINE DASH( CHAIN, N )
+C
+      DIMENSION CHAIN(N),TEMP(16)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      L = LDSH
+      IF( N.GE.1 .AND. N.LE.16 ) L = N
+C
+      DO 10 I = 1, L
+   10 TEMP(I) = XSTEPS( CHAIN(I) )
+C
+      IF( L.NE.LDSH ) GOTO 30
+C
+      DO 20 I = 1, L
+      IF( TEMP(I).NE.DSHP(I) ) GOTO 30
+   20 CONTINUE
+C
+C***** IGNORE REDUNDANT CHANGE
+C
+      GOTO 9999
+C
+   30 IML = 1
+      IDSH = 1
+      LDSH = L
+C
+      DO 40 I = 1, LDSH
+   40 DSHP(I) = TEMP(I)
+C
+      IF( MOD( LDSH, 2 ).NE.0 ) DSHP(LDSH+1) = 0.0
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 dump.ftn Daxcad revision 1.8
+      SUBROUTINE DUMP
+C
+      DIMENSION IDMP(32),IB(4)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      NBLK = NBLK + 1
+      PRINT 10, NBLK
+   10 FORMAT(//1X,14HDUMP OF BLOCK ,I6/)
+C
+      J = 0
+      DO 50 I1 = 1, 16
+C
+      K = 0
+      DO 30 I2 = 1, 8
+      J = J + 1
+      IF( J.GT.LES ) GOTO 60
+C
+      K = K + 1
+      IDMP(K) = 32
+      N = IES(J)
+C
+      K = K + 3
+      M = K
+C
+       DO 20 I3 = 2, 4
+       IDMP(M) = MOD( N, 8 ) + 48
+       N = N/8
+       M = M - 1
+   20       CONTINUE
+C
+   30   CONTINUE
+C
+      PRINT 40, IDMP
+   40 FORMAT(1X,32A1)
+C
+   50 CONTINUE
+C
+   60 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 factob.ftn Daxcad revision 1.8
+      SUBROUTINE FACTOB(FACT)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( FACT.LE.0.0 ) GOTO 9999
+C
+      PASX = FACT*PASX/F
+      PASY = FACT*PASY/F
+      F = FACT
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 fontb.ftn Daxcad revision 1.8
+      SUBROUTINE FONTB( ISET )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( ISET.NE.1 .AND. ISET.NE.2 ) GOTO 9999
+C
+      IF( ISET.EQ.IFONT ) GOTO 9999
+C
+      IFONT = ISET
+C
+      IMC = 1
+      CALL SETBIT( MC, 4, ISET - 1 )
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 hex.ftn Daxcad revision 1.8
+      SUBROUTINE HEX( ICHR )
+C
+      DIMENSION I(2)
+C
+      I(1) = ICHR/256
+      I(2) = MOD( ICHR, 256 )
+C
+      DO 10 J = 1, 2
+      L = 48
+      IF( I(J).GT.57 ) L = 55
+      I(J) = I(J) - L
+   10 CONTINUE
+C
+      ICHR = 16*I(2) + I(1) + 8192
+C     THIS WAS "20000
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 ldgrid.ftn Daxcad revision 1.8
+      SUBROUTINE LDGRID( NX, NY, IX, IY )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( NX.LT.0 .OR. NX.GT.126 .OR. NY.LT.0 .OR. NY.GT.126 ) GOTO 9999
+C
+C***** RESET ORIGIN COORDINATES
+C
+      IGOX = NX/2 - IX
+      IGOY = NY/2 - IY
+C
+      C12  = 3.0
+      S123 = 3.0
+C
+C***** SEND COMMAND
+C
+      CALL ZZZVCL
+C
+      IWRK(1) = 52
+      JWRK = 2
+C
+      T123 = 0.0
+      GX = 256.0*FLOAT(NX) + 32.0*T123 + 4.0*S123 + C12
+C
+      T123 = 1.0
+      GY = 256.0*FLOAT(NY) + 32.0*T123 + 4.0*S123 + C12
+C
+      CALL VDG( GX, GY, 0 )
+      CALL BENES
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 ldsym.ftn Daxcad revision 1.8
+      SUBROUTINE LDSYM( IX, IY, IP, N, IREF, ISTRT, IEND, ITYPE )
+C
+      DIMENSION IX(N),IY(N),IP(N),VECT(2)
+      INTEGER C12,S123
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+C***** CHECK VALIDITY OF ALL ARGUMENTS
+C
+      JTYPE = IABS( ITYPE )
+      IF( JTYPE.NE.1 .AND. JTYPE.NE.2 ) GOTO 9999
+C
+      IF( IREF.LT.1 .OR. IREF.GT.256 ) GOTO 9999
+C
+      IF( JTYPE.EQ.2 ) GOTO 10
+C
+      IF( ISTRT.LT.-64 .OR. ISTRT.GT.63 ) GOTO 9999
+      IF(  IEND.LT.-64 .OR.  IEND.GT.63 ) GOTO 9999
+C
+   10 IF( N.LE.0 ) GOTO 9999
+C
+      DO 20 I = 1, N
+      IF( IP(I).NE.2 .AND. IP(I).NE.3 ) GOTO 9999
+      IF( IX(I)-IGOX.LT.-64 .OR. IX(I)-IGOX.GT.63 ) GOTO 9999
+      IF( IY(I)-IGOY.LT.-64 .OR. IY(I)-IGOY.GT.63 ) GOTO 9999
+   20 CONTINUE
+C
+C***** SEND COMMAND
+C
+      CALL ZZZVCL
+C
+      IWRK(1) = 52
+      JWRK = 2
+C
+C***** SET START OF VECTOR STRING COMMAND
+C
+      K = 1
+      C12 = 3
+      S123 = 1
+      IF( ITYPE.LT.0 ) S123 = 0
+      VECT(1) = IREF - 1
+      IF( JTYPE.EQ.1 ) VECT(1) = 2048 - IREF
+      VECT(1) = 32.0*VECT(1) + 4.0*FLOAT(S123) + FLOAT(C12)
+C
+      IF( JTYPE.EQ.2 ) GOTO 30
+C
+C***** SET CHARACTER START AND END GRID POSITIONS
+C
+      K = 0
+      C12 = 1
+      SGP = ISTRT
+      IF( ISTRT.LT.0 ) SGP = 128 - ISTRT
+      EGP = IEND
+      IF(  IEND.LT.0 ) EGP = 128 - IEND
+      VECT(2) = 512.0*SGP + 4.0*EGP + FLOAT(C12)
+      CALL VDG( VECT(1), VECT(2), 0 )
+C
+C***** SEND CHARACTER OR SYMBOL VECTORS
+C
+   30 DO 40 I = 1, N
+      K = K + 1
+      JX = IX(I) - IGOX
+      IF( JX.LT.0 ) JX = 128 + JX
+      JY = IY(I) - IGOY
+      IF( JY.LT.0 ) JY = 128 + JY
+      JP = 0
+      IF( IP(I).EQ.2 ) JP = 2
+      VECT(K) = 512.0*FLOAT(JX) + 4.0*FLOAT(JY) + FLOAT(JP)
+C
+      IF( K.LT.2 ) GOTO 40
+C
+      CALL VDG( VECT(1), VECT(2), 0 )
+      K = 0
+C
+   40 CONTINUE
+C
+C***** SEND END OF VECTOR STRING COMMAND
+C
+      S123 = 2
+      C12  = 3
+      K = K + 1
+      VECT(K) = 4.0*FLOAT(S123) + C12
+      IF( K.LT.2 ) VECT(2) = 0
+      CALL VDG( VECT(1), VECT(2), 0 )
+      CALL BENES
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 lineb.ftn Daxcad revision 1.8
+      SUBROUTINE LINEB(X,Y,N,IDIS,LSI,NRSYM)
+C
+      DIMENSION X(1),Y(1), NSYM(1)
+C
+C     UNIT INCH
+C     DATA HCARAC/0.08/
+C     UNIT CENTIMETER
+      DATA HCARAC/0.20/
+C
+      ITR=N*IDIS+1
+      ISC=ITR+IDIS
+      IEND=ITR-IDIS
+      XTR=X(ITR)
+      YTR=Y(ITR)
+C     XSC=ABS(X(ISC))
+C     YSC=ABS(Y(ISC))
+      XSC = X(ISC)
+      YSC = Y(ISC)
+C
+C     FIND SHORTEST DISTANCE
+C
+      CALL WHEREB(AX,AY,AF)
+       AX=AX*XSC+XTR
+      AY=AY*YSC+YTR
+      VISA=AMAX1(ABS(X(1)-AX),ABS(Y(1)-AY))
+      VERSA=AMAX1(ABS(X(IEND)-AX),ABS(Y(IEND)-AY))
+      IPEN=3
+      ICODE=-1
+C
+C     SET INDICES FOR PLOT-DIRECTION AND SYMBOL-PLOTTING
+C
+      ML=IABS(LSI)
+      IF(LSI)2,1,2
+1     ML=1
+2     IF(VISA-VERSA)4,4,3
+3     N1=IEND
+      NSYMB=((N-1)/ML)*ML+ML-N+1
+      IPL=-IDIS
+      GO TO 5
+4     N1=1
+      NSYMB=ML
+      IPL=IDIS
+5     IF(LSI)6,7,8
+6     IPENL=3
+      IODEL=-1
+      ILS=1
+      GO TO 9
+7     NSYMB=ISC
+8     IPENL=2
+      IODEL=-2
+      ILS=0
+9     DO 15 I=1,N
+      XP=(X(N1)-XTR)/XSC
+      YP=(Y(N1)-YTR)/YSC
+      IF(NSYMB-ML)11,10,12
+C
+C     PLOT SYMBOL
+C
+   10 NSYM(1) = NRSYM
+      CALL SYMBOB(XP,YP,HCARAC,NSYM,0.0,ICODE)
+      NSYMB=1
+      GO TO 14
+11    IF(ILS)13,12,13
+12    CALL PLOTB(XP,YP,IPEN)
+C
+C     PLOT LINE
+C
+13    NSYMB=NSYMB+1
+14    N1=N1+IPL
+      ICODE=IODEL
+15    IPEN=IPENL
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 lnmode.ftn Daxcad revision 1.8
+      SUBROUTINE LNMODE()
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      CALL ZZZVCL()
+C
+C***** RESET LINE MODE FLAG
+C
+      IML = 0
+C
+      IF( IPEN.EQ.IPENX ) GOTO 10
+      IPENX = IPEN
+C
+C***** OUTPUT NEW PEN COMMAND
+C
+      IWRK(1) = 8
+      JWRK = 2
+C      WRITE(10,*)  'LNMODE:IPEN',IPEN
+      CALL VDG( FLOAT( IPEN - 1 ), 0.0, 0 )
+C      WRITE(10,*) 'TIM100 LNMODE:'
+      CALL BENES()
+C
+   10 IF( IDSH.EQ.0 .OR. IATTS(4).EQ.0 ) GOTO 30
+      IDSH = 0
+C
+C***** OUTPUT NEW DASHED LINE PATTERN
+C
+      IWRK(1) = 1
+      JWRK = 2
+      DO 20 I = 1, LDSH, 2
+      CALL VDG( DSHP(I), DSHP(I+1), 0 )
+   20 CONTINUE
+      CALL BENES
+C
+   30 IF( ITHK.EQ.0 .OR. IATTS(1).EQ.0 ) GOTO 40
+      ITHK = 0
+C
+C***** OUTPUT NEW LINE THICKNESS COMMAND
+C
+      IWRK(1) = 50
+      JWRK = 2
+      CALL VDG( TWDTH, TGAP, 0 )
+      CALL BENES
+C
+   40 IF( MLV.EQ.MLVX ) GOTO 9999
+C
+C***** OUTPUT NEW LINE MODE COMMAND
+C
+      IWRK(1) = 2
+      JWRK = 2
+      CALL VDG( FLOAT(MLV), 0.0, 0 )
+      CALL BENES
+C
+      MLVX = MLV
+      MLCX = MLV
+      IF( MLC.NE.MLCX ) IMC = 1
+C
+ 9999 CONTINUE
+C      WRITE(10,*) 'RETURN FROM [LNMODE]'
+      END
+C       @(#)  256.1 date 12/16/89 newpeb.ftn Daxcad revision 1.8
+      SUBROUTINE NEWPEB(NPEN)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( NPEN.LT.1 ) GOTO 9999
+C
+C      WRITE(10,*) '[NEWPEB] IPEN',IPEN
+      IPEN=MOD(NPEN-1,8)+1
+C      WRITE(10,*) '[NEWPEB] IPEN,NPEN,IPENX:',IPEN,NPEN,IPENX
+      IF( IPEN.EQ.IPENX ) GOTO 9999
+C      WRITE(10,*) 'IML,IMC',IML,IMC
+C
+      IML = 1
+      IMC = 1
+C      WRITE(10,*) 'IML,IMC',IML,IMC
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 numbeb.ftn Daxcad revision 1.8
+      SUBROUTINE NUMBEB(XPAGE,YPAGE,HEIGHT,FPN,ANGLE,NDEC)
+C
+      DIMENSION IDGIT(10),ITSL(30)
+      EQUIVALENCE (IZERO,IDGIT(1))
+      DATA MAXD/9/, MOINS/45/, IPOINT/46/
+      DATA IDGIT/48,49,50,51,52,53,54,55,56,57/
+      ISL=0
+      N=NDEC
+      IF(N-MAXD) 3,2,1
+1     N=MAXD
+2     M=-MAXD
+      GO TO 9
+3     IF(N+MAXD) 4,5,6
+4     N=-MAXD
+5     M=MAXD-1
+      GO TO 9
+6     IF(N) 7,8,8
+7     M=-N-1
+      GO TO 9
+8     M=-N
+9     IF(FPN) 10,11,11
+10    ISL=ISL+1
+      ITSL(ISL)=MOINS
+11    FP=ABS(FPN) + 0.5*10.**M
+      IP=IFIX(ALOG10(FP) + 1.)
+      ILP=IP
+      IF(N+1) 12,13,13
+12    ILP=ILP+N+1
+13    IF(ILP) 14,14,15
+14    ISL=ISL+1
+      ITSL(ISL)=IZERO
+      GO TO 21
+15    DO 20 JJ=1,ILP
+      M=IP-JJ
+      KK=IFIX( FP*10.**(-M) )
+      ID=IDGIT(KK+1)
+      ISL=ISL+1
+      ITSL(ISL)=ID
+      FP=FP - FLOAT(KK)*10.0**M
+20    CONTINUE
+21    IF(N) 100,22,22
+22    ISL=ISL+1
+      ITSL(ISL)=IPOINT
+      IF(N) 100,100,23
+23    DO 30 JJ=1,N
+      FP=10.*FP
+      KK=IFIX(FP)
+      ID=IDGIT(KK+1)
+      ISL=ISL+1
+      ITSL(ISL)=ID
+      FP=FP - FLOAT(KK)
+30    CONTINUE
+C
+C***** PACK CHARACTERS INTO WORDS
+C
+  100 ITSL( ISL + 1 ) = 0
+C
+      J = 1
+      DO 200 I = 1, ISL, 4
+      CALL PACK( ITSL(J), ITSL(I) )
+  200 J = J + 1
+C
+C***** PLOT NUMBER AS TEXT STRING
+C
+      CALL SYMBOB(XPAGE,YPAGE,HEIGHT,ITSL,ANGLE,ISL)
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 offseb.ftn Daxcad revision 1.8
+      SUBROUTINE OFFSEB( XOFF, XSCALE, YOFF, YSCALE )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      XO = XOFF
+      YO = YOFF
+C
+      IF( XSCALE.NE.0.0 ) EX = XSCALE
+      IF( YSCALE.NE.0.0 ) EY = YSCALE
+C
+      RETURN
+      END
+C      SUBROUTINE PACK( IW, N )
+C
+C      DIMENSION N(2)
+C      K = N(2)
+C      IF( N(2).GE.128 ) K = K - 128
+C      JW = 256*K + N(1)
+C      IF( N(2).GE.128 ) JW = JW - 32767 - 1
+C      IW = JW
+C      RETURN
+C      END
+C       @(#)  256.1 date 12/16/89 pack.ftn Daxcad revision 1.8
+      SUBROUTINE PACK( IW, N )
+C
+C     INTEGER*4 VERSION
+C
+      DIMENSION N(4)
+      EQUIVALENCE(KW,IC)
+      CHARACTER*4 IC
+      DO 10 I=1,4
+10    IC(I:I)=CHAR(N(I))
+      IW=KW
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 plotb.ftn Daxcad revision 1.8
+      SUBROUTINE PLOTB( X, Y, J )
+C
+      INTEGER VMODE(2)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      DATA VMODE/ 35, 0 /
+C
+      XX = X
+      YY = Y
+      JR = J
+      JJ = IABS( J )
+      IF( JJ.NE.999 ) GOTO 1
+C
+      IUP = 0
+      GOTO 30
+C
+    1 K1 = JJ/10
+      K2 = MOD( JJ, 10 )
+C
+      IF( K1.EQ.0 ) GOTO 20
+      IF( K1.NE.1 ) GOTO 10
+      XX = ( XX - XO )/EX
+      YY = ( YY - YO )/EY
+C
+   10 IF( K1.EQ.2 ) JR = -1
+C
+   20 IF( K2.EQ.2 ) IUP = 1
+      IF( K2.EQ.3 ) IUP = 0
+C
+   30 XP = XX
+      YP = YY
+C
+C***** CONVERT PEN POSITION INTO PLOTTER INCREMENTS
+C
+      XN = XSTEPS( XP )
+      YN = YSTEPS( YP )
+C
+      DX = XN - RX
+      DY = YN - RY
+C
+      RX = XN
+      RY = YN
+C
+C***** CHECK FOR LINE MODE
+C
+C      WRITE(10,*) '[PLOTB] IML,IMC,IUP',IML,IMC,IUP
+      IF( IML.EQ.1 .AND. IUP.EQ.1 ) CALL LNMODE
+C
+C***** FORM VECTOR VDG STRING
+C
+      IF( MODE.NE.0 ) GOTO 40
+C
+      MODE = 1
+      IWRK(1) = VMODE(1)
+      IWRK(3) = VMODE(2)
+      JWRK = 3
+C
+   40 CALL VDG( DX, DY, IUP )
+C
+      IF( JR.GE.0 ) GOTO 50
+C
+      XP = 0.0
+      YP = 0.0
+C
+      RX = 0.0
+      RY = 0.0
+C
+   50 IF( J.NE.999 ) GOTO 9999
+C
+      CALL ZZZVCL()
+C
+      IF( JES.EQ.4 .OR. JES.EQ.LES ) GOTO 9999
+C
+      K = JES + 1
+      DO 60 I = K, LES
+      JWRK = 1
+      IWRK(1) = 0
+   60 CALL BENES
+      IPASS=2
+      CALL BENES
+C
+ 9999 RETURN
+      END
+ 
+C       @(#)  256.1 date 12/16/89 plotsb.ftn Daxcad revision 1.8
+      SUBROUTINE PLOTSB(IERR,IDMP,NTAPE)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      JWRK = 0
+      LWRK = 65
+C
+      DO 10 I = 1, LWRK
+   10 IWRK(I) = 0
+C
+      JES = 0
+      LES = 128
+C
+      DO 20 I = 1, LES
+   20 IES( I ) = 0
+C
+C***** DEFINE NUMBER OF CHARACTERS PER WORD
+C
+      NCPW = 4
+C
+C***** DEFINE OUTPUT UNIT NUMBERS
+C
+      LERR = IERR
+      LDMP = IDMP
+      LFN  = NTAPE
+C
+C
+C***** DESELECT VECTOR MODE
+C
+      MODE = 0
+C
+C***** DEFINE DEFAULT PLOTTER PEN
+C
+      IPEN = 1
+      IPENX = -1
+C
+C***** DEFINE PEN STATUS TO BE UP
+C
+      IUP = 0
+C
+C***** INITIALISE LINE MODE AND CHARACTER MODE COMMANDS
+C
+      IML = 1
+      MLV  = 0
+      MLVX = -1
+C
+      MLC  = 0
+      MLCX = -1
+C
+      IMC = 1
+      MC  = 2
+      MCX = -1
+C
+C***** CLEAR SELECT FLAGS
+C
+      DO 30 I = 1, 12
+   30 IATTS(I) = 0
+C
+C***** INITAILISE TEXT PARAMETERS
+C
+      TXAR = 1.0
+      TXSL = 0.0
+      TXHX = -1.0
+      TXHY = -1.0
+      TXA2 = -1.0
+C
+C***** INITAILISE SYMBOL PARAMETERS
+C
+      SYAR = 1.0
+      SYSL = 0.0
+      SYHX = -1.0
+      SYA1 = -1.0
+      SYA2 = -1.0
+C
+C***** INITIALISE TEXT VECTOR
+C
+      TXVT = -1.0
+C
+C***** INITIALISE TEXT RATIOS
+C
+      ITXR = 1
+C
+      TXR(1) = 500.0
+      TXR(2) = 250.0
+      TXR(3) = 500.0
+      TXR(4) = 750.0
+      TXR(5) = 0.0
+      TXR(6) = 0.0
+C
+C***** INITIALISE FONT
+C
+      IFONT  = 1
+C
+C***** INITIALISE ORIGIN FOR DOWN-LOADABLE SYMBOL GRID SIZE
+C
+      IGOX = 0
+      IGOY = 0
+C
+C***** INITIALISE PLOTTER INCREMENTS PER CM.
+C
+      PASX = 200.0
+      PASY = 200.0
+C
+C***** INITIALISE CURRENT PEN POSITION
+C
+      XP = 0.0
+      YP = 0.0
+C
+C***** INITIALISE REAL INCREMENTAL PEN POSITION
+C
+      RX = 0.0
+      RY = 0.0
+C
+C***** INITIALISE X AND Y AXES OFFSETS AND SCALING FACTORS
+C
+      XO = 0.0
+      YO = 0.0
+C
+      EX = 1.0
+      EY = 1.0
+C
+C***** INITIALISE PLOT SCALING FACTOR
+C
+      F = 1.0
+C
+C***** INITIALISE BENES ENTRY FLAG
+C
+      IPASS = 0
+C
+C***** INITIALISE DUMP BLOCK COUNT
+C
+      NBLK = 0
+C
+C***** INITIALISE LINE THICKENING PARAMETERS
+C
+      ITHK = 1
+      TWDTH = XSTEPS( 0.05 )
+      TGAP  = XSTEPS( 0.02 )
+C
+C***** INITIALISE DASHED LINE PATTERN
+C
+      IDSH = 1
+      LDSH = 2
+      DSHP(1) = XSTEPS( 0.5 )
+      DSHP(2) = DSHP(1)
+C
+C***** INITIALISE OUTPUT BUFFER
+C
+      NBYTES = LES - 4
+      IES(1) = 63 + 32
+      IES(2) = 29 + 32
+      IES(3) = NBYTES/64 + 32
+      IES(4) = MOD( NBYTES, 64 ) + 32
+C
+      JES = 4
+C
+C***** SEND LINE AND CHARACTER MODES
+C
+C      WRITE(10,*) '[PLOTSB] CALLING LNMODE:',JES
+      CALL LNMODE
+C      WRITE(10,*) '[PLOTSB] CALLING CHMODE:',JES
+      CALL CHMODE
+C      WRITE(10,*) '[PLOTSB] RETURN :',JES
+ 
+      IWRK(1) = 8
+      JWRK = 2
+C      WRITE(10,*)  'PLOTS:IPEN',IPEN
+      CALL VDG( FLOAT( IPEN - 1 ), 0.0, 0 )
+      CALL BENES()
+C
+C      WRITE(10,*) 'RETURN FROM [PLOTSB]'
+C
+      END
+ 
+C       @(#)  256.1 date 12/16/89 scaleb.ftn Daxcad revision 1.8
+      SUBROUTINE SCALEB(X,XLEN,N,IDIS)
+C
+      DIMENSION X(1),SCVAL(7)
+      DATA SCVAL/1.0,2.0,4.0,5.0,8.0,10.,20./
+C
+      TRUNC=0.01
+      IPL=IABS(IDIS)
+      NEND=N*IPL
+      YN=X(1)
+      YX=YN
+C
+C     FIND MIN AND MAX VALUES
+C
+      DO 20 I=1,NEND,IPL
+      Y=X(I)
+      IF(YN-Y)10,20,5
+5     YN=Y
+      GO TO 20
+10     IF(YX-Y)15,20,20
+15    YX=Y
+20    CONTINUE
+      IF(YN)25,30,30
+25    TRUNC=TRUNC-1.0
+C
+C     FIND SCALING FACTOR
+C
+30    DX=(YX-YN)/XLEN
+      IF(DX)95,90,35
+35    I=ALOG10(DX)+1000.0
+      EXP=10.0**(I-1000)
+       DX=DX/EXP-0.01
+      DO 40 I=1,6
+      IA=I
+      IF(SCVAL(I)-DX)40,45,45
+40    CONTINUE
+45    DX=SCVAL(IA)*EXP
+      YIN=DX*AINT(YN/DX+TRUNC)
+      XVPOS=YIN+(XLEN+0.01)*DX
+C
+C     CHECK  PLOTLENGTH
+C
+      IF(XVPOS-YX)50,60,60
+50    YIN=EXP*AINT(YN/EXP+TRUNC)
+      XVPOS=YIN+(XLEN+0.01)*DX
+      IF(XVPOS-YX)55,60,60
+55    IA=IA+1
+      GO TO 45
+60    YIN=YIN-AINT((XLEN+(YIN-YX)/DX)*0.5)*DX
+      IF(YN*YIN)65,65,70
+65    YIN=0.0
+70    IF(IDIS)75,75,80
+75    YIN=YIN+AINT(XLEN+0.5)*DX
+      DX=-DX
+80    NEND=NEND+1
+      X(NEND)=YIN
+      NEND=NEND+IPL
+      X(NEND)=DX
+      RETURN
+90    DX=ABS((2.0*YN)/XLEN)+1.0
+      GO TO 35
+95    IF(IDIS)100,100,105
+100   YIN=YX
+      GO TO 80
+105   DX=-DX
+      YIN=YN
+      GO TO 80
+      END
+C       @(#)  256.1 date 12/16/89 select.ftn Daxcad revision 1.8
+C       @(#)  256.1 date 12/16/89 space.ftn Daxcad revision 1.8
+      SUBROUTINE SPACE( R5 )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      CALL TEXAT( -1.0, -1.0, -1.0, -1.0, R5 )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 sparm.ftn Daxcad revision 1.8
+      SUBROUTINE SPARM( ASPECT, SLANT )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( ASPECT.GT.0.0 ) SYAR = ASPECT
+      IF( SLANT.GE.0.0 .AND. SLANT.LE.90.0 ) SYSL = SLANT
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 subscr.ftn Daxcad revision 1.8
+      SUBROUTINE SUBSCR( R1, R2 )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      CALL TEXAT( R1, R2, -1.0, -1.0, -1.0 )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 supscr.ftn Daxcad revision 1.8
+      SUBROUTINE SUPSCR( R3, R4 )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      CALL TEXAT( -1.0, -1.0, R3, R4, -1.0 )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 symbob.ftn Daxcad revision 1.8
+      SUBROUTINE SYMBOB( XPAGE, YPAGE, HEIGHT, IBCD, ANGLE, NCHAR )
+C
+      DIMENSION IBCD(NCHAR),ICHRS(4)
+      INTEGER UPPER,LOWER ,CASE,ATCHR
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      DATA UPPER/33/, LOWER/36/, ATCHR/32/
+C
+      X = XPAGE
+      Y = YPAGE
+      IF( X.EQ.999.0 ) X = XP
+      IF( Y.EQ.999.0 ) Y = YP
+C
+      IF( NCHAR.LT.0 ) GOTO 100
+C
+      CALL PLOTB( X, Y, 3 )
+      CALL ZZZVCL
+C
+C***** CHECK CHARACTER MODE
+C
+      IF( IMC.NE.0 ) CALL CHMODE
+C
+   10 HX = XSTEPS( TXAR*HEIGHT )
+      HY = YSTEPS( HEIGHT )
+      A2 = ANINT( TXSL*1000.0/180.0 )
+C
+      IF( HX.EQ.TXHX .AND.
+     1   HY.EQ.TXHY .AND.
+     2   A2.EQ.TXA2    ) GOTO 20
+C
+      TXHX = HX
+      TXHY = HY
+      TXA2 = A2
+      IWRK(1) = 3
+      JWRK = 2
+      CALL VDG( HX, HY, 0 )
+      CALL VDG( A2, 0.0, 0 )
+      CALL BENES
+C
+   20 IWRK(1) = 33
+      JWRK = 2
+C
+      IF( NCHAR.GT.0 ) GOTO 30
+C
+      CALL UNPACK( IBCD(1), ICHRS )
+      ICHRS(1) = 0
+C
+      TXVN = 1.0
+C
+      JWRK = JWRK + 1
+C
+   30 MCHAR = MAX0( 1 , NCHAR )
+C
+C***** SET CASE TO UPPER
+C
+      CASE = UPPER
+      CALL CHMODE
+      IWRK(1) = 33
+      JWRK = 2
+C
+      NW = ( NCHAR + NCPW - 1 )/NCPW
+      DO 50 IW = 1, NW
+      IF ( NCHAR .GT. 0 ) CALL UNPACK( IBCD(IW), ICHRS )
+C
+C***** CHECK FOR UPPER OR LOWER CASE CHARS
+C
+      DO 40 IC = 1, NCPW
+      JCHR = ICHRS(IC) - 32
+      IF( JCHR.LT.0  ) GOTO 40
+      IF( JCHR.GT.63 ) GOTO 34
+      IF( IATTS(6).EQ.1  ) GOTO 32
+      IF( JCHR.NE.32 ) GOTO 32
+C
+      JWRK = JWRK + 1
+      MCHAR = MCHAR + 1
+      IWRK(JWRK) = ATCHR
+      IF( JWRK.EQ.65 ) CALL BENES
+      GOTO 35
+C
+ 32   IF( CASE.EQ.UPPER ) GOTO 35
+C
+      CASE = UPPER
+C
+ 33   JWRK = JWRK + 1
+      IWRK(JWRK) = ATCHR
+      IF( JWRK.EQ.65 ) CALL BENES
+C
+      JWRK = JWRK + 1
+      IWRK(JWRK) = CASE
+      IF( JWRK.EQ.65 ) CALL BENES
+C
+      MCHAR = MCHAR + 2
+      GOTO 35
+C
+34    JCHR = JCHR - 64
+      IF( CASE.EQ.LOWER ) GOTO 35
+C
+      CASE = LOWER
+      GOTO 33
+C
+  35   JWRK = JWRK + 1
+      IWRK(JWRK) = JCHR
+      IF( JWRK-2.EQ.MCHAR ) GOTO 60
+      IF( JWRK.EQ.65 ) CALL BENES
+ 40   CONTINUE
+C
+   50 CONTINUE
+C
+   60 IF( JWRK.GT.2 ) CALL BENES
+C
+      IWRK(1) = 7
+      JWRK = 2
+      D = TXVT
+      IF( D.LT.0.0 ) D = FLOAT( MCHAR ) * TXAR * HEIGHT
+      RADS = ANGLE*ATAN(1.0)/45.0
+      HX = D*COS( RADS )
+      HY = D*SIN( RADS )
+      XP = XP + HX
+      YP = YP + HY
+      HX = XSTEPS( HX )
+      HY = YSTEPS( HY )
+      RX = RX + HX
+      RY = RY + HY
+      CALL VDG( HX, HY, 0 )
+      CALL BENES
+C
+      GOTO 9999
+C
+  100 IP = MOD( NCHAR, 10 ) + 4
+      CALL PLOTB( X, Y, IP )
+      CALL ZZZVCL
+C
+C***** CHECK CHARACTER MODE
+C
+      CALL CHMODE
+C
+      IP = -NCHAR/10
+      IF( IP.NE.0 ) GOTO 110
+      IP = 1
+      IF( IBCD(1).GT.16 ) GOTO 10
+C
+  110 IF( IP.EQ.1 ) SYM =  IBCD(1) - 1
+      IF( IP.EQ.2 ) SYM = -IBCD(1)
+C
+      HX = XSTEPS( SYAR*HEIGHT )
+      HY = YSTEPS( HEIGHT )
+      A1 = ANINT( ANGLE*1000.0/180.0 )
+      A2 = ANINT( SYSL*1000.0/180.0 )
+C
+      IF( HX.EQ.SYHX .AND.
+     1   HY.EQ.SYHY .AND.
+     2   A1.EQ.SYA1 .AND.
+     3   A2.EQ.SYA2    ) GOTO 120
+C
+      SYHX = HX
+      SYHY = HY
+      SYA1 = A1
+      SYA2 = A2
+      IWRK(1) = 5
+      JWRK = 2
+      CALL VDG( HX, HY, 0 )
+      CALL VDG( A1, A2, 0 )
+      CALL BENES
+C
+  120 IWRK(1) = 34
+      JWRK = 2
+      CALL VDG( SYM, 0.0, 0 )
+      CALL BENES
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 texat.ftn Daxcad revision 1.8
+      SUBROUTINE TEXAT( R1, R2, R3, R4, R5 )
+C
+      DIMENSION TEMP(6)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      DO 10 I = 1, 6
+   10 TEMP(I) = TXR(I)
+C
+      IF( R1.GE.0.0 ) TEMP(1) = ANINT( 1000.0*R1 )
+      IF( R2.GE.0.0 ) TEMP(2) = ANINT( 1000.0*R2 )
+      IF( R3.GE.0.0 ) TEMP(3) = ANINT( 1000.0*R3 )
+      IF( R4.GE.0.0 ) TEMP(4) = ANINT( 1000.0*R4 )
+        TEMP(5) = 0
+      IF( R5.GE.0.0 ) TEMP(6) = ANINT( 1000.0*R5 )
+C
+      DO 20 I = 1, 6
+      IF( TEMP(I).NE.TXR(I) ) GOTO 30
+   20 CONTINUE
+C
+C***** NO CHANGE...SO IGNORE CALL
+C
+      GOTO 9999
+C
+   30 ITXR = 1
+      DO 40 I = 1, 6
+      TXR(I) = TEMP(I)
+   40 CONTINUE
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 thick.ftn Daxcad revision 1.8
+      SUBROUTINE THICK( WIDTH, GAP )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      W = TWDTH
+      G = TGAP
+C
+      IF( WIDTH.GE.0.0 ) W = XSTEPS( WIDTH )
+      IF( GAP.EQ.0.0 ) G = XSTEPS( 0.02 )
+      IF( GAP.GT.0.0 ) G = XSTEPS( GAP )
+C
+      IF( W.EQ.TWDTH .AND. G.EQ.TGAP ) GOTO 9999
+C
+      IML = 1
+      IMC = 1
+      ITHK = 1
+      TWDTH  = W
+      TGAP  = G
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 tparmb.ftn Daxcad revision 1.8
+      SUBROUTINE TPARMB( ASPECT, SLANT )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( ASPECT.GT.0.0 ) TXAR = ASPECT
+      IF( SLANT.GE.0.0 .AND. SLANT.LE.90.0 ) TXSL = SLANT
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 tvect.ftn Daxcad revision 1.8
+      SUBROUTINE TVECT( TLEN )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+       TXVT = TLEN
+C
+      RETURN
+      END
+C      SUBROUTINE UNPACK( IW, N )
+C
+C      DIMENSION N(2)
+C      K = IW
+C      IF( IW.LT.0 ) K = K + 32767 + 1
+C      N(2) = K/256
+C      N(1) = MOD( K, 256 )
+C      IF( IW.LT.0 ) N(2) = N(2) + 128
+C      RETURN
+C      END
+C       @(#)  256.1 date 12/16/89 unpack.ftn Daxcad revision 1.8
+      SUBROUTINE UNPACK(IW,N)
+C
+C     UNPACK 4 CHARACTERS PER WORD
+C
+      DIMENSION N(4)
+      CHARACTER*4 TEMP
+      EQUIVALENCE (TEMP,K)
+      K=IW
+      N(1)=ICHAR(TEMP(1:1))
+      N(2)=ICHAR(TEMP(2:2))
+      N(3)=ICHAR(TEMP(3:3))
+      N(4)=ICHAR(TEMP(4:4))
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 vdg.ftn Daxcad revision 1.8
+      SUBROUTINE VDG( VX, VY, IC )
+C
+      INTEGER P,Q
+      DIMENSION IAX(4),IAY(4)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+C      WRITE(10,*) '[VDG] VX,VY,IC',VX,VY,IC
+      AX = 2.0*ABS( VX )
+      AY = 2.0*ABS(VY )
+      IF( VX.LT.0 ) AX = AX + 1.0
+      IF( VY.LT.0 ) AY = AY + 1.0
+C
+      P = 0
+      Q = 0
+C
+      NX = 0
+      NY = 0
+C
+      DO 10 I = 1, 4
+      IF( AX.LT.1.0 ) GOTO 20
+      NX = I
+      IAX(I) = AMOD( AX, 64.0 )
+      AX = AX/64.0
+   10 CONTINUE
+C
+   20 P = NX
+C
+      IF( NX.EQ.4 ) GOTO 30
+C
+      IF( ABS( VX ).NE.ABS( VY ) ) GOTO 30
+      Q = 5
+      IF( VX.NE.VY ) Q = 6
+      GOTO 90
+C
+   30 DO 40 I = 1, 4
+      IF( AY.LT.1.0 ) GOTO 50
+      NY = I
+      IAY(I) = AMOD( AY, 64.0 )
+      AY = AY/64.0
+   40 CONTINUE
+C
+   50 Q = NY
+C
+      IF( NX.LT.4 ) GOTO 70
+      P = 0
+      Q = 4
+      IF( NY.EQ.4 ) GOTO 90
+      J = NY + 1
+      NY = 4
+      DO 60 I = J, 4
+   60 IAY(I) = 0
+C
+      GOTO 90
+C
+   70 IF( NY.LT.4 ) GOTO 90
+      P = 0
+      Q = 4
+      J = NX + 1
+      NX = 4
+      DO 80 I = J, 4
+   80 IAX(I) = 0
+C
+   90 LVDG = NX + NY + 1
+      IF( LWRK - LVDG .LT. JWRK ) CALL BENES()
+      JWRK = JWRK + 1
+      IWRK(JWRK) = 32*IC + 8*P + Q
+      IF( NX.EQ.0 ) GOTO 110
+      J = NX
+      DO 100 I = 1, NX
+      JWRK = JWRK + 1
+      IWRK(JWRK) = IAX(J)
+      J = J - 1
+  100 CONTINUE
+C
+  110 IF( NY.EQ.0 ) GOTO 9999
+      J = NY
+      DO 120 I = 1, NY
+      JWRK = JWRK + 1
+      IWRK(JWRK) = IAY(J)
+      J = J - 1
+  120 CONTINUE
+C
+ 9999 RETURN
+      END
+C       @(#)  256.1 date 12/16/89 whereb.ftn Daxcad revision 1.8
+      SUBROUTINE WHEREB(X,Y,FACT)
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      X=XP
+      Y=YP
+      FACT=F
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 xsteps.ftn Daxcad revision 1.8
+      FUNCTION XSTEPS( X )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      XSTEPS = ANINT( PASX*X )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 ysteps.ftn Daxcad revision 1.8
+      FUNCTION YSTEPS( Y )
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      YSTEPS = ANINT( PASY*Y )
+C
+      RETURN
+      END
+C       @(#)  256.1 date 12/16/89 zzzvcl.ftn Daxcad revision 1.8
+      SUBROUTINE ZZZVCL()
+C
+      COMMON /YYYBEN/ IES(512),JES,LES, IWRK(66),JWRK,LWRK, NCPW,
+     1 LERR,LDMP,LFN, MODE, IPEN,IPENX, IUP, IML,MLV,MLVX, MLC,MLCX,
+     2 IMC,MC,MCX, IATTS(12), ITHK,TWDTH,TGAP, IDSH,DSHP(16),LDSH,
+     3 TXAR,TXSL, TXHX,TXHY,TXA2, SYAR,SYSL, SYHX,SYHY,SYA1,SYA2,
+     4 TXVT, ITXR,TXR(6), IFONT, IGOX,IGOY, PASX,PASY, XP,YP, RX,RY,
+     5 XO,YO, EX,EY, F, IPASS, NBLK
+C
+      IF( MODE.EQ.0 ) GOTO 9999
+C
+      MODE = 0
+      CALL BENES
+C
+ 9999 RETURN
+      END
+
+C       @(#)  256.1 date 12/16/89 setbit.ftn Daxcad revision 1.8
+      SUBROUTINE SETBIT( IWORD, IBIT, ISET )
+C
+      NBIT = 2**IBIT
+      JWORD = MOD( IWORD/NBIT, 2 )
+C
+      IF( JWORD.EQ.1 ) GOTO 10
+      IF(  ISET.EQ.1 ) IWORD = IWORD + NBIT
+      GOTO 9999
+C
+   10 IF(  ISET.EQ.0 ) IWORD = IWORD - NBIT
+C
+ 9999 RETURN
+      END
+
+
+C
+      SUBROUTINE SELECT1( IATTR, IONOFF )
+C     ==================================
+C1    VARYPE              I4      I4
+C1    IOSTAT              I       I
+C
+C2    No comments for this piece of code. It was modified for X conversion
+C2  
+C2  
+C2    Arguments:-
+C2  
+C2    STUB FOR NOW
+C2  
+C2  
+C2  
+C2    Error Returns:
+C2  
+C2    NONE
+C2  
+
+C2  
+      END
+
+
+

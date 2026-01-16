@@ -1,0 +1,99 @@
+C     Filename    : interface.inc
+C     Version     : 412.1
+C     Retrieved   : 92/06/12 15:15:18
+C     Last change : 92/06/11 14:32:43
+C
+C     Copyright : Practical Technology International Limited  
+C     File :- interface.inc
+C
+C     DAXCAD FORTRAN 77 Include file
+C
+C
+C     User interface tools ids and related shared globals
+C
+C
+C     definitions for text input dialog
+C
+      CHARACTER*256 LASTBUF
+      INTEGER*4 D1BUT1
+      INTEGER*4 D1BUT2
+      INTEGER*4 D1BUT3
+      INTEGER*4 D1BUT4
+
+      INTEGER*4 D2BUT1
+      INTEGER*4 D2BUT2
+
+      INTEGER*4 D3BUT1
+
+      INTEGER*4 D1INP1
+      INTEGER*4 DIALOG1(4)
+      INTEGER*4 DIALOG2(4)
+      INTEGER*4 DIALOG3(4)
+      INTEGER*4 DIALOG4(4)
+
+      INTEGER*4 DIALOG5(4)
+      INTEGER*4 DIALOG6(4)
+
+      INTEGER*4 FRAME1(4)
+      INTEGER*4 FRAME2(4)
+      INTEGER*4 FRAME3(4)
+
+      INTEGER*4 DIALOGF
+      INTEGER*4 DIALOGB
+      INTEGER*4 MENUF
+      INTEGER*4 MENUB
+      INTEGER*4 VIEWF
+      INTEGER*4 VIEWB
+      INTEGER*4 POPMRK
+
+      PARAMETER(D1BUT1=1)
+      PARAMETER(D1BUT2=2)
+      PARAMETER(D1BUT3=3)
+      PARAMETER(D1BUT4=4)
+      PARAMETER(D2BUT1=5)
+      PARAMETER(D2BUT2=6)
+      PARAMETER(D3BUT1=7)
+
+      PARAMETER(D1INP1=1)
+
+
+
+C
+C     Parameters for displaying browser ( 100x100 with 10 spacing x&y)
+C
+      INTEGER*4 BRSBX
+      INTEGER*4 BRSBY
+      INTEGER*4 BRSOX
+      INTEGER*4 BRSOY
+      INTEGER*4 BRSPX
+      INTEGER*4 BRSPY
+      INTEGER*4 NUMBX
+      INTEGER*4 NUMBY
+      INTEGER*4 BRPAGE
+      INTEGER*4 BRSELECT
+      INTEGER*4 BRFCOL
+      INTEGER*4 BRBCOL
+      INTEGER*4 BRFSX
+      INTEGER*4 BRFSY
+      INTEGER*4 BRPAGX
+      INTEGER*4 BRPAGY
+      INTEGER*4 BRFILX
+      INTEGER*4 BRFILY
+      INTEGER*4 BRFID
+      INTEGER*4 BRPICS
+      INTEGER*4 BRUNIT
+      INTEGER*4 BRRECT(4)
+
+      PARAMETER(BRSBX=100,
+     +          BRSBY=100,
+     +          BRSPX=10,
+     +          BRSPY=10)
+
+      COMMON/INTERI4/ DIALOG1,DIALOG2,FRAME1,DIALOG3,FRAME2,
+     +                DIALOG4,DIALOG5,NUMBX,NUMBY,BRPAGE,BRSELECT,
+     +                BRBCOL,BRFCOL,FRAME3,BRSOX,BRSOY,BRFSX,BRFSY,
+     +                BRPAGX,BRFILX,BRFILY,BRRECT,BRFID,BRUNIT,BRPAGY,
+     +                BRPICS,DIALOGF,DIALOGB,DIALOG6,MENUF,MENUB,
+     +                VIEWF,VIEWB,POPMRK
+
+      COMMON/INTERCH/ LASTBUF

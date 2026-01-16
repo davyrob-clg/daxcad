@@ -1,0 +1,674 @@
+*                                                                               
+*        SCCS id Keywords             @(#)  300.7 date 1/28/92 menuc.044        
+*                                                                               
+*  COMPLETE DEFAULT MENU COMMAND DICTIONARY                                     
+*                                                                               
+*                                                                               
+*                                                                               
+* ENTRY menu definitions                                                        
+     1     1 /   VERB  MENU/
+     2     1 /  INITIAL MENU/
+     3     4 /CREATE DRAWING/
+     4    10 /RETRIEVE DRAWING/
+     5    26 /      EXIT/
+* CREATE DRAWING menu definitions                                               
+     6     1 /  CREATE MENU/
+     7     4 /Name/
+     8     8 /Paper Size:/
+     9    12 /Units:/
+    10     6 /Scale:/
+    11    10 /Rotate/
+    12    23 /Quit/
+    13    16 /Accept/
+* VERB menu definitions                                                         
+    14     2 /SELECT/
+    15    17 /REGEN/
+    16     4 /INSERT/
+    17     6 /TRIM/
+    18     7 /MOVE/
+    19     8 /CHANGE/
+    20    10 /ERASE/
+    21    12 /DIMENSION/
+    22    13 /MEASURE/
+    23    15 /CREATE/
+    24    16 /EXPLODE/
+    25    22 /READ/
+    26    23 /WRITE/
+    27    25 /PLOT/
+    28    24 /SECURE/
+    29     3 /MACRO/
+    30    26 /FINISH/
+    31    20 /ATTACH/
+    32    19 /DEFINE/
+    33    21 /EXTRACT/
+*                                                                               
+* POINT MODE definitions                                                        
+    40    25 /REFERENCE/
+    41    22 /DISTANCE/
+    42    20 /END/
+    43    21 /CENTRE/
+    44    23 /INTERSECTION/
+    45    24 /NEAREST/
+    46    26 /COORDINATE/
+* DISPLAY CONTROL definitions                                                   
+    49     1 /Initial Menu/
+    50     1 /Verb Menu/
+    51     2 /Redraw/
+    52     3 /Pan Window/
+    53     4 /Zoom In/
+    54     5 /Zoom Out/
+    55     6 /Zoom Previous/
+    56     7 /Zoom Extents/
+    57     9 /Layer Menu/
+    59     8 /Grid/
+   336     2 /Layer Accept/
+* LAYER MENU definitions                                                        
+    60     3 /Work Layer:/
+    61     4 /List/
+    62     5 /Show/
+    63     6 /Show All/
+    64     7 /Hide/
+    65     8 /Hide All/
+    66     9 /Display Menu/
+* CALCULATOR                                                                    
+    69     1 /Calculator/
+* INSERT definitions                                                            
+    70     8 / Part/
+    78     9 /Symbol/
+    71     6 / Hatch/
+    72    10 / Text/
+    73     5 /Fillet/
+    74     2 / Arc/
+    75     7 / Line/
+    76     3 / Comp./
+    77     4 /Curve/
+    79    11 /Marker/
+    80    12 /Ellipse/
+    81    13 /Chamfer/
+    82    12 /C-Line/
+*                                                                               
+* INSERT CENTER_LINE definitions.                                               
+    83     5 /Type:/
+    84     7 /Extension/
+    85    10 /Rotation Angle/
+    86     5 /Single/
+    87     5 /Cross/
+   167     5 /P.C.D./
+*                                                                               
+* INSERT LINE definitions                                                       
+   399     1 /Colour:/
+   407     2 /Font:/
+   409     3 /Thick:/
+   506     1 /      Other/
+*                                                                               
+   628     4 /Box/
+    91     5 /Between Points/
+    92     6 /Continuous/
+    93     7 /Horizontal/
+    94     8 /Vertical/
+    95     9 /Parallel/
+    96    10 /Parallel Dist/
+    97    11 /Perpendicular/
+    98    17 /Intof/
+    99    19 /Cancel/
+   100    16 /Length/
+   101    13 /Angle Abs./
+   102    12 /Angle Rel./
+   103    14 /Tan(1 arc)/
+   104    15 /Tan(2 arcs)/
+* INSERT ARC definitions                                                        
+   530     4 /Concentric Abs./
+   110     5 /CIRC; Cen,Circum/
+   111     6 /CIRC; 3pt,Circum/
+   109     7 /3pt Circum/
+   112     8 /Cen 2pts CW/
+   113     9 /Cen 2pts CCW/
+   105    10 /CIRC; Pick dia./
+   106    11 /CIRC; Tan 3 ents/
+   107    12 /CIRC; Rad,2 Tans/
+   108    13 /CIRC; Cen, Tan/
+   114    14 /Fixed Radius/
+   115    15 /Rad:/
+   116    16 /Fixed Angle/
+   117    17 /Ang:/
+   118    18 /Intof/
+    47    18 /Next Circle/
+   119    19 /Cancel/
+* INSERT HATCH definitions                                                      
+   120    17 /Window/
+   121    19 /Cancel/
+   122     6 /Next Boundary/
+   123     8 /Pitch:/
+   124     9 /Angle:/
+   125    11 /Cross Hatch/
+   126    16 /Accept/
+   127    12 /XAngle:/
+   128     5 /Pattern:/
+* INSERT FILLET definitions                                                     
+   130     6 /Rad:/
+   131     9 /Trim Neither/
+   132    10 /Trim First/
+   133    11 /Trim Second/
+   134    12 /Trim Both/
+   135    14 /Minor Arc/
+   136    15 /Major Arc/
+   137    16 /Full  Arc/
+* INSERT PART definitions                                                       
+   140     2 /Name/
+   141     6 /Scale Text/
+   142    12 /Proportion/
+   143     8 /Rotate:/
+   144     5 /Scale:/
+   145    14 /Locate/
+   146    19 /Cancel/
+*                                                                               
+* INSERT COMPONENT/SYMBOL definitions                                           
+   150     2 /Name/
+*                                                                               
+* Text Size parameters                                                          
+   161    13 /Slant:/
+   162    11 /Height:/
+   163    12 /Width:/
+   164    14 /Angle:/
+   165     6 /String/
+   166     7 /File/
+   168    19 /Cancel/
+* MEASURE definitions                                                           
+   174     6 /Distance/
+   175     4 /Angle/
+   176     5 /Area/
+   177     8 /Entity/
+   178    12 /Property/
+   179    10 /Position/
+* MOVE definitions                                                              
+   180     7 / Hatch/
+   181    10 / Text/
+   182     3 / Arc/
+   183     8 / Line/
+   184     5 / Dimen/
+   185     2 / Any/
+   186     9 /Symbol/
+   187     4 / Comp./
+   188     6 /Group/
+* MOVE ANY definitions                                                          
+   190     1 /Translate/
+   191     6 /Rotate/
+   192     4 /Scale/
+   193     5 /Scale Text/
+    35     7 /Array/
+    36     7 /Radial Unrotated/
+    37     7 /Radial Rotated/
+    38     7 /Rect Filled/
+    39     7 /Rect Border/
+   194     2 /Mirror/
+   195    10 /Layer:/
+   196    11 /Copies:/
+   197    19 /Cancel/
+   198    16 /Accept/
+   199    12 /Dynamic/
+   211    14 /Animate/
+   212    15 /Hold/
+   213    13 /Stretch/
+* ERASE definitions                                                             
+   201     7 / Hatch/
+   202    10 / Text/
+   203     3 /  Arc/
+   204     8 / Line/
+   205     6 /Dimen./
+   206     2 / Any/
+   207     9 /Symbol/
+   208     4 / Comp./
+   209     5 /Curve/
+* ERASE ANY definitions                                                         
+   210    17 /Window/
+* DIMENSION definitions                                                         
+   215     1 /DIMENSION/
+*                                                                               
+   216     5 /Diameter/
+   217     3 /Angle/
+   218     9 /Radius/
+   219     7 /Length/
+*                                                                               
+   220     1 /Along Line/
+   221     2 /Between Points/
+   214     4 /Auto Between/
+   222     3 /Prefix PHI/
+   223     4 /Horizontal/
+   224     5 /Vertical/
+   225     7 /Outer Text/
+   226    10 /Align/
+   227    11 /Sup Witness Lft/
+   228    12 /Sup Witness Rght/
+   229    14 /Precision:/
+   230     1 /Label/
+   231    17 /Lower Tol:/
+   232     1 /Between Lines/
+   233     4 /Minutes/
+   234     5 /Seconds/
+   235     6 /Outer Arrows/
+   236    16 /Upper Tol:/
+   429    15 /Tol:/
+   237    15 /None/
+   238     8 /Sup Arrow Left/
+   239     9 /Sup Arrow Right/
+* CHANGE definitions                                                            
+   240    11 /Text/
+   241     2 /Colour/
+   242     6 / Font/
+   243     5 / Dimen/
+   244     8 /Paper/
+   245     9 /Property/
+   246     7 /Form/
+   247    12 /Thick/
+   248     3 /Curve/
+   147    13 /Sym-Cmp/
+   349     4 /C-Line/
+* CHANGE PAPER definitions                                                      
+   250    14 /Position/
+   138    12 /Millimetres/
+   139    12 /Centimetres/
+   169    12 /Metres/
+   170    12 /Kilometres/
+   171    12 /Inches/
+   172    12 /Feet/
+   173    12 /Yards/
+   200    12 /Miles/
+   364     9 /A4/
+   365     9 /A3/
+   366     9 /A2/
+   367     9 /A1/
+   368     9 /A0/
+* CHANGE TEXT definitions                                                       
+   255    17 /Window/
+   256     7 /String/
+   257     6 /Word/
+* CHANGE DIMENSION definitions                                                  
+   260     1 /Wit Gap    :/
+   261     2 /Wit Extn   :/
+   262     3 /Text Height:/
+   263     4 /Text Width :/
+   264     5 /Text Gap   :/
+   265     6 /Arrow Len  :/
+   266     7 /Arrow Wid  :/
+   626     9 /Precision  :/
+   627    11 /Dimension Text/
+* CHANGE CURVE defintions                                                       
+   249    10 /Hull ON/
+   251     5 /Insert Point/
+   252     6 /Add Point/
+   253     7 /Delete Point/
+   254     8 /Move Point/
+   258    10 /Hull OFF/
+   259    12 /Change Mode/
+   268    14 /New Curve/
+   269     4 /B-Spline/
+   280     4 /Hermite/
+* CHANGE SYMBOL definitions.                                                    
+   148     4 /Path/
+   149    18 /Global/
+   189     8 /Component/
+* CREATE definitions                                                            
+   270     7 / Part/
+   271     5 / Group/
+   272     4 / Detail/
+   273     3 / Comp/
+   274     8 / Symbol/
+   277     6 / Offset/
+* M.S.FILE PATHNAME definitions                                                 
+   289     1 /Drawings/
+   319     4 /Macros/
+   322     7 /Components/
+   323    10 /Parts/
+   334    13 /Symbols/
+   338    16 /Backcloth/
+   333    20 /Accept/
+* CREATE PART definitions                                                       
+   275     5 /Origin/
+* CREATE SYMBOL definitionswd contracts                                         
+   276     5 /Origin/
+* CREATE COMPONENT definitions                                                  
+   278     5 /Origin/
+   405     7 /Properties/
+* SELECT definitions                                                            
+   410    10 /Standard/
+   267     8 /Pathname/
+   279     6 /Language/
+   281     5 / Grid/
+   282     4 / Dimen./
+   283     3 /Digitize/
+   487    11 / Menu/
+    48    12 /Journal/
+* SELECT GRID definitions                                                       
+   284     5 /Origin/
+   348     3 /Type:/
+    58     3 /Cartesian/
+   344     3 /Isometric/
+   285    10 /X Dist:/
+   286    11 /Y Dist:/
+   287     6 /X:/
+   288     7 /Y:/
+* SELECT DIGIT                                                                  
+   292     7 /Digitize ON/
+   293     7 /Digitize OFF/
+   294    13 /Resolution:/
+   296    10 /Digitize Origin/
+   297    11 /Screen   Origin/
+   298    12 /Alignment/
+   299    14 /Angular Tol:/
+*                                                                               
+* SELECT MENU definitions                                                       
+   488     6 /Menu ON/
+   489     6 /Menu OFF/
+   490     8 /Name/
+   491    10 /Orientation/
+*                                                                               
+* SELECT JOURNAL definitions                                                    
+    67     5 /Journaling/
+    68     5 /Journal On/
+   444     7 /Comment/
+*                                                                               
+* TRIM definitions                                                              
+   290     6 / Arc/
+   291     8 / Line/
+* TRIM ARC/LINE definitions                                                     
+   295    17 /Intof/
+* READ/WRITE definitions                                                        
+   302     4 / HPGL/
+   303     5 /Gerber/
+   304     9 /  IGES/
+   305     3 /GNC-Spans/
+   306     2 / M.I.F./
+   307     7 / GENIO/
+   308     4 /  GTL3/
+   309     2 / PEPS/
+   329     6 / REDAC/
+   339     5 /CV-Exec/
+   461     8 /Pathtrace/
+   470     2 / Milling/
+   471     4 / Turning/
+   472     6 / Punching/
+   473    10 / DXF/
+   474    11 /Interlf/
+   376    12 /Swift/
+   475     4 /Frame Width/
+   476     6 /Frame Height/
+   477     9 /Micro Document/
+   478    10 /Outline Text/
+   479    11 /Hardware Text/
+   382    18 /Drawing/
+   383    19 /Screen/
+   300    10 /Points/
+   301    11 /Profile/
+   352     8 /Resolution:/
+   332     9 /Curve Entity/
+   326     6 /Component/
+   327     8 /Board/
+   328    10 /Off grid/
+   324    12 /Auto number/
+* PLOT definitions                                                              
+   310     7 /Paper Size:/
+   311     9 /Type:/
+   312    10 /** BLANK **/
+   313    12 /Hardware Text/
+   314    12 /Software Text/
+   315     4 /Drawing/
+   316     8 /Window/
+   317     6 /Screen/
+   318    14 /Pen Data/
+   354    11 /HiResolution/
+   355    13 /Arctol:/
+   375    16 /No Clip/
+   700     5 /Scale:/
+*                                                                               
+* ATTACH definitions                                                            
+   320     8 /Property/
+   321     6 /Name/
+* ATTACH NAME definitions                                                       
+   325    10 /Layer/
+* DEFINE definitions                                                            
+   330     9 /Table/
+   331     5 /Property/
+   332    11 /Backcloth/
+   335     7 /SearchKey/
+   480     3 /Menu/
+*                                                                               
+* DEFINE PROPERTY definitions                                                   
+   340    13 /Integer/
+   341    14 /Real/
+   342    12 /Text/
+   343     2 /Name/
+*                                                                               
+* DEFINE TABLET_MENU definitions                                                
+   482     2 /Name/
+   483     6 /Layout/
+   484     8 /Cell Name/
+   485    10 /Enquire/
+   486    16 /Accept/
+* INSERT CURVE definitions                                                      
+   350     5 /B-Spline/
+   351     7 /Hermite/
+   353    11 /Weight:/
+   356    19 /Cancel/
+   358    16 /Accept/
+*                                                                               
+*  DIFFERENT MODES available                                                    
+*  Popup cell.                                                                  
+   359     2 /Mode:/
+*  Current selection display cell.                                              
+   369     3 /Polygon/
+*  Option cells.                                                                
+   360     3 /Points/
+   361     3 /Polygon/
+   362     3 /Curve/
+   363     3 /Curve & Polygon/
+*                                                                               
+* EXTRACT PROPERTY definitions                                                  
+   370     2 /Name/
+   371     6 /** BLANK **/
+   372     7 /Compress/
+   373    10 /Total/
+   374    16 /Accept/
+*                                                                               
+* DEFINE TABLE definitions                                                      
+*                                                                               
+* MEASURE Entity Sub_menu                                                       
+   389    12 /C-Line/
+   390     8 /Hatch/
+   391    11 /Text/
+   392     9 /Line/
+   393     4 /Arc/
+   394     2 /Any/
+   395     6 /Curve/
+   396     7 /Dimension/
+   397     5 /Component/
+   398    10 /Symbol/
+* SELECT LANGUAGE definitions                                                   
+   400     5 /English/
+   401     6 /French/
+   402     7 /German/
+   403     8 /Italian/
+   404     9 /Spanish/
+* International standards                                                       
+   411     5 /BS308/
+   412     6 /DIN/
+   413     7 /ANSI/
+*  Dimensioning standards                                                       
+   430    15 /Unilateral/
+   431    15 /Bilateral/
+   432    15 /Basic Sizes/
+   433    15 /Text Added/
+   434    13 /Major Angle/
+   435     6 /Outer Arrows/
+   436    13 /Offset Text/
+   437    15 /Overwritten/
+   438     8 /Label/
+*                                                                               
+*  Regenerate functions (positions 450-459)                                     
+   450     7 /Drawing/
+   451     5 /Comp./
+   452     9 /Symbol/
+*                                                                               
+*  Colour index number control                                                  
+*                                                                               
+*  SPECIAL Functions                                                            
+   456     2 /Func1/
+   457     3 /Func2/
+   458     4 /Func3/
+   459     5 /Func4/
+   460     6 /Func5/
+   467     7 /Func6/
+   468     8 /Func7/
+*                                                                               
+*  Colour available                                                             
+   414     1 /Red/
+   415     1 /Green/
+   416     1 /Blue/
+   417     1 /Cyan/
+   418     1 /Yellow/
+   419     1 /Purple/
+   420     1 /WHITE/
+   421     1 /Dark Yellow/
+   422     1 /Dark Green/
+   423     1 /Yellow Brown/
+   424     1 /Dark Red/
+   425     1 /Light Yellow/
+   426     1 /Pale Blue/
+   427     1 /Pale Yellow/
+   428     1 /Red Brown/
+*  Text Justification                                                           
+   151     1 /Top  Left/
+   152     1 /Top  Centre/
+   153     1 /Top  Right/
+   154     1 /Midl Left/
+   155     1 /Midl Centre/
+   156     1 /Midl Right/
+   157     1 /Botm Left/
+   158     1 /Botm Centre/
+   159     1 /Botm Right/
+*  Current Justification                                                        
+   160     9 /Just:/
+*  Attributes option for menu 2 (used in change)                                
+   466    10 /Attributes/
+*  Marker entity                                                                
+   501     6 /scale x:/
+   502     7 /scale y:/
+   503    15 /Cancel/
+   504    12 /Marker No:/
+   505     9 /Rotation:/
+*                                                                               
+   517    14 /First len:/
+   518    15 /Second len:/
+   519    16 /angle:/
+*                                                                               
+*  Viewporting functions                                                        
+   462     1 /  SCROLL DOWN/
+   463    24 /   SCROLL UP/
+   464    25 /     User/
+   465    26 /   Pathname/
+   584    26 /Browser/
+   582    26 /BROWSE SELECT/
+   469    13 /Auto-Profile/
+   454    20 /Undefined/
+   406     2 /Distance/
+   408     5 /New Profile/
+*  Viewport control menu                                                        
+   439     2 /View 1/
+   440     3 /View 2/
+   441     4 /View 3/
+   442     5 /View 4/
+   443     6 /View 5/
+   496     1 /View/
+   445     7 /Define window/
+   346     8 /Define extents/
+   347     9 /Remove view/
+   510     1 /Create window/
+   511     1 /Quit/
+   512     2 /Move/
+   513     3 /Resize/
+   514     2 /Create extents/
+   522     4 /Name/
+   523     5 /Icon/
+   525     3 /Viewport/
+   515    13 /Display/
+   516     4 /M.A.W.S./
+   345     6 /Daxports/
+   520     1 /Confirm/
+   521     1 /Cancel/
+   531     1 / Type 1/
+   532     1 / Type 2/
+   533     1 / Type 3/
+   534     1 / Type 4/
+   535     1 / Type 5/
+   536     1 / Type 6/
+   507     1 /Special Popup/
+   540     1 /Display Popup/
+   541     1 /MAWS Popup/
+   542    15 /Dimn Tolerance/
+   543     1 /Point Modes/
+   544     1 /Colour Pallet/
+   545     1 /Banner No 7/
+   546     9 /justify/
+   547     1 /Daxport Commands/
+   548     1 /Daxport Create/
+   549     7 /Array Type/
+   550     4 /Center Line Type/
+   560     3 /Grid Type/
+   561     9 /Drawing Units/
+   562     1 /Confirmation/
+   563     1 /Layer control/
+   564     8 /Paper Type/
+   565     3 /Curve Display Mo/
+   566     1 /Hatch Pattern/
+   567     5 /Grid/
+   583     1 /Browser User Sel/
+   568     3 /Work Layer:/
+   569     1 /Filename/
+   570     3 /Start Layer :/
+   571     4 /Start from CWL/
+   572     6 /One Colour/Layer/
+   573     7 /Label to Colour/
+   574     9 /Model Layers/
+   575    10 /Object Layers/
+   576    13 /Polylines/
+   577    14 /Lines/
+   578    16 /Symbol to Marker/
+   579    18 /Multiple Sheets/
+   580    20 /Accept/
+   581    11 /Layer by Colour/
+   616    13 /DAX-NC/
+   589     1 /NC INTERFACE/
+   590     5 /Create SEQ/
+   591     6 /Edit   SEQ/
+   592     7 /Set DATUM/
+   593     8 /Output Sequence/
+   595     9 /View Profiles/
+   594     1 /CREATE SEQUENCE/
+   596     9 /Restart Profile/
+   597    13 /Quit Points/
+   598    10 /Quit Create/
+   614     8 /Drill Patterns/
+   613    11 /Window Centres/
+   599     1 /EDIT SEQUENCE/
+   600     9 /Insert/
+   601    10 /Delete/
+   603    11 /Swap/
+   604    13 /Re-Sequence/
+   605    15 /Change Property/
+   606    17 /Quit Edit/
+   607    10 /Properties/
+   608     1 /Feed Rate/
+   609     1 /Speed/
+   610     1 /Rapid Speed/
+   615     1 /Tool Number/
+   611     1 /Other Property/
+   612     1 /MEASURE/
+   617     1 /Drawings/
+   618     1 /Components/
+   619     1 /Parts/
+   620     1 /Symbols/
+   621     1 /Macros/
+   625     1 /Property Tables/
+   622     1 /Dxf/
+   623     1 /Anything/
+   624     1 /File Types/
+   629     1 /Im/

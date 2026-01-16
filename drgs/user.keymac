@@ -1,0 +1,7 @@
+# COMMENT
+
+KEY a
+ALERT "Hello"
+ENDKEY
+
+

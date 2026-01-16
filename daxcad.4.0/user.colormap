@@ -1,0 +1,40 @@
+#
+#      @(#)  300.2 date 01/29/92 user.colormap 
+#
+#        CAD USER COLOR TABLE MANAGER
+#
+#
+#     Color map 0 must be set to white or black
+#     Color map 7 must be set to black or white
+#
+#     Color Number           RGB Values
+#---------------------------------------
+COLOR WHITE 0              255 255 255      
+COLOR RED 1                255 0   0        
+COLOR GREEN 2              0   255 0        
+COLOR BLUE 3               0   0   255      
+COLOR CYAN 4               0   255 255      
+COLOR YELLOW 5             255 255 0        
+COLOR PURPLE 6             255 0   255      
+COLOR BLACK 7              0   0   0        
+COLOR DarkYellow 8         240 255 190      
+COLOR DarkGreen 9          30  155 0        
+COLOR YellowBrown 10       255 240 180      
+COLOR DarkRed 11           210 20  0        
+COLOR LightYellow 12       255 255 230      
+COLOR PaleBlue 13          60  60  200      
+COLOR PaleYellow 14        240 240 170      
+COLOR RedBrown 15          150 90  0        
+
+
+#
+#    Dialog colors
+#
+FOREGROUND 7
+BACKGROUND 0
+MENU FOREGROUND 7
+MENU BACKGROUND 0
+VIEW FOREGROUND 7
+VIEW BACKGROUND 0
+DIALOG BACKGROUND     0
+DIALOG FOREGROUND     7

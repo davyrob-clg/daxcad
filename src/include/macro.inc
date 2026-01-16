@@ -1,0 +1,58 @@
+C
+C     @(#)  412.1 date 6/11/92 macro.inc 
+C
+C
+C     Filename    : macro.inc
+C     Version     : 412.1
+C     Retrieved   : 92/06/12 15:15:22
+C     Last change : 92/06/11 14:33:56
+C
+C     Copyright : Practical Technology Limited  
+C     File :- macro.inc
+C
+C     DAXCAD FORTRAN 77 Include file
+C
+C
+C     |-----------------------------------------------------------------|
+C
+C
+C2    This include file defines all global
+C2    data for use with the MACRO processor
+C
+
+      INTEGER*4 MACUNT,LABUNT,MACSIZ,MACLAB,MACLEN,MACLIN,MACCP
+      INTEGER*4 NFORLP,FORLNS(2,32),NMLIM,CELP(4),CELS(4),OCEL,
+     +          TOGCEL,TOGMEN,CELLP,CN2,CN,UNITAR(10),NOWDS,SKEY,NPATH
+CAPOLLO|IBM
+      PARAMETER(NPATH=20)
+CAPOLLO|IBM
+CSUN
+C      PARAMETER(NPATH=20)
+CSUN
+      REAL FORLRV(3,32)
+      CHARACTER*80 MACERR,TOGTXT*20,UNITOP*10,PATHN(NPATH)*48
+      CHARACTER*80 MACBUF,FORLCV(32)*20,TWORD,TIS,QUITXT*16
+      CHARACTER*80 LABERR,LABEOF
+      CHARACTER*80 STARTUPDIR
+      LOGICAL MACOP,MACTOK,TIR,MFIRST,NTOK,GINPUT,PROMPT,
+     +        GANS,TCONT,MENUS,TOGGLE,CONTIN,FILRW(10),MENHI,MACFIL,
+     1        DBG,HOLD,MFILE,BIGWIN,PRNTS,MSFOFF,ATMAC,TYPED,MACPOP
+C
+      COMMON /MACRO1/MACUNT,LABUNT,MACSIZ,MACLAB,MACLEN,MACLIN,MACCP,
+     +               NFORLP,FORLNS,FORLRV,NMLIM,CELP,CELS,OCEL,
+     1               CELLP,CN2,CN,UNITAR,NOWDS,SKEY
+C
+      COMMON /MACRO2/MACBUF,FORLCV,TWORD,TIS,MACERR,QUITXT,TOGTXT,
+     +               UNITOP,LABERR,LABEOF,PATHN
+C
+      COMMON /MACRO3/MACOP,MACTOK,TIR,MFIRST,NTOK,GINPUT,PROMPT,
+     +               GANS,TCONT,MENUS,TOGGLE,TOGCEL,TOGMEN,CONTIN,
+     1               FILRW,MENHI,MACFIL,DBG,HOLD,MFILE,BIGWIN,PRNTS,
+     2               MSFOFF,ATMAC,TYPED,MACPOP
+C
+C
+C     STARTUPDIR -- is the name of the directory that DAXCAD has been
+C                   run from
+C
+      COMMON /MACRO4/ STARTUPDIR 
+

@@ -1,0 +1,711 @@
+#
+#     SCCS id Keywords             @(#)  412.1 date 6/11/92 makefile.10 
+#
+###############################################################################
+#                                                                             #
+#                                                                             #
+#        Makefile for Practical Technology Internationals Own CAD system      #
+#                                                                             #
+#        Platform:    Apollo                                                  #     
+#        O/S:         Rev 10.3                                                #
+#        Graphics:    GPR                                                     #                #
+#                                                                             #
+#                                                                             #
+###############################################################################
+#
+CFLAGS =  -Iinclude -I./ -DBSD -DGPR -DGPR_UNDERSCORE -DAPOLLO -lm -DAPOLLO10
+F77FLAGS =  -v -W0,-msgs,-type,-warn,-zero,-subchk,-align
+
+SCCS = ~/SCCS
+
+
+DAXTARGETS = \
+			advent.o\
+			ap.o\
+			apogit83.o\
+			apogtx84.o\
+			apolib.o\
+			apolib83.o\
+			aposerv.o\
+			apotr81.o\
+			arith81.o\
+			attach.o\
+			autop.o\
+			autop2.o\
+			autop3.o\
+			basik2.o\
+			cal.o\
+			change.o\
+			chrlib.o\
+			chrlib80.o\
+			clipper.o\
+			colour81.o\
+			colour84.o\
+			create.o\
+			crosses.o\
+			cursor83.o\
+			data.o\
+			datah0.o\
+			datah1.o\
+			datah2.o\
+			datah3.o\
+			datah4.o\
+			datah5.o\
+			datah6.o\
+			datah7.o\
+			datah8.o\
+			datah9.o
+
+DAXTARGETS2 = \
+			daxports.o\
+			define.o\
+			delete.o\
+			dimen1.o\
+			dimen2.o\
+			dimen3.o\
+			display.o\
+			display2.o\
+			displayd.o\
+			dvector1.o\
+			entcan.o\
+			error.o\
+			error85.o\
+			explode.o\
+			extract.o\
+			faults.o\
+			find.o\
+			grflib1.o\
+			gtxt84.o\
+			igesw.o\
+			igesw2.o\
+			insert.o\
+			insert1.o\
+			insert2.o\
+			insert4.o\
+			inserta.o\
+			insertc.o\
+			insertcf.o\
+			insertf.o\
+			inserth.o\
+			insertl.o\
+			insertm.o
+
+DAXTARGETS3=\
+			insertt.o\
+			journal.o\
+			krlib2.o\
+			lfonts.o\
+			mactest.o\
+			main.o\
+			measure.o\
+			measure2.o\
+			menu.o\
+			menupop.o\
+			movcopy.o\
+			nurbs.o\
+			offset.o\
+			oldatah.o\
+			open.o\
+			plot.o\
+			plot1.o\
+			plot2.o\
+			plots.o\
+			polyclip.o\
+			polyfil.o\
+			read.o\
+			readdxf.o\
+			readdxf2.o\
+			readgr.o\
+			readhp.o\
+			readmif.o
+
+DAXTARGETS4 = \
+			readmoss.o\
+			readrc.o\
+			regen.o\
+			report1.o\
+			segment.o\
+			select.o\
+			special.o\
+			special2.o\
+			text.o\
+			tim100.o\
+			trans80.o\
+			trans81.o\
+			trim.o\
+			vector1.o\
+			viewport.o\
+			vp_support.o\
+			vpdraw.o\
+			vpicon.o\
+			vpselect.o\
+			write.o\
+			writecv.o\
+			writedxf.o\
+			writedxf2.o\
+			writegi.o\
+			writegn.o\
+			writegp.o\
+			writegt.o\
+			writept.o\
+			writerc.o\
+			writerc2.o\
+			wrstub.o\
+			stubs.10.o
+
+DAXTARGETS5 = \
+			aposerv_c.o\
+			daxproc.o\
+			process.o\
+			handler.o\
+			pattern.o\
+			direct.o\
+			xconversion.o\
+			xconversion2.o\
+			xconversion3.o\
+			misomex.o\
+			misof77.o\
+			defaults.o\
+			ncedit.o
+
+DAXTARGETS6 = \
+			daxcad_apollo_glue_f77.o\
+			daxcad_apollo.o\
+			daxcad_apollo_c.o\
+			mmu.o\
+			kprot.o\
+			pwmgrlib.o\
+			mouse83.o\
+			isdp.o\
+			streampackage.o\
+			autodax.o
+
+
+
+DAXTARGETS7 = \
+			colors.o\
+			bitmap.o\
+			toolsdraw.o\
+			dialog.o\
+			fonts.o\
+			edit.o\
+			input.o\
+			cursor.o\
+			notify.o\
+			buttons.o\
+			frame.o\
+			label.o\
+			userinterface.o\
+			popup.o\
+			tempfiles.o\
+			browseapollo.o\
+			browse.o\
+			server.o\
+			plotepson.o\
+			pwmgrlib_c.o\
+			apollopic.o\
+			keymac.o
+
+
+daxcad:    $(DAXTARGETS) $(DAXTARGETS2)  $(DAXTARGETS3) $(DAXTARGETS4) $(DAXTARGETS5) $(DAXTARGETS6) $(DAXTARGETS7) log calldax.o
+		cc  $(DAXTARGETS) $(DAXTARGETS2) $(DAXTARGETS3) $(DAXTARGETS4) $(DAXTARGETS5) $(DAXTARGETS6) $(DAXTARGETS7) calldax.o  -o dax
+
+includes:	$(INCLUDES)
+
+log:
+		touch calldax.o
+		rm calldax.o
+		rm -f build_log buildlog build_date
+		get  SCCS/s.buildlog
+		get -e SCCS/s.build_log
+		chmod 777 buildlog
+		buildlog
+		rm buildlog
+		delta -m0 -y"APOLLO Updated Build Log" SCCS/s.build_log
+		get SCCS/s.build_log
+
+ncpost:		ncpost.o defaults.o ncpost.h
+		cc -o ncpost defaults.o ncpost.o -lm
+
+cal.o:		
+	f77 -c -v -W0,-msgs,-type,-warn,-zero,-subchk,-align,-i*2 cal.f 
+
+
+F77SOURCES=		advent.f\
+			ap.f\
+			apogit83.f\
+			apogtx84.f\
+			apolib.f\
+			apolib83.f\
+			aposerv.f\
+			apotr81.f\
+			arith81.f\
+			attach.f\
+			autop.f\
+			autop2.f\
+			autop3.f\
+			basik2.f\
+			cal.f\
+			change.f\
+			chrlib.f\
+			chrlib80.f\
+			clipper.f\
+			colour81.f\
+			colour84.f\
+			create.f\
+			crosses.f\
+			cursor83.f\
+			data.f\
+			datah0.f\
+			datah1.f\
+			datah2.f\
+			datah3.f\
+			datah4.f\
+			datah5.f\
+			datah6.f\
+			datah7.f\
+			datah8.f\
+			datah9.f\
+			daxports.f\
+			define.f\
+			delete.f\
+			dimen1.f\
+			dimen2.f\
+			dimen3.f\
+			display.f\
+			display2.f\
+			displayd.f\
+			dvector1.f\
+			entcan.f\
+			error.f\
+			error85.f\
+			explode.f\
+			extract.f\
+			faults.f\
+			find.f\
+			grflib1.f\
+			gtxt84.f\
+			igesw.f\
+			igesw2.f\
+			insert.f\
+			insert1.f\
+			insert2.f\
+			insert4.f\
+			inserta.f\
+			insertc.f\
+			insertcf.f\
+			insertf.f\
+			inserth.f\
+			insertl.f\
+			insertm.f\
+			insertt.f\
+			journal.f\
+			keymac.f\
+			krlib2.f\
+			label.f\
+			lfonts.f\
+			mactest.f\
+			main.f\
+			measure.f\
+			measure2.f\
+			menu.f\
+			menupop.f\
+			movcopy.f\
+			offset.f\
+			oldatah.f\
+			open.f\
+			plot.f\
+			plot1.f\
+			plot2.f\
+			plots.f\
+			polyclip.f\
+			polyfil.f\
+			read.f\
+			readdxf.f\
+			readdxf2.f\
+			readgr.f\
+			readhp.f\
+			readmif.f\
+			readmoss.f\
+			readrc.f\
+			regen.f\
+			report1.f\
+			segment.f\
+			select.f\
+			special.f\
+			special2.f\
+			text.f\
+			tim100.f\
+			trans80.f\
+			trans81.f\
+			trim.f\
+			vector1.f\
+			viewport.f\
+			vp_support.f\
+			vpdraw.f\
+			vpicon.f\
+			vpselect.f\
+			write.f\
+			writecv.f\
+			writedxf.f\
+			writedxf2.f\
+			writegi.f\
+			writegn.f\
+			writegp.f\
+			writegt.f\
+			writept.f\
+			writerc.f\
+			writerc2.f\
+			wrstub.f\
+			stubs.10.f\
+			xconversion.f\
+			xconversion2.f\
+			xconversion3.f\
+			ncedit.f\
+			daxcad_apollo_glue_f77.f\
+			daxcad_apollo.f\
+			kprot.f\
+			pwmgrlib.f\
+			mouse83.f\
+			isdp.f\
+			autodax.f\
+			colors.f\
+			bitmap.f\
+			toolsdraw.f\
+			dialog.f\
+			fonts.f\
+			edit.f\
+			input.f\
+			cursor.f\
+			notify.f\
+			buttons.f\
+			frame.f\
+			userinterface.f\
+			popup.f\
+			browse.f\
+			server.f\
+			browseapollo.f\
+			misof77.f\
+			process.f\
+                        plotepson.f
+
+CSOURCES=		nurbs.c\
+			aposerv_c.c\
+			daxproc.c\
+			handler.c\
+			pattern.c\
+			direct.c\
+			misomex.c\
+			defaults.c\
+			mmu.c\
+			daxcad_apollo_glue.c\
+			daxcad_apollo_c.c\
+			streampackage.c\
+			tempfiles.c\
+			pwmgrlib_c.c\
+			apollopic.c\
+			calldax.c
+
+
+F77INCLUDES=\
+		abs.inc\
+		ap.inc\
+		apfont.inc\
+		apollo.inc\
+		arcdat.inc\
+		area.inc\
+		attributes.inc\
+		bitmap.inc\
+		browse.inc\
+		buttons.inc\
+		calc.inc\
+		chamfer.inc\
+		clipper.inc\
+		clock.inc\
+		color.inc\
+		compd.inc\
+		compkr.inc\
+		comstack.inc\
+		config.inc\
+		cross.inc\
+		curpos.inc\
+		cursor.inc\
+		curwin.inc\
+		dat3d.inc\
+		datatype.inc\
+		daxcad_x.inc\
+		daxcolor.inc\
+		daxfont.inc\
+		daxports.inc\
+		dcross.inc\
+		ddcode.inc\
+		ddcom.inc\
+		delstore.inc\
+		dhead.inc\
+		dhr.inc\
+		dialog.inc\
+		dig2wo.inc\
+		dimendat.inc\
+		dmdwrk.inc\
+		dpars.inc\
+		drgbar.inc\
+		drwspl.inc\
+		dtext.inc\
+		dxf.inc\
+		edit.inc\
+		emitape.inc\
+		entity.inc\
+		enty3d.inc\
+		event.inc\
+		faults.inc\
+		fhead.inc\
+		fill_pattern.inc\
+		fillet.inc\
+		filunit.inc\
+		frames.inc\
+		ftypes.inc\
+		funit.inc\
+		gerber.inc\
+		gosubs.inc\
+		gp_data.inc\
+		gtxt1.inc\
+		gtxt2.inc\
+		gtxt3.inc\
+		hdata.inc\
+		icon.inc\
+		iges.inc\
+		input.inc\
+		inscen.inc\
+		interface.inc\
+		journal.inc\
+		keydef.inc\
+		keymac.inc\
+		keymap.inc\
+		krap.inc\
+		layer.inc\
+		lcmanager.inc\
+		lfont.inc\
+		lfu.inc\
+		library.inc\
+		lunar.inc\
+		macro.inc\
+		marker.inc\
+		mast3d.inc\
+		masti.inc\
+		menpop.inc\
+		menug.inc\
+		menun.inc\
+		misof77.inc\
+		modl3d.inc\
+		moss_mif.inc\
+		mouse.inc\
+		movd3d.inc\
+		movdat.inc\
+		mst.inc\
+		mst1.inc\
+		nbuff.inc\
+		ncfils.inc\
+		ncposn.inc\
+		nctool.inc\
+		ndata.inc\
+		nhead.inc\
+		obswin.inc\
+		offset.inc\
+		params.inc\
+		partd.inc\
+		pendat.inc\
+		points.inc\
+		polyclip.inc\
+		popup.inc\
+		postd3.inc\
+		prints.inc\
+		process.inc\
+		product.inc\
+		profile.inc\
+		props.inc\
+		propt.inc\
+		psearch.inc\
+		punch.inc\
+		ratfor.inc\
+		rcv1.inc\
+		rcv2.inc\
+		rcv3.inc\
+		rcv4.inc\
+		redboard.inc\
+		redscl.inc\
+		rrn.inc\
+		save.inc\
+		section.inc\
+		segdat.inc\
+		segdat2.inc\
+		segdat32.inc\
+		server.inc\
+		shadow.inc\
+		sioport.inc\
+		spool.inc\
+		storage.inc\
+		style.inc\
+		suffix.inc\
+		swind.inc\
+		tdmdat.inc\
+		thklst.inc\
+		tmpdat.inc\
+		tmpwrk.inc\
+		typed.inc\
+		vertype.inc\
+		vhead.inc\
+		view.inc\
+		view3d.inc\
+		viewmap.inc\
+		viewport.inc\
+		vnames.inc\
+		vntable.inc\
+		vpgrid.inc\
+		vpops.inc\
+		vptrans.inc\
+		wfram1.inc\
+		wildc.inc\
+		work3d.inc\
+		wrkdat.inc\
+		wrtinlf.inc\
+		wtov.inc\
+		xfonts.inc\
+		base.ins.ftn\
+		gpr.ins.ftn\
+		kbd.ins.ftn\
+		pad.ins.ftn\
+		label.inc\
+		pwmgr.inc
+
+CINCLUDES=\
+		GPRX_blank_cursor.h\
+		GPRX_full_pixmap.h\
+		GPRX_wait_cursor.h\
+		daxcad_functions.h\
+		daxgrep.h\
+		defaults.h\
+		ds_nurbs.h\
+		gprx.h\
+		gprx_errors.h\
+		gprx_extern.h\
+		gprx_lib.h\
+		gprx_types.h\
+		local.h\
+		misomex.h\
+		misomex_codes.h\
+		ncpost.h\
+		opcodes.h\
+		xeventnames.h\
+		xlang.h\
+		xlang_template.h
+
+$(F77SOURCES):
+		sccs get $@
+$(CSOURCES):
+		sccs get $@
+
+MENUS=\
+		fontload.f\
+		menuload.f\
+		font1.txt\
+		menuc.044\
+		daxcad_plotter_script\
+		gb6000.usr\
+		mouse.type\
+		menu.config\
+		line.style\
+		line.width\
+		marker.pcf\
+		pathname.pcf\
+		daxcad.pcf\
+		prompt.044\
+		plotter.pcf\
+		daxcad-defaults\
+		instdax\
+		get_yn\
+		queue\
+		start_plot\
+		start_plot_f\
+		user.colormap\
+		stop_plot
+
+serial: 
+	sccs get serial.c
+	cc $(CFLAGS) serial.c -o serial
+
+#
+#	Build a release directory
+#
+
+
+build:  includes reldir menus password serial
+	
+	echo $(REL)
+
+#
+#  call this to get the includes
+#
+
+includes:
+		mkdir include
+		cd include;ln -s $(SCCS) SCCS
+		cd include;sccs get $(F77INCLUDES) 
+		sccs get $(CINCLUDES)
+
+#
+#  Build menus to get daxcad.dir
+#
+
+menus:
+		mkdir menu
+		cd menu;ln -s $(SCCS) SCCS
+		cd menu;sccs get $(MENUS);
+		cd menu;cp SCCS/daxcad.fnt .
+		cd menu;cp SCCS/daxcad.fnt .
+		cd menu;cp SCCS/crypt.044 .
+		cd menu;cp SCCS/crypt2.044 .
+		cd menu;cp SCCS/crypt3.044 .
+		cd menu;cp SCCS/crypt4.044 .
+		cd menu;cp SCCS/crypt.049 .
+		cd menu;cp SCCS/daxcad_icon .
+		cd menu;f77 fontload.f -o fontload
+		cd menu;f77 menuload.f -o menuload
+		cp SCCS/com/* daxcad.dir/com
+		cp SCCS/edbom/* daxcad.dir/edbom
+			
+#
+#  Build a release directory
+#
+
+reldir:
+		mkdir daxcad.dir
+		mkdir daxcad.dir/dict
+		mkdir daxcad.dir/plot
+		mkdir daxcad.dir/ptabl
+		mkdir daxcad.dir/dmfdir
+		mkdir daxcad.dir/edbom
+		mkdir daxcad.dir/com
+		mkdir daxcad.dir/bin
+
+password:
+		sccs get pwmgr.f
+		sccs get pwmgrlib.f
+		sccs get daxauth.f
+		sccs get pwmgrlib_c.c
+		f77 -c pwmgrlib.f 
+		cc -c $(CFLAGS) pwmgrlib_c.c 
+		f77 pwmgr.f pwmgrlib.o pwmgrlib_c.o -o pwmgr 
+		f77 daxauth.f pwmgrlib.o pwmgrlib_c.o -o daxauth 
+
+
+#
+#	make a release tape
+#
+
+backupct:
+	wbak -dev ct -f 1 daxcad.4.0   -own pt -vid daxcad -fid daxcad -l
+		
+backupf:
+	wbak -dev f -f 1 daxcad.4.0  -own pt -vid daxcad -fid daxcad -l
+
+

@@ -1,0 +1,97 @@
+#!/bin/sh
+#
+#
+#	SCCS id Keywords             @(#)  300.2 date 11/17/91 daxcad_plotter_script 
+#
+#
+#	Practical Technology 1990 DAXCAD
+#
+#	A general purpose spooler program for daxcad
+#	This script is exec'd from DAXCAD passing a plotter type
+#	and plot file name. You can add pre/post processing facilities
+#	without adding to DAXCAD source.
+#
+#
+#
+#
+if [ $# -ne 2 ]
+then
+	echo $0 : bad arg count
+	exit 1
+fi
+
+MODEL=$2
+PLOTFILE=$1
+
+echo
+echo "DAXCAD/AutoDAX plotter script Revision @(#) "
+echo
+echo -n "Plotting file: $PLOTFILE to plotter: "
+
+case $MODEL in
+
+	1)	echo 'HP7475'
+                ;;
+		
+	2)	echo 'HP7585B ( Sheet Feed )'
+		mv $PLOTFILE /apollo/hal/daxcad.4.0$PLOTFILE$$
+		;;
+
+	3)	echo 'Gould 6320'
+		;;
+
+	4)	echo 'Benson 1625/45 (Z80) (VDF,TIM100)'
+		;;
+
+	5)	echo 'HP 7550'
+		;;
+
+	6)	echo 'ROLAND A2'
+		;;
+
+	7)	echo 'Calcomp '
+		;;
+
+	8)	echo 'HP 7580B'
+		;;
+
+	9)	echo 'Hitachi A3/A4'
+		;;
+
+	10)	echo 'Benson 1302  (ISDP)'
+		;;
+
+	11)	echo 'Gerber Photoplotter'
+		;;
+
+	12)	echo 'HP 7586B Roll Feed'
+		mv $PLOTFILE /apollo/hal/daxcad.4.0$PLOTFILE$$
+		;;
+
+	13)	echo 'Metric ( (C) Advent Imaging ) '
+		;;
+
+	14)	echo 'Postscript (300 dpi)'
+		;;
+
+	15)	echo 'Roland  DPX 3300'
+		;;
+
+	16)	echo 'Houston DMP'
+		;;
+
+	17)	echo 'Interleaf ( Never used for immediate )'
+		;;
+
+	18)	echo 'HP7885B'
+		mv $PLOTFILE /apollo/hal/daxcad$PLOTFILE$$
+		;;
+
+	*)
+		echo "Unknown plotter. Model no. $MODEL"
+		echo
+		exit 1
+		;;
+esac
+
+echo

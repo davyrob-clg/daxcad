@@ -1,0 +1,49 @@
+10
+7
+14
+11
+12
+2
+1 
+13
+10
+4
+6
+Calcomp
+postscript
+Gerber
+HP 7586B
+HP 7585B
+HP 7475
+Metric
+Benson
+Ben 16**
+Roland A2
+/daxcad/plot/plotter.plot_
+/sys/print/spooler/plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+/daxcad/plot/plotter.plot_
+
+
+*
+*     @(#)  1.1 date 12/9/91 plotter.pcf 
+*
+*
+*     Filename    : plotter.pcf
+*     Version     : 1.1
+*     Retrieved   : 92/01/09 20:05:09
+*     Last change : 91/12/09 15:35:37
+*
+*     Copyright : Practical Technology International Limited  
+*
+*     Plotter configuration file
+*     Maximum 10 plotters supported in this file
+*
+*
+

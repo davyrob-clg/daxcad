@@ -1,0 +1,19 @@
+
+/* SCCS id Keywords             @(#)  412.1 date 6/11/92 GPRX_wait_cursor.h 
+
+	Practical Technology 1991 DAXCAD
+
+	This file contains the Bitmap pattern produced from the 
+	X11 program bitmap. This is used for the busy cursor
+	in DAXCAD.
+
+*/
+
+#define GPRX_wait_cursor_width 16
+#define GPRX_wait_cursor_height 16
+#define GPRX_wait_cursor_x_hot 7
+#define GPRX_wait_cursor_y_hot 7
+static char GPRX_wait_cursor_bits[] = {
+   0xfe, 0x7f, 0x05, 0xa0, 0x09, 0x90, 0x91, 0x89, 0xe1, 0x87, 0xc1, 0x83,
+   0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0x41, 0x82, 0x21, 0x84,
+   0x11, 0x88, 0x89, 0x91, 0xe5, 0xa7, 0xfe, 0x7f};

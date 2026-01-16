@@ -1,0 +1,86 @@
+C
+C         SCCS id Keywords             @(#)  300.2 date 12/9/91 fontload.f  
+C
+      PROGRAM FONTRY
+C     THIS IS A TEST OF TEXT
+      CHARACTER*40 FILNM
+      CHARACTER*40 STRING
+      INTEGER*2 I1(1:2),J1,J2,J3,CURPOS,RECPOS,COUNT,DEFL
+      INTEGER*4 I4
+      EQUIVALENCE (I4,I1)
+
+
+ 12   CONTINUE
+      PRINT*,'ENTER FILENAME'
+      READ(*,'(A)') FILNM
+
+      OPEN (UNIT=10,FILE=FILNM,ERR=100)
+      REWIND (10)
+      OPEN (UNIT=11,FILE='FONT1DA',ACCESS='DIRECT'
+     +,FORM='UNFORMATTED',RECL=4)
+      REWIND (11)
+
+C     Zero the first 32 entries
+      J1=0
+      J2=0
+      DO 5 I4=1,256
+         WRITE(UNIT=11,REC=I4 ) J1,J2
+ 5    CONTINUE
+
+C     SET POINTER TO POSITI0N 257
+      CURPOS=257
+C     SET COUNTER TO ZERO
+      COUNT=0
+C     READ THE TEXT INPUT FILE
+  10  READ (10,'(A)',END=30) STRING
+      IF ( STRING(1:1).EQ.'*') GOTO 10
+      READ (STRING,*) J1,J2,J3
+C     ASSIGN NO. OF RECORDS IN CHAR. DEF. TO 'DEFL'
+      DEFL=J2
+C     OFFSET ASCII VALUE BY 1 TO GET POINTER
+      RECPOS=J1+1
+      I1(1)=0
+      I1(2)=CURPOS
+      WRITE(*,'(A,I5)') 'Ascii value',RECPOS
+C     STORE CHAR. DEFN. ADDRESS IN ASCII+1
+      WRITE (UNIT=11,REC=RECPOS) I4
+C     STORE ASCII VALUE AND NO. OF RECORDS IN CURPOS
+      RECPOS=CURPOS
+
+C      WRITE(*,'(A,I5)') 'storing character at pointer',RECPOS
+      WRITE (UNIT=11,REC=RECPOS) J1,J2
+C     GET FIRST SPAN OF CHAR.
+  20  READ (10,*) J1,J2,J3
+
+      COUNT=COUNT+1
+      CURPOS=CURPOS+1
+
+      J1=(J1*100)+J2
+      WRITE (UNIT=11,REC=CURPOS) J1,J3
+         IF (COUNT.LT.DEFL) THEN
+            GOTO 20
+         ELSE
+            CURPOS=CURPOS+1
+            COUNT=0
+            GOTO 10
+      END IF
+      CONTINUE
+
+
+
+  30  CONTINUE
+
+
+      WRITE (*,*) 'THE FINAL VALUE OF CURPOS IS',CURPOS
+      WRITE(UNIT=11,REC=1) CURPOS,CURPOS
+
+      CLOSE (10)
+      CLOSE (11)                            
+              
+      STOP
+
+ 100  CONTINUE
+      PRINT'(A)','FILE NOT FOUND'
+      GOTO 12
+
+      END

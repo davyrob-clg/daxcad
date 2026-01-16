@@ -1,0 +1,33 @@
+*
+*     SCCS id Keywords             @(#)  300.1 date 11/13/91 daxcad-defaults   
+*
+*	Practical Technology 1990 defaults file for DAXCAD
+*
+* 
+*	Property names for the NC interface.
+*
+*
+NCPROPS 4
+
+PROPNAME1 FEED_RATE
+PROPPROMPT1 Enter the feed rate
+PROPTYPE1 4
+PROPNOUN1 608
+
+PROPNAME2 SPIN_SPEED
+PROPPROMPT2 Enter the spindle speed
+PROPTYPE2 4
+PROPNOUN2 609
+
+PROPNAME3 RAPID_SPEED
+PROPPROMPT3 Enter the rapid speed
+PROPTYPE3 4
+PROPNOUN3 610
+
+PROPNAME4 TOOL_NUMBER
+PROPPROMPT4 Enter the tool/pen number
+PROPTYPE4 2
+PROPNOUN4 615
+
+NCPROPOTHER 611
+NCPROPMEASURE 612

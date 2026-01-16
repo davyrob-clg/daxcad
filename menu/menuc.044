@@ -1,0 +1,767 @@
+*
+*        SCCS id Keywords             @(#)  300.7 date 1/28/92 menuc.044  
+*
+*  COMPLETE DEFAULT MENU COMMAND DICTIONARY
+*
+$  
+$  This menu source file contains the default
+$  definitions of menu commands and op-tokens
+$  for DAXCAD 2.56 as of 6/27/90
+*
+$  This file contains all control token data
+$  for the DAXCAD system,and as such is a PT
+$  protected sub-system file which should not
+$  be released to customers in any circumstances.
+$  ************** ENGLISH VERSION **************
+*
+* ENTRY menu definitions
+     1     1   ( )     "   VERB  MENU"
+     2     1   ( )     "  INITIAL MENU"
+     3     4   (C)     "CREATE DRAWING"
+     4    10   (R)     "RETRIEVE DRAWING" 
+$    *    18   (*)     "MACRO"
+     5    26   (E)     "      EXIT"
+* CREATE DRAWING menu definitions
+     6     1   ( )     "  CREATE MENU"
+     7     4   (N)     "Name"
+     8     8   (P)     "Paper Size:"
+     9    12   (U)     "Units:"
+    10     6   (S)     "Scale:"
+    11    10   (R)     "Rotate"
+    12    23   (Q)     "Quit"
+    13    16   <13>    "Accept"
+* VERB menu definitions
+    14     2   (S)     "SELECT"
+    15    17   (T)     "REGEN"
+    16     4   (I)     "INSERT"
+    17     6   (t)     "TRIM"
+    18     7   (P)     "MOVE"
+    19     8   (A)     "CHANGE"
+    20    10   (D)     "ERASE"
+    21    12   (d)     "DIMENSION"
+    22    13   (m)     "MEASURE"
+    23    15   (V)     "CREATE"
+    24    16   (E)     "EXPLODE"
+    25    22   (R)     "READ"
+    26    23   (W)     "WRITE"
+    27    25   (p)     "PLOT"
+    28    24   (z)     "SECURE"
+    29     3   (Z)     "MACRO"
+    30    26   (F)     "FINISH"
+    31    20   (a)     "ATTACH"
+    32    19   (e)     "DEFINE"
+    33    21   (O)     "EXTRACT"
+$   34     5   (Y)     "**SPECIAL**"
+*
+* POINT MODE definitions
+$ positions 40-49
+    40    25   (D)     "REFERENCE"
+    41    22   (Y)     "DISTANCE"
+    42    20   (E)     "END"
+    43    21   (C)     "CENTRE"
+    44    23   (I)     "INTERSECTION"
+    45    24   (N)     "NEAREST"
+    46    26   (T)     "COORDINATE"
+$    
+* DISPLAY CONTROL definitions
+$ positions 50-59
+    49     1   (q)     "Initial Menu"
+    50     1   (q)     "Verb Menu"
+    51     2   (R)     "Redraw"
+    52     3   (M)     "Pan Window"
+    53     4   (Z)     "Zoom In"
+    54     5   (S)     "Zoom Out"
+    55     6   (P)     "Zoom Previous"
+    56     7   (E)     "Zoom Extents"
+    57     9   (V)     "Layer Menu"
+    59     8   (U)     "Grid"
+   336     2   <150>   "Layer Accept"
+* LAYER MENU definitions
+$ positions 60-69
+    60     3   (C)     "Work Layer:"
+    61     4   (L)     "List"
+    62     5   (S)     "Show"
+    63     6   (T)     "Show All"
+    64     7   (H)     "Hide"
+    65     8   (I)     "Hide All"
+    66     9   (E)     "Display Menu"
+$
+* CALCULATOR
+    69     1   (C)     "Calculator"
+* INSERT definitions
+$ positions 70-88
+    70     8   (P)     " Part"
+    78     9   (S)     "Symbol"
+    71     6   (H)     " Hatch"
+    72    10   (T)     " Text"
+    73     5   (F)     "Fillet"
+    74     2   (A)     " Arc"
+    75     7   (L)     " Line"
+    76     3   (C)     " Comp."
+    77     4   (D)     "Curve"
+    79    11   (M)     "Marker"
+    80    12   (E)     "Ellipse"
+    81    13   (c)     "Chamfer"
+    82    12   (l)     "C-Line"
+*
+* INSERT CENTER_LINE definitions.
+    83     5   (t)     "Type:"
+    84     7   (b)     "Extension"
+    85    10   (r)     "Rotation Angle"
+    86     5   <1>     "Single"
+    87     5   <2>     "Cross"
+   167     5   <3>     "P.C.D."
+*
+* INSERT LINE definitions
+$ positions 90-109
+   399     1    (k)    "Colour:"
+   407     2    (f)    "Font:"
+   409     3    (=)    "Thick:"
+   506     1    <255>  "      Other"
+*
+   628     4   (Z)     "Box"
+    91     5   (X)     "Between Points"
+    92     6   (x)     "Continuous"
+    93     7   (H)     "Horizontal"
+    94     8   (V)     "Vertical"
+    95     9   (P)     "Parallel"
+    96    10   (p)     "Parallel Dist"
+    97    11   (R)     "Perpendicular"
+    98    17   (i)     "Intof"
+    99    19   (c)     "Cancel"
+   100    16   (L)     "Length"
+   101    13   (B)     "Angle Abs."
+   102    12   (A)     "Angle Rel."
+   103    14   (F)     "Tan(1 arc)"
+   104    15   (G)     "Tan(2 arcs)"
+$
+* INSERT ARC definitions
+$ positions 110-119
+$   129     3   (O)     "Concentric Rel."
+   530     4   (o)     "Concentric Abs."
+   110     5   (F)     "CIRC; Cen,Circum"
+   111     6   (G)     "CIRC; 3pt,Circum"
+   109     7   (g)     "3pt Circum" 
+   112     8   (B)     "Cen 2pts CW"
+   113     9   (A)     "Cen 2pts CCW"
+   105    10   (M)     "CIRC; Pick dia."
+   106    11   (L)     "CIRC; Tan 3 ents"
+   107    12   (X)     "CIRC; Rad,2 Tans"
+   108    13   (H)     "CIRC; Cen, Tan"
+   114    14   (S)     "Fixed Radius"
+   115    15   (R)     "Rad:"
+   116    16   (U)     "Fixed Angle"
+   117    17   (V)     "Ang:"
+   118    18   ( )     "Intof"
+    47    18   (U)     "Next Circle"
+   119    19   (c)     "Cancel"
+$
+* INSERT HATCH definitions
+$ positions 120-129
+   120    17   (W)     "Window"
+   121    19   <149>   "Cancel"
+   122     6   (B)     "Next Boundary"
+   123     8   (H)     "Pitch:"
+   124     9   (A)     "Angle:"
+   125    11   (X)     "Cross Hatch"
+   126    16   <150>   "Accept"
+   127    12   (V)     "XAngle:"
+   128     5   (F)     "Pattern:"
+$
+* INSERT FILLET definitions
+$ positions 130-139
+   130     6   (R)     "Rad:"
+   131     9   (L)     "Trim Neither"
+   132    10   (F)     "Trim First"
+   133    11   (S)     "Trim Second"
+   134    12   (B)     "Trim Both"
+   135    14   (O)     "Minor Arc"
+   136    15   (J)     "Major Arc"
+   137    16   (U)     "Full  Arc"
+$         19           "Cancel"
+* INSERT PART definitions
+$ positions 140-149
+   140     2   (n)     "Name"
+   141     6   (s)     "Scale Text"
+   142    12   (p)     "Proportion"
+   143     8   (r)     "Rotate:"
+   144     5   (S)     "Scale:"
+   145    14   (R)     "Locate"
+   146    19   <149>   "Cancel"
+*
+* INSERT COMPONENT/SYMBOL definitions
+   150     2   (n)     "Name"
+*
+* Text Size parameters
+   161    13   (V)     "Slant:"
+   162    11   (H)     "Height:"
+   163    12   (W)     "Width:"
+   164    14   (A)     "Angle:"
+$  following line for single line text
+   165     6   (X)     "String"
+   166     7   (B)     "File"
+$   167     8   (M)     "Multi_Line"
+   168    19   (c)     "Cancel"
+$
+* MEASURE definitions
+$ positions 170-179
+   174     6   (K)     "Distance"
+   175     4   (a)     "Angle"
+   176     5   (B)     "Area"
+   177     8   (A)     "Entity"
+   178    12   (P)     "Property"
+   179    10   (p)     "Position"
+$
+* MOVE definitions
+$ positions 180-189
+   180     7   (H)     " Hatch"
+   181    10   (T)     " Text"
+   182     3   (A)     " Arc"
+   183     8   (L)     " Line"
+   184     5   (D)     " Dimen"
+   185     2   (a)     " Any"
+   186     9   (s)     "Symbol"
+   187     4   (c)     " Comp."
+   188     6   (G)     "Group"
+$  ???     ?   (?)     "Detail"
+$
+* MOVE ANY definitions
+$ positions 190-199
+   190     1   (t)     "Translate"
+   191     6   (r)     "Rotate"
+   192     4   (s)     "Scale"
+   193     5   (S)     "Scale Text"
+    35     7   (b)     "Array"
+    36     7   (k)     "Radial Unrotated"
+    37     7   (d)     "Radial Rotated"
+    38     7   (e)     "Rect Filled"
+    39     7   (f)     "Rect Border"
+   194     2   (m)     "Mirror"
+   195    10   (L)     "Layer:"
+   196    11   (M)     "Copies:"
+   197    19   <149>   "Cancel"
+   198    16   <150>   "Accept"
+   199    12   (x)     "Dynamic"
+   211    14   (A)     "Animate"
+   212    15   (H)     "Hold"
+   213    13   (R)     "Stretch"
+$
+* ERASE definitions
+$ positions 200-209
+   201     7   (H)     " Hatch"
+   202    10   (T)     " Text"
+   203     3   (A)     "  Arc"
+   204     8   (L)     " Line"
+   205     6   (D)     "Dimen."
+   206     2   (a)     " Any"
+   207     9   (s)     "Symbol"
+   208     4   (c)     " Comp."
+   209     5   (C)     "Curve"
+$
+* ERASE ANY definitions
+   210    17   (W)     "Window"
+$         19           "Cancel"
+* DIMENSION definitions
+$ positions 215-239
+   215     1   ( )     "DIMENSION"
+*
+   216     5   (D)     "Diameter"
+   217     3   (A)     "Angle"
+   218     9   (R)     "Radius"
+   219     7   (L)     "Length"
+*
+   220     1   (A)     "Along Line"
+   221     2   (P)     "Between Points"
+   214     4   (p)     "Auto Between"
+   222     3   (d)     "Prefix PHI"
+   223     4   (H)     "Horizontal"
+   224     5   (V)     "Vertical"
+   225     7   (O)     "Outer Text"
+   226    10   (B)     "Align"
+   227    11   (S)     "Sup Witness Lft"
+   228    12   (s)     "Sup Witness Rght"
+   229    14   (p)     "Precision:"
+   230     1   (A)     "Label"
+   231    17   (a)     "Lower Tol:"
+   232     1   (A)     "Between Lines"
+   233     4   (M)     "Minutes"
+   234     5   (m)     "Seconds"
+   235     6   (o)     "Outer Arrows"
+   236    16   (u)     "Upper Tol:"
+   429    15   (z)     "Tol:"
+   237    15   <1>     "None"
+   238     8   (W)     "Sup Arrow Left"
+   239     9   (w)     "Sup Arrow Right"
+$
+* CHANGE definitions
+$ positions 240-269
+   240    11   (T)     "Text"
+   241     2   (C)     "Colour"
+   242     6   (F)     " Font"
+   243     5   (D)     " Dimen"
+   244     8   (P)     "Paper"
+   245     9   (p)     "Property"
+   246     7   (f)     "Form"
+   247    12   (t)     "Thick"
+   248     3   (E)     "Curve" 
+   147    13   (s)     "Sym-Cmp"
+   349     4   (l)     "C-Line"
+* CHANGE PAPER definitions
+   250    14   (O)     "Position"
+   138    12   (a)     "Millimetres"
+   139    12   (b)     "Centimetres"
+   169    12   (c)     "Metres"
+   170    12   (d)     "Kilometres"
+   171    12   (e)     "Inches"
+   172    12   (f)     "Feet"
+   173    12   (g)     "Yards"
+   200    12   (h)     "Miles"
+   364     9   (i)     "A4"
+   365     9   (j)     "A3"
+   366     9   (k)     "A2"
+   367     9   (l)     "A1"
+   368     9   (m)     "A0"    
+* CHANGE TEXT definitions
+   255    17   (w)     "Window"
+   256     7   (S)     "String"
+   257     6   (y)     "Word"
+* CHANGE DIMENSION definitions
+   260     1   (G)     "Wit Gap    :"
+   261     2   (e)     "Wit Extn   :"
+   262     3   (H)     "Text Height:"
+   263     4   (h)     "Text Width :"
+   264     5   (g)     "Text Gap   :"
+   265     6   (L)     "Arrow Len  :"
+   266     7   (a)     "Arrow Wid  :"
+   626     9   (P)     "Precision  :"
+   627    11   (D)     "Dimension Text"
+* CHANGE CURVE defintions   
+   249    10   (H)     "Hull ON"
+   251     5   (I)     "Insert Point" 
+   252     6   (A)     "Add Point" 
+   253     7   (D)     "Delete Point" 
+   254     8   (M)     "Move Point" 
+   258    10   (R)     "Hull OFF" 
+   259    12   (C)     "Change Mode" 
+   268    14   (N)     "New Curve" 
+   269     4   (b)     "B-Spline" 
+   280     4   (h)     "Hermite" 
+* CHANGE SYMBOL definitions.
+   148     4   (A)     "Path"
+   149    18   (G)     "Global"
+   189     8   (c)     "Component"
+$
+* CREATE definitions
+   270     7   (P)     " Part"
+   271     5   (G)     " Group"
+   272     4   (D)     " Detail"
+   273     3   (C)     " Comp"
+   274     8   (S)     " Symbol"
+   277     6   (O)     " Offset"
+* M.S.FILE PATHNAME definitions
+   289     1   (m)     "Drawings"
+   319     4   (p)     "Macros"
+   322     7   (d)     "Components"
+   323    10   (s)     "Parts"
+   334    13   (c)     "Symbols"
+   338    16   (b)     "Backcloth"
+   333    20   <150>   "Accept"
+$   337    23   (f)     "Manual File"
+* CREATE PART definitions
+   275     5   (O)     "Origin"
+* CREATE SYMBOL definitionswd contracts
+   276     5   (O)     "Origin"
+* CREATE COMPONENT definitions
+   278     5   (O)     "Origin"
+   405     7   (P)     "Properties"
+$
+* SELECT definitions
+   410    10   (S)     "Standard"
+   267     8   (P)     "Pathname"
+   279     6   (L)     "Language"
+   281     5   (G)     " Grid"
+   282     4   (D)     " Dimen."
+   283     3   (d)     "Digitize"
+   487    11   (M)     " Menu"
+    48    12   (K)     "Journal"
+$
+* SELECT GRID definitions
+   284     5   (O)     "Origin"
+   348     3   (t)     "Type:"
+    58     3   (C)     "Cartesian"
+   344     3   (i)     "Isometric"
+   285    10   (A)     "X Dist:"
+   286    11   (B)     "Y Dist:"
+   287     6   (F)     "X:"
+   288     7   (G)     "Y:"
+$
+$ positions 290-299
+* SELECT DIGIT
+   292     7   (s)     "Digitize ON"
+   293     7   (s)     "Digitize OFF"
+   294    13   (G)     "Resolution:" 
+   296    10   (o)     "Digitize Origin"
+   297    11   (O)     "Screen   Origin"
+   298    12   (A)     "Alignment"
+   299    14   (a)     "Angular Tol:"
+*
+* SELECT MENU definitions
+   488     6   (s)     "Menu ON"
+   489     6   (s)     "Menu OFF" 
+   490     8   (n)     "Name" 
+   491    10   (S)     "Orientation"
+$   492    12   (R)     "Read Cell*"
+*
+* SELECT JOURNAL definitions
+    67     5   (J)     "Journaling"
+    68     5   (j)     "Journal On"
+   444     7   (i)     "Comment"
+$
+*
+* TRIM definitions
+   290     6   (A)     " Arc"
+   291     8   (L)     " Line"
+$
+* TRIM ARC/LINE definitions
+   295    17   (i)     "Intof"
+$
+$ positions 300-309
+* READ/WRITE definitions
+   302     4   (T)     " HPGL"
+   303     5   (U)     "Gerber"
+   304     9   (E)     "  IGES"
+   305     3   (G)     "GNC-Spans"
+   306     2   (S)     " M.I.F."
+   307     7   (W)     " GENIO"
+   308     4   (g)     "  GTL3"
+   309     2   (p)     " PEPS"
+   329     6   (R)     " REDAC"
+   339     5   (V)     "CV-Exec"
+   461     8   (A)     "Pathtrace"
+   470     2   (p)     " Milling"
+   471     4   (t)     " Turning"
+   472     6   (s)     " Punching"
+   473    10   (D)     " DXF"
+$
+   474    11   (i)     "Interlf"
+   376    12   (w)     "Swift"
+   475     4   (w)     "Frame Width"
+   476     6   (f)     "Frame Height"
+   477     9   (m)     "Micro Document"
+   478    10   (o)     "Outline Text"
+   479    11   (h)     "Hardware Text"
+   382    18   (d)     "Drawing"
+   383    19   (s)     "Screen"
+   300    10   (p)     "Points" 
+   301    11   (P)     "Profile" 
+   352     8   (r)     "Resolution:"
+   332     9   (Y)     "Curve Entity"
+   326     6   (C)     "Component"
+   327     8   (B)     "Board"
+   328    10   (G)     "Off grid"
+   324    12   (A)     "Auto number"
+* PLOT definitions
+$ positions 310-319
+   310     7   (S)     "Paper Size:"
+   311     9   (P)     "Type:"
+   312    10   ( )     "   "
+   313    12   (T)     "Hardware Text"
+   314    12   (T)     "Software Text"
+   315     4   (D)     "Drawing"
+   316     8   (W)     "Window"
+   317     6   (S)     "Screen"
+   318    14   (D)     "Pen Data"
+$   357     9   (w)     "Viewport"
+   354    11   (H)     "HiResolution"
+   355    13   (A)     "Arctol:"
+   375    16   (c)     "No Clip"
+   700     5   (s)     "Scale:"
+   701     6   (C)     "Copies:"
+$
+*
+* ATTACH definitions
+   320     8   (P)     "Property"
+   321     6   (N)     "Name"
+* ATTACH NAME definitions
+   325    10   (L)     "Layer"
+$
+* DEFINE definitions
+$ positions 330-339
+   330     9   (T)     "Table"
+   331     5   (P)     "Property"
+   332    11   (B)     "Backcloth"
+   335     7   (S)     "SearchKey"
+$   453     8   (V)     "Viewport"
+   480     3   (M)     "Menu" 
+$   500     4   (K)     "Key" 
+*
+* DEFINE PROPERTY definitions
+   340    13   (I)     "Integer"
+   341    14   (R)     "Real"
+   342    12   (T)     "Text"
+   343     2   (N)     "Name"
+*
+* DEFINE TABLET_MENU definitions
+$   481     2   (c)     "Name"
+   482     2   (M)     "Name"
+   483     6   (d)     "Layout"
+   484     8   (D)     "Cell Name"
+   485    10   (V)     "Enquire"
+   486    16   (S)     "Accept"   
+$* DEFINE KEY DEFINITION definitions
+$   501     2   (c)     "Create_keydef"
+$   502     4   (D)     "Define_key"
+$
+* INSERT CURVE definitions
+   350     5   (b)     "B-Spline"
+   351     7   (h)     "Hermite"
+$   352     9   (p)     "Polynomial"
+   353    11   (t)     "Weight:"
+   356    19   (c)     "Cancel"
+   358    16   <150>   "Accept"
+*
+*  DIFFERENT MODES available
+*  Popup cell.
+   359     2   (m)     "Mode:"
+*  Current selection display cell.
+   369     3   (.)     "Polygon"  
+*  Option cells.
+   360     3   <1>     "Points"
+   361     3   <2>     "Polygon"
+   362     3   <3>     "Curve"
+   363     3   <4>     "Curve & Polygon"
+*
+* EXTRACT PROPERTY definitions
+   370     2   (T)     "Name"
+$ I don't think 371 is used for anything.
+   371     6   ( )     " "
+   372     7   (C)     "Compress"
+   373    10   (t)     "Total"
+   374    16   <150>   "Accept"
+*
+* DEFINE TABLE definitions
+$   380     3    (W)     "Width:"
+$   381    15    (S)     "Decimal:"
+*
+* MEASURE Entity Sub_menu
+   389    12   (E)     "C-Line"
+   390     8   (H)     "Hatch"
+   391    11   (T)     "Text"
+   392     9   (L)     "Line"
+   393     4   (C)     "Arc"
+   394     2   (A)     "Any"
+   395     6   (S)     "Curve"
+   396     7   (D)     "Dimension"
+   397     5   (c)     "Component"
+   398    10   (s)     "Symbol"
+* SELECT LANGUAGE definitions
+   400     5    (E)     "English"
+   401     6    (F)     "French"
+   402     7    (G)     "German"
+   403     8    (I)     "Italian"
+   404     9    (S)     "Spanish"
+* International standards
+   411     5     (B)    "BS308"
+   412     6     (D)    "DIN"
+   413     7     (A)    "ANSI"
+*  Dimensioning standards
+   430    15    <2>    "Unilateral"
+   431    15    <3>    "Bilateral"
+   432    15    <4>    "Basic Sizes"
+   433    15    <5>    "Text Added"
+   434    13    (t)    "Major Angle"
+   435     6    (o)    "Outer Arrows"
+   436    13    (F)    "Offset Text"
+   437    15    <6>    "Overwritten"
+   438     8    (l)    "Label"
+*
+*  Regenerate functions (positions 450-459)
+   450     7    (D)    "Drawing"
+   451     5    (C)    "Comp."
+   452     9    (S)    "Symbol" 
+*
+*  Colour index number control
+$   455     4    (+)    "Colour:"
+*
+*  SPECIAL Functions
+   456     2    (A)    "Func1"
+   457     3    (B)    "Func2"
+   458     4    (C)    "Func3"
+   459     5    (D)    "Func4"
+   460     6    (E)    "Func5"
+   467     7    (F)    "Func6"
+   468     8    (G)    "Func7"
+*
+*  Colour available
+   414     1    (A)    "Red"
+   415     1    (B)    "Green"
+   416     1    (C)    "Blue"
+   417     1    (D)    "Cyan"
+   418     1    (E)    "Yellow"
+   419     1    (F)    "Purple"
+   420     1    (G)    "WHITE"
+   421     1    (H)    "Dark Yellow"
+   422     1    (I)    "Dark Green"
+   423     1    (J)    "Yellow Brown"
+   424     1    (K)    "Dark Red"
+   425     1    (L)    "Light Yellow"
+   426     1    (M)    "Pale Blue"
+   427     1    (N)    "Pale Yellow"
+   428     1    (O)    "Red Brown"
+*  Text Justification
+   151     1    (A)    "Top  Left"
+   152     1    (B)    "Top  Centre"
+   153     1    (C)    "Top  Right"
+   154     1    (D)    "Midl Left"
+   155     1    (E)    "Midl Centre"
+   156     1    (F)    "Midl Right"
+   157     1    (G)    "Botm Left"
+   158     1    (H)    "Botm Centre"
+   159     1    (I)    "Botm Right"
+*  Current Justification
+   160     9    (K)    "Just:"      
+*  Attributes option for menu 2 (used in change)
+   466    10    (=)    "Attributes"  
+*  Marker entity
+   501     6    (X)    "scale x:"
+   502     7    (y)    "scale y:"
+   503    15    (c)    "Cancel"
+   504    12    (i)    "Marker No:"
+   505     9    (r)    "Rotation:"
+*
+   517    14    (i)    "First len:"
+   518    15    (s)    "Second len:"
+   519    16    (a)    "angle:"
+*
+*  Viewporting functions 
+   462     1    (D)    "  SCROLL DOWN"
+   463    24    (U)    "   SCROLL UP"
+   464    25    (S)    "     User"
+   465    26    (P)    "   Pathname"
+   584    26    (b)    "Browser"
+   582    26    (B)    "BROWSE SELECT"
+   469    13    (Z)    "Auto-Profile"
+   454    20    (D)    "Undefined"
+   406     2    (O)    "Distance"
+   408     5    (N)    "New Profile"
+*  Viewport control menu
+   439     2    (a)    "View 1"
+   440     3    (b)    "View 2"
+   441     4    (c)    "View 3"
+   442     5    (d)    "View 4"
+   443     6    (e)    "View 5"
+$  the word in the view corner
+   496     1    (V)    "View"
+   445     7    (g)    "Define window"
+   346     8    (h)    "Define extents"
+   347     9    (i)    "Remove view"
+$
+   510     1    (W)    "Create window"
+   511     1    (D)    "Quit"
+   512     2    (M)    "Move"
+   513     3    (R)    "Resize"
+   514     2    (C)    "Create extents"
+   522     4    (P)    "Name"
+   523     5    (I)    "Icon"
+   525     3    (V)    "Viewport"
+$  Selct system 
+   515    13    (V)    "Display"
+   516     4    (M)    "M.A.W.S."
+   345     6    (D)    "Daxports"
+$
+$  confirm popup
+   520     1    (C)    "Confirm"
+   521     1    (A)    "Cancel"
+$
+$  Hatch style menu.
+   531     1    <1>    " Type 1 "
+   532     1    <2>    " Type 2 "
+   533     1    <3>    " Type 3 "
+   534     1    <4>    " Type 4 "
+   535     1    <5>    " Type 5 "
+   536     1    <6>    " Type 6 "
+$
+$  dummy vnoun number for special popups
+   507     1    ( )    "Special Popup"
+$
+$  popup menu BANNERS
+   540     1    ( )    "Display Popup"
+   541     1    ( )    "MAWS Popup"
+   542    15    ( )    "Dimn Tolerance"
+   543     1    ( )    "Point Modes"
+   544     1    ( )    "Colour Pallet"
+   545     1    ( )    "Banner No 7"
+   546     9    ( )    "justify"
+   547     1    ( )    "Daxport Commands"
+   548     1    ( )    "Daxport Create"
+   549     7    ( )    "Array Type"
+   550     4    ( )    "Center Line Type"
+   560     3    ( )     "Grid Type"
+   561     9    ( )     "Drawing Units"
+   562     1    ( )     "Confirmation"
+   563     1    ( )     "Layer control"
+   564     8    ( )     "Paper Type"
+   565     3    ( )     "Curve Display Mode"
+   566     1    ( )     "Hatch Pattern"
+   567     5    (G)     "Grid"
+   583     1    ( )     "Browser User Select" 
+$
+$  The work layer prompt but a different token for it 
+$  Used in the viewport layer PoPuP menu
+   568     3    (C)     "Work Layer:"
+$  MIf menu
+   569     1    (F)     "Filename"
+   570     3    (S)     "Start Layer :     "
+   571     4    (C)     "Start from CWL"
+   572     6    (o)     "One Colour/Layer"
+   573     7    (l)     "Label to Colour"
+   574     9    (M)     "Model Layers"
+   575    10    (O)     "Object Layers"
+   576    13    (P)     "Polylines"
+   577    14    (L)     "Lines"
+   578    16    (s)     "Symbol to Marker"
+   579    18    (m)     "Multiple Sheets"
+   580    20    (A)     "Accept"                 
+   581    11    (Z)     "Layer by Colour"
+$  NC  menu
+   616    13    (Z)     "DAX-NC"
+   589     1	(V)     "NC INTERFACE"
+   590     5    (C)     "Create SEQ"
+   591     6    (E)     "Edit   SEQ"
+   592     7    (D)     "Set DATUM"
+   593     8    (L)     "Output Sequence"
+   595     9    (L)     "View Profiles"
+$  NC Create Sequence sub menu
+   594     1    (L)     "CREATE SEQUENCE"
+   596     9    (L)     "Restart Profile"
+   597    13    (q)     "Quit Points"
+   598    10    (q)     "Quit Create"
+   614    8     (D)     "Drill Patterns"
+   613    11    (W)     "Window Centres"
+$  NC  Edit sequence sub menu
+   599     1    (L)     "EDIT SEQUENCE"
+   600     9    (I)     "Insert"
+   601    10    (D)     "Delete"
+   603    11    (P)     "Swap"
+   604    13    (S)     "Re-Sequence"
+   605    15    (C)     "Change Property"
+   606    17    (q)     "Quit Edit"
+$  NC Property popup controls
+   607    10    (x)     "Properties"
+   608    1     (F)     "Feed Rate"
+   609    1     (S)     "Speed"
+   610    1     (R)     "Rapid Speed"
+   615    1     (P)     "Tool Number"
+   611    1     (O)     "Other Property"
+   612    1     (m)     "MEASURE"
+$  Browser/File selector entries
+   617    1     (D)     "Drawings"
+   618    1     (C)     "Components"
+   619    1     (P)     "Parts"
+   620    1     (S)     "Symbols"
+   621    1     (M)     "Macros"
+   625    1     (B)     "Property Tables"
+   622    1     (X)     "Dxf"
+   623    1     (W)     "Anything"
+   624    1     (W)     "File Types"
+   629    1     (W)     "Im"

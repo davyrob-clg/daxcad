@@ -1,0 +1,32 @@
+*
+*     @(#)  300.1 date 12/09/91 pathname.pcf 
+*
+*
+*     Filename    : pathname.pcf
+*     Version     : 300.1
+*     Retrieved   : 92/01/30 21:26:41
+*     Last change : 91/12/09 09:56:15
+*
+*     Copyright : Practical Technology International Limited  
+*
+*
+***        DAXCAD DEFAULT PATHNAME FILE        ***             
+**                 PATHNAME.PCF                 **             
+*                                                *             
+*                                                *             
+* This file sets up the default pathnames to search    
+* for DRAWINGS/MACROS/COMPONENTS/PARTS and SYMBOLS     
+* NOTE: The order of the pathnames listed below must   
+*       be adhered to.                                 
+* NOTE2: All pathnames must end with a slash "/"       
+*                                                      
+* Pathname for drawings   - file names ending in .drg  
+
+* Pathname for macros     - file names ending in .mac  
+
+* Pathname for components - file names ending in .cmp  
+
+* Pathname for parts      - file names ending in .prt  
+
+* Pathname for symbols    - file names ending in .sym  
+

@@ -1,0 +1,26 @@
+*
+*     @(#)  1.2 date 12/09/91 line.style 
+*
+*
+*     Filename    : line.style
+*     Version     : 1.2
+*     Retrieved   : 92/01/30 21:26:16
+*     Last change : 91/12/09 09:52:18
+*
+*     Copyright : Practical Technology International Limited  
+*
+*     Line style configuration file
+*     All styles are configurable. Please refer
+*     to the manual for more information
+*
+*
+"SOLID" 1.0 
+"SHORT DASH" 3.0 3.0 
+"LONG DASH"  6.0 6.0 
+"BROKEN" 9.6 2.4
+"LONG CENTRE" 10.8 1.8 3.6 1.8
+"SINGLE CENTRE" 12.6 1.8 1.8 1.8 
+"DOUBLE CENTRE" 12.0 2.4 2.4 2.4 2.4 2.4
+"EXAMPLE 1" 1.0 1.0
+"EXAMPLE 2" 4.5 4.5
+"EXAMPLE 3" 4.5 1.0
