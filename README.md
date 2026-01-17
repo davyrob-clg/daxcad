@@ -1,10 +1,10 @@
 ## Synopsis
 
-DAXCAD is a Fortran based CAD package from the 1980s 
+DAXCAD is a Fortran based CAD package from the 1980s. 
 
-It has a wiki entry and you can read it here:
+It has a everybodywiki entry and you can read it here:
 
-https://en.wikipedia.org/wiki/Daxcad
+https://en.everybodywiki.com/Daxcad
 
 ## Code 
 
