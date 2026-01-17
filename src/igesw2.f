@@ -83,7 +83,7 @@ C         arrowhead height
 C         arrowhead width
           CALL IGARBF(AHW(IC,2))
 C         Z depth (0)
-          CALL IGARBF(0)
+          CALL IGARBF(0.0)
 C         Arrowhead coordintes
           CALL IGARBF(ARROW(IC,1))
           CALL IGARBF(ARROW(IC,2))

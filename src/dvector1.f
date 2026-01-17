@@ -1,4 +1,3 @@
-C
 C     SCCS id Keywords             @(#)  412.1 date 6/11/92 dvector1.f 
 C
 C     Practical Technology 1990 (c)
@@ -77,7 +76,7 @@ C
 C       Convert from cartesian points to vector
       CALL DCVL14(X11,Y11,X12,Y12,M1,M2,M3)
 C       Call vector subroutine DVC0C8
-      CALL DVC0C7(M1,M2,M3,X21,Y21,X22,RAD,NUM,XC,YC,OK)
+      CALL DVC0C7(M1,M2,M3,X21,Y21,X22,RAD,XC,YC,NUM,OK)
 C
       END
 C

@@ -7,6 +7,10 @@
 
 */
 
+#ifndef GPRX_TYPES_H_
+#define GPRX_TYPES_H_
+
+
 #include <stdint.h>
 #define MAXBITMAPS 100 /* the number of bitmaps that can be defined */
 #define MAXPLANES 8	   /* number of RGB planes */
@@ -130,3 +134,5 @@ typedef struct ColorVector
 	unsigned char Blue;
 
 } GprColorVector;
+
+#endif //GPRX_TYPES_H_

@@ -6,7 +6,8 @@
 
 */
 
-
+#ifndef GPRX_LIB_H_
+#define GPRX_LIB_H_
 
 typedef struct {                   /* the descripter of an individual bitmap */
 
@@ -78,12 +79,7 @@ typedef struct {
                } GprFontStruct;
 
 
-GprFontStruct  *GprFonts[MAXFONTS];            /* list of pointers */
+//GprFontStruct  *GprFonts[MAXFONTS];            /* list of pointers */
 
-struct {
 
-         unsigned char windowid;    /* the window id used by gpr */
-         Window xwin;      /* the X window id */
-   
-       } GprWindowId[MAXBITMAPS];  /* sub reference for eventing */
-
+#endif //GPRX_LIB_H_

@@ -28,7 +28,7 @@ extern char *Xdisplay;
 typedef int LOGICAL;
 LOGICAL WantMyDrawingsBackedUp; /* flag to backup drawings */
 LOGICAL server;					/* are we running -server ?*/
-static char *sid = "4.1.0 date 01/08/16";
+static char *sid = "5.1.0 date 17/01/26";
 
 LOGICAL doabu_(wantBackups) int *wantBackups;
 {
@@ -261,7 +261,7 @@ PTICopyRight()
 	puts(" |                                                      |");
 	puts(" |                                                      |");
 	puts(" |                                                      |");
-	puts(" |          DAXCAD for Windows Linux 2020               |");
+	puts(" |          DAXCAD for Windows & Linux 2026             |");
 	puts(" |                                                      |");
 	puts(" |           Built with CYGWIN 64 DLL                   |");
 	puts(" |                                                      |");
@@ -269,7 +269,7 @@ PTICopyRight()
 	puts(" |       This software was originally written by        |");
 	puts(" |         Practical Technology Ltd in Glasgow          |");
 	puts(" |                                                      |");
-	puts(" |    https://bitbucket.org/DaveRobertson/daxcad        |");
+	puts(" |         https://github.com/davy-clg/daxcad           |");
 	puts(" |                                                      |");
 	puts(" |       NO WARRANTY APPLIES NOT THAT IT EVER DID       |");
 	puts(" |                                                      |");
@@ -280,6 +280,7 @@ PTICopyRight()
 	puts(" |    11/11/13:Updated for Windows 8.1                  |");
 	puts(" |    06/03/17:New Make with Cygwin and eclipse         |");
 	puts(" |    20/05/20:Ported to 64 Bit and Linux               |");
+	puts(" |    17/01/26:Recovered from bitbucket                 |");
 	puts(" |                                                      |");
 	puts(" |                                                      |");
 	puts("  ------------------------------------------------------");

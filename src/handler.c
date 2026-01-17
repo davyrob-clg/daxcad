@@ -65,7 +65,7 @@ int st;
    fprintf(stderr,"        DAXCAD Cannot continue execution from here\n");
    fprintf(stderr,"             However a crash file called:\n");
    fprintf(stderr,"\n");
-   fprintf(stderr,"                daxcad.4.0.save.drg\n");
+   fprintf(stderr,"                daxcad.5.1.save.drg\n");
    fprintf(stderr,"\n");
    fprintf(stderr,"      Has been created with the drawing preserved.\n");
    fprintf(stderr,"  Run DAXCAD again to recover the contents of the drawing\n\n");

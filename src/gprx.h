@@ -9,7 +9,8 @@
 
 */
 
-
+#ifndef GPRX_H_
+#define GPRX_H_
 
 
 
@@ -156,3 +157,13 @@ Colormap GprColormapId=0;	/* Global colormap for use by GPRX */
 /* int GprWhitePixel=1; int GprBlackPixel=0; */
 /* Gpr white and black pixels */
 int GprWhitePixel, GprBlackPixel ;
+
+struct {
+
+         unsigned char windowid;    /* the window id used by gpr */
+         Window xwin;      /* the X window id */
+   
+       } GprWindowId[MAXBITMAPS];  /* sub reference for eventing */
+
+
+#endif /* GPRX_H_ */

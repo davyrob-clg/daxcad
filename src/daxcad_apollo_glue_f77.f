@@ -739,7 +739,7 @@ C     make sure corret font used for drawing
 C
 C         Give the xwindow some information
 C
-          NAME='1986-2020 - DAXCAD Version 5.0 - Linux X86 64'
+          NAME='1986-2026 - DAXCAD Version 5.1 - Cygwin Linux X86 64'
           I2 = NLEN(NAME)
 	      CALL GPR_$SET_BANNER(DISPDE,NAME,I2,ST)
           NAME= PRODUCT

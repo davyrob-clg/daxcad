@@ -155,12 +155,14 @@ C
 C
       INTEGER*2 GTWID,GTWOX,GTWOY,
      +          GTWLL,GTWPL,
-     +          LX(1:8),LY(1:8)
+     +          LX(1:8),LY(1:8), ONE
+
       REAL LX1,LY1,LX2,LY2
       INTEGER*4 ST,GTWID4,GTWOX4,GTWOY4,GTWLL4,GTWPL4
       LOGICAL UNOBSCURED,GTWOO
 C
 C     convert all passed integers to I*2
+      ONE = 1
       GTWID=GTWID4
       GTWOX=GTWOX4
       GTWOY=GTWOY4
@@ -198,7 +200,7 @@ CCCCC      CALL GTCLRW(GTWID4)
 C
       CALL TOOLPEN(MENUF)
       CALL DRSREC(LX(1),LY(1),LX(2),LY(2))
-      CALL DRSREC(LX(1)-1,LY(1)-1,LX(2)+1,LY(2)+1)
+      CALL DRSREC(LX(1)-ONE,LY(1)-ONE,LX(2)+ONE,LY(2)+ONE)
 C
 C     Enable the window
       GWA(GTWID,1)=.TRUE.

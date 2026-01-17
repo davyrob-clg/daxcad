@@ -104,7 +104,7 @@ C2    and loads the pen with the active colour.
 C
       include 'include/daxcolor.inc'
 C
-      INTEGER*2 KOLOUR,PENCOL
+      INTEGER*4 KOLOUR,PENCOL
       EXTERNAL PEN,PENCOL
 C
 C     ensure colour is displayable
@@ -125,7 +125,7 @@ C
 C2    Subroutine SETDRW sets the draw colour to KOLOUR
 C2    and loads the pen with the current draw colour.
 C
-      INTEGER*2 KOLOUR,PENCOL
+      INTEGER*4 KOLOUR,PENCOL
       EXTERNAL PEN,PENCOL
 C
 C     set current draw colour
@@ -148,7 +148,7 @@ C2    and loads the pen with the current erase colour.
 C
       include 'include/daxcolor.inc'
 C
-      INTEGER*2 KOLOUR,PENCOL,PENC
+      INTEGER*4 KOLOUR,PENCOL,PENC
       EXTERNAL PEN,PENCOL
 C
 C     ensure colour is displayable
@@ -175,7 +175,7 @@ C2    and loads the pen with the current fill colour.
 C
       include 'include/daxcolor.inc'
 C
-      INTEGER*2 KOLOUR,PENCOL,PENC
+      INTEGER*4 KOLOUR,PENCOL,PENC
       EXTERNAL PEN,PENCOL
 C
 C     ensure colour is displayable

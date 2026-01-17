@@ -20,8 +20,10 @@ C2    This include file contains all necessary declarations
 C2    for the full support of colour attributes within the
 C2    DAXCAD system.
 C
+      
       INTEGER*4 COLIRG,COLDRG,COLBAK,COLFOR,COLFIL,COLDRW
-      INTEGER*4 COLERS,COLPEN
+      INTEGER*4 COLERS,COLPEN 
+      
       INTEGER*4 COLOR_MAP_SIZE
       PARAMETER (COLOR_MAP_SIZE=16)
       INTEGER*4 COLOR_MAP(0:COLOR_MAP_SIZE-1)

@@ -9,6 +9,8 @@
 
 */
 
+#ifndef GPRX_EXTERN_H_
+#define GPRX_EXTERN_H_
 
 extern int *RasterOpTable[];
 
@@ -59,7 +61,7 @@ extern Screen screen;
 
 extern GprFontStruct  *GprFonts[];            /* list of pointers */
 
-GprBitmap *GprEnvSaved;        /* environment variable pointer */
+extern GprBitmap *GprEnvSaved;        /* environment variable pointer */
 
 extern XSizeHints InitialWindowHints;
 
@@ -79,3 +81,4 @@ extern int GprWhitePixel;            /* Gpr white and black pixels */
 extern int GprBlackPixel;
 
 /*extern int TrueColor;*/
+#endif // GPRX_EXTERN_H_

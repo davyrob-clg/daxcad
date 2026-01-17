@@ -46,7 +46,7 @@ C
 C
       REAL X1,Y1,X2,Y2,X3,Y3,XC,YC,R,SANG,EANG
 C
-      INTEGER TMEN,TCELL
+      INTEGER*4 TMEN,TCELL
       INTEGER*2 P,ENT
 C
       LOGICAL OK, CVERFY
@@ -616,7 +616,7 @@ C
       include   'include/vntable.inc'
 C                                
       INTEGER*4 JMAP(9)
-      INTEGER*4 I
+      INTEGER*4 I, TMEN, TCELL
       INTEGER*4 NLEN,OPHPNT(3),OPVPNT(3),MNUM,J
       REAL TTXTH
       DOUBLE PRECISION DTEMP
@@ -628,6 +628,8 @@ C
 C
       DATA (JMAP(I),I=1,9)/3,6,9,2,5,8,1,4,7/
 C
+      TMEN=MEN
+      TCELL=CELLN
 C     store dictionary pointers for justifications
 C     horizontals first
       OPHPNT(1)=155

@@ -1832,7 +1832,7 @@ C     default cursor size.
 C     set default file type to drawing
       FILTYP='DRAWING'
 C     set software revision level
-      ROOTRV= 4.01
+      ROOTRV= 5.1
 C     set drawing revision level
       DRGREV=1.00
 C     set basic drawing parameters to default conditions

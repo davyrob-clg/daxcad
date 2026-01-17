@@ -1899,7 +1899,7 @@ C         get the ne point
           CALL MNLPTS()
           CALL FINDP0(192,X,Y,OPTION,QUIT)
           IF(OPTION.OR.QUIT) GOTO 200
-          CALL DCROSS(X,Y,.FALSE.)
+          CALL DCROSS(X,Y)
           CALL MNUPTS()
           CALL CHGE20(ACCEPT,CANCEL,QUIT,VERB,OPTION)
           CALL ECROSS(RDBUFF(1),RDBUFF(2))
@@ -2091,8 +2091,8 @@ C
       include 'include/curwin.inc'
       include 'include/menun.inc'
  
-      REAL X,Y,C
-      INTEGER*4 TMEN,TCELL
+      REAL X,Y
+      INTEGER*4 TMEN,TCELL,C
       LOGICAL CANCEL,ACCEPT,QUIT,VERB,OPTION
  
       VERB=.FALSE.
@@ -3906,7 +3906,7 @@ C
       include 'include/ndata.inc'
       include 'include/masti.inc'
 C
-      INTEGER CP,C,TMEN,TCELL,ICHAR
+      INTEGER*4 CP,C,TMEN,TCELL,ICHAR
 C
       REAL X,Y
 C

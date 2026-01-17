@@ -944,7 +944,7 @@ C
       INTEGER*4 FORE,BACK
       INTEGER*2 NUM,CFNTID,VTFONT
       INTEGER*2 XP1,YP1,XP2,YP2,WINDOW(4)
-      INTEGER*2 CURPEN
+      INTEGER*4 CURPEN
       LOGICAL ACTIVE
       CHARACTER*(*) STRING
 C
@@ -1027,7 +1027,7 @@ C
       include 'include/daxcolor.inc'
 C
       INTEGER*2 XP1,YP1,XP2,YP2,NUM
-      INTEGER*2 CURPEN
+      INTEGER*4 CURPEN
 C
 C     border height in pixels
 C     draw the border
@@ -1678,7 +1678,7 @@ C
       include   'include/daxcolor.inc'
 C
       INTEGER*2 XP1,YP1,XP2,YP2,NUM
-      INTEGER*2 CURPEN
+      INTEGER*4 CURPEN
       CHARACTER*400 STRING
       LOGICAL BACK,OK
 C

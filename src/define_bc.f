@@ -297,9 +297,9 @@ C
       include 'include/entity.inc'
       include 'include/ndata.inc'
 C
-      CHARACTER*80 TBUFF,ANS*1,C*1,ENTRY*20
+      CHARACTER*80 TBUFF,ANS*1,ENTRY*20
       REAL X,Y,WDTH,HGHT,SLNT,ANGLE
-      INTEGER*4 DNUM
+      INTEGER*4 DNUM,C
       INTEGER*2 TMIP1,ENTYPE,JST,NLEN2,LNGTH
       LOGICAL YESOK,OK,CHTEXT,OUTR
 C
@@ -2600,7 +2600,7 @@ C
       include 'include/ndata.inc'
       include 'include/masti.inc'
 C
-      INTEGER CP,C,TMEN,TCELL,ICHAR
+      INTEGER*4 CP,C,TMEN,TCELL,ICHAR
 C
       REAL X,Y
 C
@@ -3181,9 +3181,9 @@ C
       include 'include/menug.inc'
       include 'include/menun.inc'
 C
-      CHARACTER*80 TBUFF,ANS*1,C*1,ENTRY*20
+      CHARACTER*80 TBUFF,ANS*1,ENTRY*20
       REAL X,Y
-      INTEGER*4 DNUM
+      INTEGER*4 DNUM,C
 C
 10    CONTINUE
       DNUM=553

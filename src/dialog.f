@@ -73,6 +73,7 @@ C
       INTEGER*4 I,J,COL,CURBM,ELEM
       INTEGER*2 II2
       LOGICAL REPAINT
+      LOGICAL OK
 
 C
 C     if repainting is in progress then cannot erase
@@ -127,7 +128,7 @@ C         set current dialog box
           ST = 0
           GOTO 999
       ENDIF
-      CALL DIAG_ALLOCATE(DIANUM,ST)
+      CALL DIAG_ALLOCATE(DIANUM,OK)
 C     set location and size of portion of main bitmap to be saved
       WINDOW(1) = DBOX(1)
       WINDOW(2) = DBOX(2)

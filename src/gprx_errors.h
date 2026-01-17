@@ -8,6 +8,9 @@
 
 */
 
+#ifndef GPRX_ERRORS_H_
+#define GPRX_ERRORS_H_
+
 #define GPR_ColorOutOfRange             1       /* color index not in range */
 #define GPR_Size                        2       /* Bitmap is out of bounds  */
 #define GPR_Planes                      3       /* PLanes are out of bounds */
@@ -37,4 +40,4 @@
 #define GPR_ColormapLoaded             27       /* GPRX colormap allready loaded */
 
 
-
+#endif // GPRX_ERRORS_H_

@@ -21,7 +21,8 @@ C TXFONT is the text after the colon  in the FONT menu cell ie font:txclr
 C TXTHK is the text after the colon  in the text menu cell ie text:txclr
 
 
-      INTEGER*2      COLOUR,LAYER,THICK,SPARE,FONT,STATUS
+      INTEGER*4 COLOUR
+      INTEGER*2      LAYER,THICK,SPARE,FONT,STATUS
       CHARACTER*20   TXCLR, TXFONT, TXTHK
       COMMON /STYLE/ COLOUR,LAYER,THICK,SPARE,FONT,STATUS
       COMMON /TSTYLE/ TXCLR, TXFONT, TXTHK

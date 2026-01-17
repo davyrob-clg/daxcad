@@ -1901,7 +1901,7 @@ C
 C     is the hit in the graphics area?
       SX=APX
       SY=APY
-      CALL WRKHIT(SX,SY,WOK)
+      CALL WRKHIT(REAL(SX),REAL(SY),WOK)
 C
       IF ( CURVIS ) THEN
 C        erase the old cursor
