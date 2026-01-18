@@ -2,14 +2,12 @@
  *
  *        Filename    : gprx.c
  *
- *        Copyright : Practical Technology Limited  
+ *        Copyright : Practical Technology Limited
  *
  *        Main routines for GPRX Library.
  *
  *
-*/
-
-
+ */
 
 #include <stdio.h>
 #include <errno.h>
@@ -49,14 +47,13 @@ INT ValidDesc();
 
 /*
 
-   Error codes. Not the same as Apollo GPR 
+   Error codes. Not the same as Apollo GPR
 
 */
 
-INT
-    gpralloccolor_(R, B, G, Pixel)
+INT gpralloccolor_(R, B, G, Pixel)
 
-        int32_t *R;
+int32_t *R;
 int32_t *G;
 int32_t *B;
 int32_t *Pixel;
@@ -126,21 +123,21 @@ INT testx_()
 INT SetLocalDrawable()
 
 /* Description   :- Sets the drawable variables for local use
-       * 
-       * 
-       *
-       * Return status :- Nothing assume all ok
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *
+ *
+ *
+ * Return status :- Nothing assume all ok
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 {
 
@@ -180,28 +177,27 @@ INT SetLocalDrawable()
 
 */
 
-INT
-    AllocateBitmap(Size, HiPlane, ScreenMapped, BitmapDesc)
+INT AllocateBitmap(Size, HiPlane, ScreenMapped, BitmapDesc)
 
-    /* Description   :- Allocates a bitmap and/or an onscreen window.
-       *                  This will malloc some area of memory 
-       *                  for a the bitmap. Declare GC and Attributes based 
-       *                  on pre definewd constants.
-       *
-       * Return status :- All error codes defined below. A return status of 0
-       *                  indicates success.
-       *   
-       *                  
-       * Notes         :- Called by gpr_$init and gpr_allocate_bitmap etc.
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Allocates a bitmap and/or an onscreen window.
+ *                  This will malloc some area of memory
+ *                  for a the bitmap. Declare GC and Attributes based
+ *                  on pre definewd constants.
+ *
+ * Return status :- All error codes defined below. A return status of 0
+ *                  indicates success.
+ *
+ *
+ * Notes         :- Called by gpr_$init and gpr_allocate_bitmap etc.
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprBitmapSize Size;    /*  <i>  Size of bitmap to be defined */
+GprBitmapSize Size;        /*  <i>  Size of bitmap to be defined */
 GprPlanes HiPlane;         /*  <i>  Depth of window */
 int ScreenMapped;          /*  <i>  Indicates whether hidden or not */
 GprBitmapDesc *BitmapDesc; /*  <o>  ID of bitmap to be used */
@@ -510,11 +506,11 @@ GprBitmapDesc *BitmapDesc; /*  <o>  ID of bitmap to be used */
 
 void
     GPR_$OPEN_X_DISPLAY(XDisplayName, st)
-    /* Description   :- Opens X display for use by GPR. Can be 
-       *                  network based.
-       * Return status :- st = 0 for success
-       * Notes         :- 
-       */
+    /* Description   :- Opens X display for use by GPR. Can be
+     *                  network based.
+     * Return status :- st = 0 for success
+     * Notes         :-
+     */
     char *XDisplayName; /*  <i> Display name */
 GprStatus *st;          /*  <o> status */
 {
@@ -576,21 +572,21 @@ void
     GPR_$SET_AUTO_REFRESH(Auto, st)
 
     /* Description   :- Set the auto refresh of the current displayable
-       *                  bitmap. Only main memory displayable window bitmaps
-       *                  can be displayed.
-       *
-       * Return status :- The current bitmap is not displayable
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  bitmap. Only main memory displayable window bitmaps
+     *                  can be displayed.
+     *
+     * Return status :- The current bitmap is not displayable
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     LOGICAL *Auto; /*  <i>  Logical to indicate whether to auto refresh */
 GprStatus *st;     /*  <o>  return */
@@ -690,21 +686,21 @@ void
     KillAutoRefresh(Desc)
 
     /* Description   :- This routine is internal to GPRXLIB. It kills the auto refrsh bitmap
-       * 
-       * 
-       *
-       * Return status :- The status from gpr_deallocate_bitmap
-       *                  
-       *   
-       *                  
-       * Notes         :- This routine is quite simpple as it uses existing code.
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- The status from gpr_deallocate_bitmap
+     *
+     *
+     *
+     * Notes         :- This routine is quite simpple as it uses existing code.
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprBitmapDesc Desc; /*	<i>	The descripter for the  window concerend */
 
@@ -732,21 +728,21 @@ void
     GPR_$SET_BITMAP(Desc, st)
 
     /* Description   :- Sets X current drawbles and graphics context
-       * 
-       * 
-       *
-       * Return status :- st = 0 for success
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- st = 0 for success
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprBitmapDesc *Desc; /* <i>  Bitmap descripter from gpr */
 GprStatus *st;           /* <o>  return status */
@@ -772,29 +768,28 @@ GprStatus *st;           /* <o>  return status */
 
 */
 
-INT
-    GPR_$LINE(X, Y, st)
+INT GPR_$LINE(X, Y, st)
 
-    /* Description   :- This is the routine to draw line from the current GPR
-       *                  position to the specified pos
-       * 
-       *
-       * Return status :- St codes below. 0 for succcess
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- This is the routine to draw line from the current GPR
+ *                  position to the specified pos
+ *
+ *
+ * Return status :- St codes below. 0 for succcess
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    Gprcoord *X; /*  <i> X coordinate */
-Gprcoord *Y;     /*  <i> Y coordinate */
-GprStatus *st;   /*  <o> status */
+Gprcoord *X;   /*  <i> X coordinate */
+Gprcoord *Y;   /*  <i> Y coordinate */
+GprStatus *st; /*  <o> status */
 
 {
 
@@ -822,30 +817,29 @@ GprStatus *st;   /*  <o> status */
 ===========================================================================================
 
 */
-INT
-    GPR_$POINT(X, Y, st)
+INT GPR_$POINT(X, Y, st)
 
-    /* Description   :- This is the routine to draw a PIXEL point a destination
-       *                  It updates current bitmap position
-       * 
-       *
-       * Return status :- St codes below. 0 for succcess
-       *                  
-       *   
-       *                  
-       * Notes         :- EXTENSION: Due to problems with 6000 X server
-       *                             it seems impossible to draw points with a move
-       *                             and line command into a HIDDEN bitmap. Thus
-       *                             gpr_$point is used. 
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- This is the routine to draw a PIXEL point a destination
+ *                  It updates current bitmap position
+ *
+ *
+ * Return status :- St codes below. 0 for succcess
+ *
+ *
+ *
+ * Notes         :- EXTENSION: Due to problems with 6000 X server
+ *                             it seems impossible to draw points with a move
+ *                             and line command into a HIDDEN bitmap. Thus
+ *                             gpr_$point is used.
+ *
+ *
+ *
+ *
+ */
 
-    Gprcoord *X; /*  <i> X coordinate */
-Gprcoord *Y;     /*  <i> Y coordinate */
-GprStatus *st;   /*  <o> status */
+Gprcoord *X;   /*  <i> X coordinate */
+Gprcoord *Y;   /*  <i> Y coordinate */
+GprStatus *st; /*  <o> status */
 
 {
 
@@ -871,29 +865,28 @@ GprStatus *st;   /*  <o> status */
 
 */
 
-INT
-    GPR_$MOVE(X, Y, st)
+INT GPR_$MOVE(X, Y, st)
 
-    /* Description   :- This moves the current postion within the bitmap
-       *                  for GR ops
-       * 
-       *
-       * Return status :- St codes below. 0 for succcess
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- This moves the current postion within the bitmap
+ *                  for GR ops
+ *
+ *
+ * Return status :- St codes below. 0 for succcess
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    Gprcoord *X; /*  <i> X coordinate */
-Gprcoord *Y;     /*  <i> Y coordinate */
-GprStatus *st;   /*  <o> status */
+Gprcoord *X;   /*  <i> X coordinate */
+Gprcoord *Y;   /*  <i> Y coordinate */
+GprStatus *st; /*  <o> status */
 
 {
 
@@ -913,21 +906,21 @@ void
     GPR_$ALLOCATE_BITMAP(Size, HiPlane, AttributeBlock, BitmapDesc, st)
 
     /* Description   :- Allocates a bitmap in X. This will be done as a hidden
-       *                  bitmap descripter.
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  void
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  bitmap descripter.
+     *
+     *
+     * Return status :-
+     *
+     *
+     *                  void
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprBitmapSize Size;       /*  <i>  Size of bitmap to be defined */
 GprPlanes *HiPlane;           /*  <i>  Depth of window */
@@ -947,21 +940,21 @@ GprStatus *st;                /*  <o>  Return status */
 GPR_$INIT(OpMode, Unit, Size, HiPlane, BitmapDesc, st)
 
 /* Description   :- Allocates a bitmap in X. This will be done as a hidden
-       *                  bitmap descripter.
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *                  bitmap descripter.
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 GprDisplayMode *OpMode;
 short *Unit;
@@ -989,21 +982,21 @@ GprStatus *st;             /*  <o>  Return status */
 GPR_$PIXEL_BLT(SourceDesc, SourceWindow, DestOrigin, st)
 
 /* Description   :- Performs a pixel block transfer from
-       *                  the source bitmap to the current bitmap
-       *                  
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- We use XCopyArea for this. Thus we must
-       *                  have each bitmap as the same number of 
-       *                  planes. Use bit_blt for indivual plane
-       *                  copies
-       *                  
-       *                  
-       *
-       */
+ *                  the source bitmap to the current bitmap
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :- We use XCopyArea for this. Thus we must
+ *                  have each bitmap as the same number of
+ *                  planes. Use bit_blt for indivual plane
+ *                  copies
+ *
+ *
+ *
+ */
 
 GprBitmapDesc *SourceDesc; /*  <i>  ID of bitmap to be used as the source */
 GprWindow SourceWindow;    /*  <i>  Size of window of source */
@@ -1058,22 +1051,22 @@ void
     GPR_$DEALLOCATE_BITMAP(Desc, st)
 
     /* Description   :- Frees up the bitmap descripter. If a pixmap then
-       *                  simply frees it with it GC . If a window then frees 
-       *                  GC and deletes the window. Checks for auto refresh 
-       *                  In the window and frees that one as well
-       *
-       * Return status :- Checks for valid desc
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  simply frees it with it GC . If a window then frees
+     *                  GC and deletes the window. Checks for auto refresh
+     *                  In the window and frees that one as well
+     *
+     * Return status :- Checks for valid desc
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprBitmapDesc *Desc; /* <i>  The descripter */
 GprStatus *st;
@@ -1103,21 +1096,21 @@ void
     GPR_$DEALLOCATE_BITMAP_X(Desc, st)
 
     /* Description   :- Frees up the bitmap descripter. If a pixmap then
-       *                  simply frees it with it GC . If a window then frees 
-       *                  GC and deletes the window.
-       *
-       * Return status :- Checks for valid desc
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  simply frees it with it GC . If a window then frees
+     *                  GC and deletes the window.
+     *
+     * Return status :- Checks for valid desc
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprBitmapDesc *Desc;
 GprStatus *st;
@@ -1152,27 +1145,26 @@ GprStatus *st;
     Bitmaps[*Desc] = 0;
 }
 
-INT
-    ValidDesc(Desc)
+INT ValidDesc(Desc)
 
-    /* Description   :- returns True if the Bitmaps descripter has been defined 
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- returns True if the Bitmaps descripter has been defined
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprBitmapDesc Desc; /*  <i> Bitmap descripter */
+GprBitmapDesc Desc; /*  <i> Bitmap descripter */
 
 {
     if (Desc < 0 || Desc >= MAXBITMAPS)
@@ -1190,9 +1182,9 @@ INT
 
 GPR_$TERMINATE(Dummy, st)
 /* Description   :- Terminates all windows and shuts down display
-       * Return status :- None.
-       * Notes         :- 
-       */
+ * Return status :- None.
+ * Notes         :-
+ */
 int *Dummy;    /*  <i> Dummy for leaving frame */
 GprStatus *st; /*  <o> GprStatus shpuld be ok */
 {
@@ -1256,21 +1248,21 @@ void
     GPR_$ENABLE_INPUT(EventType, KeySet, st)
 
     /* Description   :- Enables different types of events to be
-       *                  enabled. Each GPR type event is mapped
-       *                  onto an equvalent x event.
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- Other X events will be enabled as extensions
-       *                  to the GPR events
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  enabled. Each GPR type event is mapped
+     *                  onto an equvalent x event.
+     *
+     * Return status :-
+     *
+     *
+     *
+     * Notes         :- Other X events will be enabled as extensions
+     *                  to the GPR events
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprEventType *EventType; /*  <i> Event ype to be enabled */
 GprKeyset KeySet;            /*  <i> Keyset not used here */
@@ -1337,21 +1329,21 @@ GprStatus *st;               /*  <o> GprStatus return */
 GPR_$DISABLE_INPUT(EventType, st)
 
 /* Description   :- Enables different types of events to be
-       *                  disabled. Each GPR type event is mapped
-       *                  onto an equvalent x event.
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- Other X events will be enabled as extensions
-       *                  to the GPR events
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *                  disabled. Each GPR type event is mapped
+ *                  onto an equvalent x event.
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :- Other X events will be enabled as extensions
+ *                  to the GPR events
+ *
+ *
+ *
+ *
+ *
+ */
 
 GprEventType *EventType; /*  <i> Event ype to be enabled */
 GprStatus *st;           /*  <o> GprStatus return */
@@ -1414,30 +1406,29 @@ GprStatus *st;           /*  <o> GprStatus return */
     Bitmaps[CurrentBitmapId]->eventmask = EventMask;
 }
 
-INT
-    GPR_$EVENT_WAIT(EventType, EventData, ScrPos, st)
+INT GPR_$EVENT_WAIT(EventType, EventData, ScrPos, st)
 
-    /* Description   :-  Waits for an event to occur. Return
-       *                   Gpr event map as best it can ( Calles X version )
-       *                 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :-This function should return a value to 
-       *                 indicate that the window is unobscured.
-       *                 Since X takes care of obscured windows we    
-       *                 will return a value of true. This is F77 
-       *                 true
-       *                  
-       *
-       */
+/* Description   :-  Waits for an event to occur. Return
+ *                   Gpr event map as best it can ( Calles X version )
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-This function should return a value to
+ *                 indicate that the window is unobscured.
+ *                 Since X takes care of obscured windows we
+ *                 will return a value of true. This is F77
+ *                 true
+ *
+ *
+ */
 
-    GprEventType *EventType; /*  <o> Output event type */
-char *EventData;             /*  <o> Output character data */
-GprCursor ScrPos;            /*  <o> Current cursor position */
-GprStatus *st;               /*  <o> Return state */
+GprEventType *EventType; /*  <o> Output event type */
+char *EventData;         /*  <o> Output character data */
+GprCursor ScrPos;        /*  <o> Current cursor position */
+GprStatus *st;           /*  <o> Return state */
 
 {
 
@@ -1451,30 +1442,29 @@ GprStatus *st;               /*  <o> Return state */
     return F77true; /* window is marked unobscured */
 }
 
-INT
-    GPR_$EVENT_WAIT_X(EventType, EventData, ScrPos, st)
+INT GPR_$EVENT_WAIT_X(EventType, EventData, ScrPos, st)
 
-    /* Description   :-  Waits for an event to occur. Return
-       *                   Gpr event map as best it can
-       *                 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :-This function should return a value to 
-       *                 indicate that the window is unobscured.
-       *                 Since X takes care of obscured windows we    
-       *                 will return a value of true. This is F77 
-       *                 true
-       *                  
-       *
-       */
+/* Description   :-  Waits for an event to occur. Return
+ *                   Gpr event map as best it can
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-This function should return a value to
+ *                 indicate that the window is unobscured.
+ *                 Since X takes care of obscured windows we
+ *                 will return a value of true. This is F77
+ *                 true
+ *
+ *
+ */
 
-    GprEventType *EventType; /*  <o> Output event type */
-int32_t *EventData;          /*  <o> Output character data */
-GprCursor ScrPos;            /*  <o> Current cursor position */
-GprStatus *st;               /*  <o> Return state */
+GprEventType *EventType; /*  <o> Output event type */
+int32_t *EventData;      /*  <o> Output character data */
+GprCursor ScrPos;        /*  <o> Current cursor position */
+GprStatus *st;           /*  <o> Return state */
 
 {
 
@@ -1719,21 +1709,21 @@ GprStatus *st;               /*  <o> Return state */
 IsKeyLocked(Key)
 
     /* Description   :- Checks a a special key lock mode to make sure
-       *                  that control characters and shifted characters are
-       *                  returned.
-       *
-       * Return status :- True if that key is locked
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  that control characters and shifted characters are
+     *                  returned.
+     *
+     * Return status :- True if that key is locked
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     int Key; /*  <i> The GPRX key code number */
 
@@ -1745,21 +1735,21 @@ IsKeyLocked(Key)
 SetsKeyLocked(Key, Pressed)
 
     /* Description   :- Locks up a special key mixed modes are possible
-       *                  
-       *                  returned.
-       *
-       * Return status :- True if that key is locked
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *                  returned.
+     *
+     * Return status :- True if that key is locked
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     int Key; /*  <i> The X key code number */
 int Pressed; /*  <i> Indicates true for pressed and false for released */
@@ -1821,30 +1811,29 @@ int Pressed; /*  <i> Indicates true for pressed and false for released */
     }
 }
 
-INT
-    GPR_$COND_EVENT_WAIT(EventType, EventData, ScrPos, st)
+INT GPR_$COND_EVENT_WAIT(EventType, EventData, ScrPos, st)
 
-    /* Description   :-  Checks for for an event to occur. Return immediatly
-       *                   Gpr event map as best it can ( Calles X version )
-       *                 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :-This function should return a value to 
-       *                 indicate that the window is unobscured.
-       *                 Since X takes care of obscured windows we    
-       *                 will return a value of true. This is F77 
-       *                 true
-       *                  
-       *
-       */
+/* Description   :-  Checks for for an event to occur. Return immediatly
+ *                   Gpr event map as best it can ( Calles X version )
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-This function should return a value to
+ *                 indicate that the window is unobscured.
+ *                 Since X takes care of obscured windows we
+ *                 will return a value of true. This is F77
+ *                 true
+ *
+ *
+ */
 
-    GprEventType *EventType; /*  <o> Output event type */
-char *EventData;             /*  <o> Output character data */
-GprCursor ScrPos;            /*  <o> Current cursor position */
-GprStatus *st;               /*  <o> Return state */
+GprEventType *EventType; /*  <o> Output event type */
+char *EventData;         /*  <o> Output character data */
+GprCursor ScrPos;        /*  <o> Current cursor position */
+GprStatus *st;           /*  <o> Return state */
 
 {
 
@@ -1859,30 +1848,29 @@ GprStatus *st;               /*  <o> Return state */
     return F77true; /* window is marked unobscured */
 }
 
-INT
-    GPR_$COND_EVENT_WAIT_X(EventType, EventData, ScrPos, st)
+INT GPR_$COND_EVENT_WAIT_X(EventType, EventData, ScrPos, st)
 
-    /* Description   :-  Checks for for an event to occur. Return immediatly
-       *                   Gpr event map as best it can.
-       *                 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :-This function should return a value to 
-       *                 indicate that the window is unobscured.
-       *                 Since X takes care of obscured windows we    
-       *                 will return a value of true. This is F77 
-       *                 true
-       *                  
-       *
-       */
+/* Description   :-  Checks for for an event to occur. Return immediatly
+ *                   Gpr event map as best it can.
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-This function should return a value to
+ *                 indicate that the window is unobscured.
+ *                 Since X takes care of obscured windows we
+ *                 will return a value of true. This is F77
+ *                 true
+ *
+ *
+ */
 
-    GprEventType *EventType; /*  <o> Output event type */
-int32_t *EventData;          /*  <o> Output character data */
-GprCursor ScrPos;            /*  <o> Current cursor position */
-GprStatus *st;               /*  <o> Return state */
+GprEventType *EventType; /*  <o> Output event type */
+int32_t *EventData;      /*  <o> Output character data */
+GprCursor ScrPos;        /*  <o> Current cursor position */
+GprStatus *st;           /*  <o> Return state */
 
 {
 
@@ -1898,28 +1886,27 @@ GprStatus *st;               /*  <o> Return state */
         *EventType = gpr_no_event;
 }
 
-INT
-    GPR_$CLEAR(Index, st)
+INT GPR_$CLEAR(Index, st)
 
-    /* Description   :- Sets all pixels in the current bitmap to 
-       *                  the given color index number.
-       *                 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :-This routine will TEMPORARILY set the GC for
-       *                 the bitmap and reset after clearing.
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets all pixels in the current bitmap to
+ *                  the given color index number.
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-This routine will TEMPORARILY set the GC for
+ *                 the bitmap and reset after clearing.
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprColor *Index; /*  <i> Pixel map value to set all colormap */
-GprStatus *st;       /*  <o> Return status */
+GprColor *Index; /*  <i> Pixel map value to set all colormap */
+GprStatus *st;   /*  <o> Return status */
 
 {
 
@@ -1967,28 +1954,27 @@ GprStatus *st;       /*  <o> Return status */
     TOOLPEN(&temp);
 }
 
-INT
-    GPR_$SET_TEXT_VALUE(Index, st)
+INT GPR_$SET_TEXT_VALUE(Index, st)
 
-    /* Description   :- Sets current global text drawing colour
-       *                  on the bitmap to the specified index value
-       *                 
-       *
-       * Return status :- Only range control
-       *                  
-       *   
-       *                  
-       * Notes         :-
-       *                 
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets current global text drawing colour
+ *                  on the bitmap to the specified index value
+ *
+ *
+ * Return status :- Only range control
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprColor *Index; /*  <i> Pixel map value to set all colormap */
-GprStatus *st;       /*  <o> Return status */
+GprColor *Index; /*  <i> Pixel map value to set all colormap */
+GprStatus *st;   /*  <o> Return status */
 
 {
     XGCValues gv;
@@ -2018,22 +2004,22 @@ GprStatus *st;       /*  <o> Return status */
 
 GPR_$SET_TEXT_BACKGROUND_VALUE(Index, st)
 
-/* Description   :- Sets the background colour for text. 
-       *                  
-       * 
-       *
-       * Return status :- NONE
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets the background colour for text.
+ *
+ *
+ *
+ * Return status :- NONE
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 GprColor *Index;
 GprStatus *st;
@@ -2067,28 +2053,27 @@ GprStatus *st;
     XSetBackground(Xdisplay, Bitmaps[CurrentBitmapId]->XgcText, pixel);
 }
 
-INT
-    GPR_$SET_FILL_VALUE(Index, st)
+INT GPR_$SET_FILL_VALUE(Index, st)
 
-    /* Description   :- Sets current global fill drawing colour
-       *                  on the bitmap to the specified index value
-       *                 
-       *
-       * Return status :- Only range control
-       *                  
-       *   
-       *                  
-       * Notes         :-
-       *                 
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets current global fill drawing colour
+ *                  on the bitmap to the specified index value
+ *
+ *
+ * Return status :- Only range control
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprColor *Index; /*  <i> Pixel map value to set all colormap */
-GprStatus *st;       /*  <o> Return status */
+GprColor *Index; /*  <i> Pixel map value to set all colormap */
+GprStatus *st;   /*  <o> Return status */
 
 {
 
@@ -2119,28 +2104,27 @@ GprStatus *st;       /*  <o> Return status */
     Bitmaps[CurrentBitmapId]->fill_f = *Index; /* save color */
 }
 
-INT
-    GPR_$SET_FILL_BACKGROUND_VALUE(Index, st)
+INT GPR_$SET_FILL_BACKGROUND_VALUE(Index, st)
 
-    /* Description   :- Sets current global drawing background colour
-       *                  on the bitmap to the specified index value
-       *                 
-       *
-       * Return status :- Only range control
-       *                  
-       *   
-       *                  
-       * Notes         :-
-       *                 
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets current global drawing background colour
+ *                  on the bitmap to the specified index value
+ *
+ *
+ * Return status :- Only range control
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprColor *Index; /*  <i> Pixel map value to set all colormap */
-GprStatus *st;       /*  <o> Return status */
+GprColor *Index; /*  <i> Pixel map value to set all colormap */
+GprStatus *st;   /*  <o> Return status */
 
 {
 
@@ -2171,28 +2155,27 @@ GprStatus *st;       /*  <o> Return status */
     Bitmaps[CurrentBitmapId]->fill_b = *Index; /* save color */
 }
 
-INT
-    GPR_$SET_DRAW_VALUE(Index, st)
+INT GPR_$SET_DRAW_VALUE(Index, st)
 
-    /* Description   :- Sets current global drawing color
-       *                  on the bitmap to the specified index value
-       *                 
-       *
-       * Return status :- Only range control
-       *                  
-       *   
-       *                  
-       * Notes         :-
-       *                 
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets current global drawing color
+ *                  on the bitmap to the specified index value
+ *
+ *
+ * Return status :- Only range control
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprColor *Index; /*  <i> Pixel map value to set all colormap */
-GprStatus *st;       /*  <o> Return status */
+GprColor *Index; /*  <i> Pixel map value to set all colormap */
+GprStatus *st;   /*  <o> Return status */
 
 {
 
@@ -2226,20 +2209,20 @@ void
     GPR_$SET_WINDOW_ID(Id, st)
 
     /* Description   :- Sets the input descripter for the current
-       *                  bitmaps window. Cannot be a pixmap
-       *                 
-       *
-       * Return status :- IF not pixmap then error generated
-       *                  
-       *   
-       *                  
-       * Notes         :-Exactly maps the Gpr action
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  bitmaps window. Cannot be a pixmap
+     *
+     *
+     * Return status :- IF not pixmap then error generated
+     *
+     *
+     *
+     * Notes         :-Exactly maps the Gpr action
+     *
+     *
+     *
+     *
+     *
+     */
 
     char *Id;
 GprStatus *st;
@@ -2257,28 +2240,27 @@ GprStatus *st;
     GprWindowId[CurrentBitmapId].windowid = *Id; /* indicate the character */
 }
 
-INT
-    GPR_$SET_WINDOW_START(Pos, st)
+INT GPR_$SET_WINDOW_START(Pos, st)
 
-    /* Description   :- Extension to gpr to allow window to be defined
-       *                  at a particular origin.
-       * 
-       *
-       * Return status :- Coordinate could be out of range 
-       *                  
-       *   
-       *                  
-       * Notes         :- This routine will allow actual window postions to be 
-       *                  specified. This is a modal command and is called before
-       *                  each gpr_$init.
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Extension to gpr to allow window to be defined
+ *                  at a particular origin.
+ *
+ *
+ * Return status :- Coordinate could be out of range
+ *
+ *
+ *
+ * Notes         :- This routine will allow actual window postions to be
+ *                  specified. This is a modal command and is called before
+ *                  each gpr_$init.
+ *
+ *
+ *
+ *
+ */
 
-    GprOrigin Pos; /* <i>  Coordinate position of window */
-GprStatus *st;     /* <o>  return status */
+GprOrigin Pos; /* <i>  Coordinate position of window */
+GprStatus *st; /* <o>  return status */
 
 {
 
@@ -2288,27 +2270,26 @@ GprStatus *st;     /* <o>  return status */
     GprWindowOrg[1] = Pos[1];
 }
 
-INT
-    GPR_$SET_LINE_WIDTH(Width, EndStyle, st)
+INT GPR_$SET_LINE_WIDTH(Width, EndStyle, st)
 
-    /* Description   :- (Extension) Sets the line draiwng width in pixels
-       *                  Also allows an end shape to be defined.
-       * 
-       *
-       * Return status :- Style Not recognised.
-       *                  
-       *   
-       *                  
-       * Notes         :- This is a good extension to gpr as it allows lines
-       *                  to be drawn with thickness as well as an end style
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- (Extension) Sets the line draiwng width in pixels
+ *                  Also allows an end shape to be defined.
+ *
+ *
+ * Return status :- Style Not recognised.
+ *
+ *
+ *
+ * Notes         :- This is a good extension to gpr as it allows lines
+ *                  to be drawn with thickness as well as an end style
+ *
+ *
+ *
+ *
+ *
+ */
 
-    int *Width;
+int *Width;
 GprEndStyle *EndStyle;
 GprStatus *st;
 
@@ -2332,29 +2313,28 @@ GprStatus *st;
               &gv);
 }
 
-INT
-    GPR_$SET_LINESTYLE(Style, Scale, st)
+INT GPR_$SET_LINESTYLE(Style, Scale, st)
 
-    /* Description   :- Sets the line-style attribute of current drawable
-       *                  
-       * 
-       *
-       * Return status :- Should be ok any scale is mapped to 1 if outsize a good range.
-       *                  
-       *   
-       *                  
-       * Notes         :- I think this does what GPR does.
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets the line-style attribute of current drawable
+ *
+ *
+ *
+ * Return status :- Should be ok any scale is mapped to 1 if outsize a good range.
+ *
+ *
+ *
+ * Notes         :- I think this does what GPR does.
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    GprLineStyle *Style; /*  <i> Stye of line */
-short *Scale;            /*  <i> scale of pattern */
-GprStatus *st;           /*  <o> return */
+GprLineStyle *Style; /*  <i> Stye of line */
+short *Scale;        /*  <i> scale of pattern */
+GprStatus *st;       /*  <o> return */
 
 {
 
@@ -2403,21 +2383,21 @@ void
     GPR_$SET_RASTER_OP(PlaneId, RasterOp, st)
 
     /* Description   :- Sets the raster op for all GPR ops.
-       * 
-       * 
-       *
-       * Return status :- If planes outwith current limits.
-       *                  
-       *   
-       *                  
-       * Notes         :- This one could set planes individualy but its
-       *                  not going to. We want all planes to be set a once.
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- If planes outwith current limits.
+     *
+     *
+     *
+     * Notes         :- This one could set planes individualy but its
+     *                  not going to. We want all planes to be set a once.
+     *
+     *
+     *
+     *
+     *
+     */
 
     GprPlanes *PlaneId; /*  <i> Plane number ( not used currently ) */
 GprRasterOp *RasterOp;  /*  <i> raster op. Maps directly onto X */
@@ -2463,21 +2443,21 @@ GprStatus *st;
 GPR_$LOAD_FONT_FILE(FontName, Length, FontId, st)
 
 /* Description   :- Loads an X font file.
-       * 
-       * 
-       *
-       * Return status :- Unable to load fonts
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *
+ *
+ *
+ * Return status :- Unable to load fonts
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 char *FontName; /*  <i> The font name. Must ne X name          */
 short *Length;  /*  <i> Length of name                         */
@@ -2492,7 +2472,7 @@ GprStatus *st;  /*  <o> status                                 */
     char *stemp;
     XFontStruct *xfont;
 
-    //printf("size of long %d", sizeof(*st));
+    // printf("size of long %d", sizeof(*st));
 
     *st = 0;
 
@@ -2555,21 +2535,21 @@ void
     GPR_$UNLOAD_FONT_FILE(FontId, st)
 
     /* Description   :- Unloads a previously loaded font file.
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :-
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     short *FontId; /*  <i> fontid. Reference to GPR array         */
 GprStatus *st;     /*  <o> status                                 */
@@ -2608,22 +2588,22 @@ GprStatus *st;     /*  <o> status                                 */
 void
     GPR_$SET_TEXT_FONT(FontId, st)
 
-    /* Description   :- Loads the text font for the current drawble bitmap 
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+    /* Description   :- Loads the text font for the current drawble bitmap
+     *
+     *
+     *
+     * Return status :-
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     short *FontId; /*  <i> fontid. Reference to GPR array         */
 GprStatus *st;     /*  <o> status                                 */
@@ -2669,21 +2649,21 @@ GprStatus *st;     /*  <o> status                                 */
 GPR_$TEXT(String, Length, st)
 
 /* Description   :- Draws text string with current GC values.
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 char *String;  /*  <i> The text string to be drawn */
 short *Length; /*  <i> The length */
@@ -2716,21 +2696,21 @@ GprStatus *st;
 void GPR_$SET_CLIPPING_ACTIVE(ClipIt, st)
 
     /* Description   :- Sets clipping active on the current bitmap
-       * 
-       * 
-       *
-       * Return status :- Allways sets it unless a region has not been defined
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- Allways sets it unless a region has not been defined
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     LOGICAL *ClipIt; /*  <i> indicates whether to clip or not */
 GprStatus *st;
@@ -2809,21 +2789,21 @@ GprStatus *st;
 GPR_$SET_CLIP_WINDOW(ClipWindow, st)
 
 /* Description   :- Defines a clip region for the current bitmap
-       *                  but does not actually set it. It uses set clipping active
-       * 
-       *
-       * Return status :- Window too big;
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *                  but does not actually set it. It uses set clipping active
+ *
+ *
+ * Return status :- Window too big;
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 short ClipWindow[4]; /*  <i> The window size and origin */
 GprStatus *st;
@@ -2871,21 +2851,21 @@ GprStatus *st;
 GPR_$RECTANGLE(Rect, st)
 
 /* Description   :- Draws a filled rectangle of the current color
-       * 
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *
+ *
+ *
+ * Return status :- None
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 short Rect[4]; /*  <i>     The rectange to be filled */
 GprStatus *st; /*  <o>     nothing */
@@ -2919,30 +2899,29 @@ GprStatus *st; /*  <o>     nothing */
     }
 }
 
-INT
-    GPR_$DRAW_BOX(X1, Y1, X2, Y2, st)
+INT GPR_$DRAW_BOX(X1, Y1, X2, Y2, st)
 
-    /* Description   :- Draws a box based on dimension supplied.
-       * 
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Draws a box based on dimension supplied.
+ *
+ *
+ *
+ * Return status :- None
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    Gprcoord *X1; /*  <i> Left edge */
-Gprcoord *Y1;     /*  <i> Top edge */
-Gprcoord *X2;     /*  <i> Right edge */
-Gprcoord *Y2;     /*  <i> Bottom edge */
+Gprcoord *X1; /*  <i> Left edge */
+Gprcoord *Y1; /*  <i> Top edge */
+Gprcoord *X2; /*  <i> Right edge */
+Gprcoord *Y2; /*  <i> Bottom edge */
 GprStatus *st;
 
 {
@@ -2990,21 +2969,21 @@ GprStatus *st;
 void GPR_$MULTILINE(Xarray, Yarray, Npositions, st)
 
     /* Description   :- Draws a seriaes of disconnected lines
-       * 
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- None
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     Gprcoord *Xarray; /* <i>  List of X coords */
 Gprcoord *Yarray;     /* <i>  List of Y coords */
@@ -3045,21 +3024,21 @@ void
     GPR_$POLYLINE(Xarray, Yarray, Npositions, st)
 
     /* Description   :- Draws a seriaes of connected lines
-       * 
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *
+     *
+     *
+     * Return status :- None
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     Gprcoord *Xarray; /* <i>  List of X coords */
 Gprcoord *Yarray;     /* <i>  List of Y coords */
@@ -3104,22 +3083,22 @@ GprStatus *st;
 INT
     GPR_$SET_REFRESH_ENTRY(WindowPaintProc, WindowRefreshEntry, st)
 
-    /* Description   :- Sets up functions that will be called 
-       *                  when refreshing of screen is called.
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+    /* Description   :- Sets up functions that will be called
+     *                  when refreshing of screen is called.
+     *
+     *
+     * Return status :- None
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     int (*WindowPaintProc)(); /* <i>  called when change in visiblity */
 int (*WindowRefreshEntry)();  /* <i>  called when display is aquired Not supported yet */
@@ -3137,27 +3116,26 @@ GprStatus *st;
 
 */
 
-INT
-    GPR_$SET_PLANE_MASK(PlaneMask, st)
+INT GPR_$SET_PLANE_MASK(PlaneMask, st)
 
-    /* Description   :- Sets the plane mask of the current bitmap Nothing will 
-       *                  come of this execpt the routine gpr_$inq_constraints
-       * 
-       *
-       * Return status :- Nothing
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Sets the plane mask of the current bitmap Nothing will
+ *                  come of this execpt the routine gpr_$inq_constraints
+ *
+ *
+ * Return status :- Nothing
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    short *PlaneMask; /*  <i> The mask of whiuch planes to use */
+short *PlaneMask; /*  <i> The mask of whiuch planes to use */
 GprStatus *st;
 
 {
@@ -3173,27 +3151,26 @@ GprStatus *st;
 
 */
 
-INT
-    GPR_$INQ_CONSTRAINTS(ClipWindow, Active, PlaneMask, st)
+INT GPR_$INQ_CONSTRAINTS(ClipWindow, Active, PlaneMask, st)
 
-    /* Description   :- Returns clipping information about current bitmap
-       * 
-       * 
-       *
-       * Return status :- Nothing
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Returns clipping information about current bitmap
+ *
+ *
+ *
+ * Return status :- Nothing
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    short ClipWindow[4];
+short ClipWindow[4];
 LOGICAL *Active;
 short *PlaneMask;
 GprStatus *st;
@@ -3225,21 +3202,21 @@ void
     GPR_$SET_X_CURSOR(CursorPattern, st)
 
     /* Description   :- Defines and draws an X cursor on the screen. The numbers
-       *                  releate to the standard cursor list.
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                  releate to the standard cursor list.
+     *
+     *
+     * Return status :-
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     int *CursorPattern; /*  <i> The X cursor pattern number */
 GprStatus *st;
@@ -3285,24 +3262,24 @@ GprStatus *st;
 GPR_$SET_WAIT_CURSOR(st)
 
 /* Description   :- This routine sets the system wait cursor
-       *                  It does not set it immediatly. You must call 
-       *                  gpr_$set_cursor_active to invoke it 
-       * 
-       *
-       * Return status :- NONE
-       *                  
-       *   
-       *                  
-       * Notes         :- EXTENSION: This will simply set the predined wait style cursor
-       *                             Since X has good cursor facilitues we took advantage of this
-       *                             to edit the cursor use the bitmap program on the file:-
-       *                             GPRX_wait_cursor.h to modify the bits etc. Recompile and you
-       *                             will have a new wait cursor.
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *                  It does not set it immediatly. You must call
+ *                  gpr_$set_cursor_active to invoke it
+ *
+ *
+ * Return status :- NONE
+ *
+ *
+ *
+ * Notes         :- EXTENSION: This will simply set the predined wait style cursor
+ *                             Since X has good cursor facilitues we took advantage of this
+ *                             to edit the cursor use the bitmap program on the file:-
+ *                             GPRX_wait_cursor.h to modify the bits etc. Recompile and you
+ *                             will have a new wait cursor.
+ *
+ *
+ *
+ *
+ */
 
 GprStatus *st;
 
@@ -3312,28 +3289,27 @@ GprStatus *st;
     Bitmaps[CurrentBitmapId]->currentcursor = Bitmaps[CurrentBitmapId]->wait;
 }
 
-INT
-    GPR_$SET_CURSOR_ACTIVE(Active, st)
+INT GPR_$SET_CURSOR_ACTIVE(Active, st)
 
-    /* Description   :- Specifies whether X cursor is displayed 
-       * 
-       * 
-       *
-       * Return status :- None
-       *                  
-       *   
-       *                  
-       * Notes         :- Mimic gpr action. Use gpr_$set_x_cursor to set 
-       *                  X defined cursor fonts.
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Specifies whether X cursor is displayed
+ *
+ *
+ *
+ * Return status :- None
+ *
+ *
+ *
+ * Notes         :- Mimic gpr action. Use gpr_$set_x_cursor to set
+ *                  X defined cursor fonts.
+ *
+ *
+ *
+ *
+ *
+ */
 
-    LOGICAL *Active; /* <i>  Logical assumes that X cursor will be displayed */
-GprStatus *st;       /* <o>  Clear */
+LOGICAL *Active; /* <i>  Logical assumes that X cursor will be displayed */
+GprStatus *st;   /* <o>  Clear */
 
 {
     Cursor curs;
@@ -3367,28 +3343,27 @@ GprStatus *st;       /* <o>  Clear */
 
 */
 
-INT
-    GPR_$START_PGON(X, Y, st)
+INT GPR_$START_PGON(X, Y, st)
 
-    /* Description   :- Stars Gpr polygon list. Also closes any currently open list
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Stars Gpr polygon list. Also closes any currently open list
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    Gprcoord *X; /*  <i>  The starting X coordinate of the polygon */
-Gprcoord *Y;     /*  <i>  The starting Y coordinate of the polygon */
+Gprcoord *X; /*  <i>  The starting X coordinate of the polygon */
+Gprcoord *Y; /*  <i>  The starting Y coordinate of the polygon */
 GprStatus *st;
 
 {
@@ -3432,22 +3407,22 @@ GprStatus *st;
 void
     GPR_$PGON_POLYLINE(X, Y, Npositions, st)
 
-    /* Description   :- Defines a series of line segements fomring part of 
-       *                  a polygon boundary.
-       * 
-       *
-       * Return status :- Maximum number of points is 32768 ?
-       *                  If polygon not started.
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+    /* Description   :- Defines a series of line segements fomring part of
+     *                  a polygon boundary.
+     *
+     *
+     * Return status :- Maximum number of points is 32768 ?
+     *                  If polygon not started.
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     Gprcoord *X;            /*  <i> Pointer to number of points */
 Gprcoord *Y;                /*  <i> Pointer to number of points */
@@ -3489,22 +3464,22 @@ GprStatus *st;
 
 GPR_$CLOSE_FILL_PGON(st)
 
-/* Description   :- Closes and fills polygon 
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Closes and fills polygon
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 GprStatus *st;
 
@@ -3560,21 +3535,21 @@ GprStatus *st;
 INT AllocPoint()
 
 /* Description   :- Allocates a number of points depending on the next
-       *                  word to be used.
-       * 
-       *
-       * Return status :- Nothing
-       *                  
-       *   
-       *                  
-       * Notes         :- Should allocate only the number of poinit defined 
-       *                  in POLYALLOC
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *                  word to be used.
+ *
+ *
+ * Return status :- Nothing
+ *
+ *
+ *
+ * Notes         :- Should allocate only the number of poinit defined
+ *                  in POLYALLOC
+ *
+ *
+ *
+ *
+ *
+ */
 
 {
 
@@ -3588,28 +3563,27 @@ INT AllocPoint()
     }
 }
 
-INT
-    GprWordBoundary(Num, Word)
+INT GprWordBoundary(Num, Word)
 
-    /* Description   :- This routine calculates if the number supplied lies in
-       *                  the range also supplied. eg if the number does then
-       *                  it returns 1 otherwise 0
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- This routine calculates if the number supplied lies in
+ *                  the range also supplied. eg if the number does then
+ *                  it returns 1 otherwise 0
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    int Word; /*  <i>  the word boundary value */
-int Num;      /*  <i   the number supplied */
+int Word; /*  <i>  the word boundary value */
+int Num;  /*  <i   the number supplied */
 
 {
 
@@ -3619,21 +3593,21 @@ int Num;      /*  <i   the number supplied */
 void GPR_$INQ_TEXT_OFFSET(String, StringLength, StartOffset, XYend, st)
 
     /* Description   :-         Returns the x- and y-offsets from the top left pixel
-       *                          of a string to the origin of the string's first character.
-       *                          This routine also returns the x- or y-offset to the pixel
-       *                          which is the new current position after the text is written
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+     *                          of a string to the origin of the string's first character.
+     *                          This routine also returns the x- or y-offset to the pixel
+     *                          which is the new current position after the text is written
+     * Return status :-
+     *
+     *
+     *
+     * Notes         :-
+     *
+     *
+     *
+     *
+     *
+     *
+     */
 
     char *String;     /*  <i> The string to be written */
 short *StringLength;  /*  <i> The length */
@@ -3677,12 +3651,12 @@ GprStatus *st;
 void GPR_$INQ_TEXT_EXTENT(String, StringLength, Size, st)
 
     /* Description   :-   Returns the x- and y-offsets a string spans when written by
-       *                    GPR_$TEXT.
-       * Return status :- 
-       *                  
-       * Notes         :- 
-       *                  
-       */
+     *                    GPR_$TEXT.
+     * Return status :-
+     *
+     * Notes         :-
+     *
+     */
     char *String;    /*  <i> The string to be written */
 short *StringLength; /*  <i> The length */
 short Size[2];       /* the size of the returnd text */
@@ -3704,7 +3678,7 @@ GprStatus *st;
 CREATE
 NAME "test"
 ACCEPT "y"
-INSERT LINE 
+INSERT LINE
 GINPUT X(0), Y(0)
 GINPUT X(100), Y(100)
 VERB
@@ -3739,27 +3713,27 @@ EXIT
 
 void DeterminePixels()
 
-/* Description   :- This routine will determine what GPR will use for 
-       *                  black and white pixels. It should only apply for MONO systems
-       * 
-       *
-       * Return status :- NONE
-       *                  
-       *   
-       *                  
-       * Notes         :- The background behind this call is as follows:-
-       *                  Most X servers that are running on 4 or 8 plane systems
-       *                  will return a BlackPixel() value of 0. WhitePixel() values
-       *                  will be whatever the default colormap defines as white ( Usually)
-       *                  However most X servers return running on single plane systems return
-       *                  BlackPixel() value of 1 which means that WhitePixel() value is 0 and
-       *                  using the above would mean a drawing color of 0. RASTEROPS work in
-       *                  the reverse order from this and the whole thing gets mixed up
-       *                  Thus for GPR emulation this routine will return what it things a
-       *                  BlackPixel() (Background) and a WhitePixel() should be.
-       *                  
-       *
-       */
+/* Description   :- This routine will determine what GPR will use for
+ *                  black and white pixels. It should only apply for MONO systems
+ *
+ *
+ * Return status :- NONE
+ *
+ *
+ *
+ * Notes         :- The background behind this call is as follows:-
+ *                  Most X servers that are running on 4 or 8 plane systems
+ *                  will return a BlackPixel() value of 0. WhitePixel() values
+ *                  will be whatever the default colormap defines as white ( Usually)
+ *                  However most X servers return running on single plane systems return
+ *                  BlackPixel() value of 1 which means that WhitePixel() value is 0 and
+ *                  using the above would mean a drawing color of 0. RASTEROPS work in
+ *                  the reverse order from this and the whole thing gets mixed up
+ *                  Thus for GPR emulation this routine will return what it things a
+ *                  BlackPixel() (Background) and a WhitePixel() should be.
+ *
+ *
+ */
 
 {
 #if 0
@@ -3777,32 +3751,32 @@ int planes;
     GprWhitePixel = WhitePixel(Xdisplay, DefaultScreen(Xdisplay)); /* drawing color */
     GprBlackPixel = BlackPixel(Xdisplay, DefaultScreen(Xdisplay)); /* background color */
 
-    //printf("Determine Pixels: %d %d\n", GprWhitePixel, GprBlackPixel);
+    // printf("Determine Pixels: %d %d\n", GprWhitePixel, GprBlackPixel);
 
-    //GprWhitePixel = 1;
-    //GprBlackPixel = 0;
+    // GprWhitePixel = 1;
+    // GprBlackPixel = 0;
 
 #endif
 }
 
 GPR_$TRIANGLE(V1, V2, V3, st)
 
-/* Description   :- Closes and fills polygon 
-       * 
-       * 
-       *
-       * Return status :- 
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Closes and fills polygon
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 short V1[2]; /* <i> Vertex */
 short V2[2]; /* <i> Vertex */
@@ -3849,21 +3823,21 @@ GprStatus *st;
 GPR_$INQ_TEXT(Fontid, Direct, st)
 
 /* Description   :- Returns the current font id of the current bitmap
-       *                
-       *                
-       *                
-       * Return status :-
-       *                
-       *                
-       *                
-       * Notes         :-  Return GPR id not X id
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+ *
+ *
+ *
+ * Return status :-
+ *
+ *
+ *
+ * Notes         :-  Return GPR id not X id
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 short *Fontid; /* <o> Fontid */
 short *Direct;
@@ -3878,22 +3852,22 @@ GprStatus *st;
 
 GPR_$SET_CURSOR_POSITION(Curpos, st)
 
-/* Description   :-  Moves cursor to new postion 
-       *                
-       * 
-       *
-       * Return status :- none
-       *                  
-       *   
-       *                  
-       * Notes         :- 
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :-  Moves cursor to new postion
+ *
+ *
+ *
+ * Return status :- none
+ *
+ *
+ *
+ * Notes         :-
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 short Curpos[2];
 GprStatus *st;
@@ -3911,8 +3885,8 @@ GprStatus *st;
 
     *st = 0;
 
-    return; /* leave original code in for future reference 
-  
+    return; /* leave original code in for future reference
+
     dest_x = Curpos[0];
     dest_y = Curpos[1];
     dest_w =  Bitmaps[CurrentBitmapId]->WindowId;
@@ -3920,16 +3894,16 @@ GprStatus *st;
     event = gpr_locator;
     GPR_$DISABLE_INPUT(&event,st);
 
-    XWarpPointer(Xdisplay,None,dest_w,0,0,0,0,dest_x,dest_y);	
+    XWarpPointer(Xdisplay,None,dest_w,0,0,0,0,dest_x,dest_y);
 
-    count = XPending(Xdisplay);	
+    count = XPending(Xdisplay);
 
-    GPR_$ENABLE_INPUT(&event,keyset,st);	
+    GPR_$ENABLE_INPUT(&event,keyset,st);
 
     for(i=0;i<count;i++)	{
-	XNextEvent(Xdisplay,&xevent);
-	if ( xevent.type != MotionNotify )
-		XPutBackEvent(Xdisplay,&xevent);
+    XNextEvent(Xdisplay,&xevent);
+    if ( xevent.type != MotionNotify )
+        XPutBackEvent(Xdisplay,&xevent);
 
     }
 
@@ -3937,27 +3911,27 @@ GprStatus *st;
 }
 
 KeySym
-    MapToKeypad(Symbol)
+MapToKeypad(Symbol)
 
-    /* Description   :- Reads the the current symbol. Checks for a keypad 
-       *                  definition and returns the chosen normal ascii char
-       *                
-       *                
-       * Return status :- The symbol that was passed if not a keypad
-       *                
-       *                
-       *                
-       * Notes         :- This routine should be taken out if actual keypad 
-       *                  symbols are needed
-       *                  
-       *                  
-       *                  
-       *                  
-       *                  
-       *
-       */
+/* Description   :- Reads the the current symbol. Checks for a keypad
+ *                  definition and returns the chosen normal ascii char
+ *
+ *
+ * Return status :- The symbol that was passed if not a keypad
+ *
+ *
+ *
+ * Notes         :- This routine should be taken out if actual keypad
+ *                  symbols are needed
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
-    KeySym Symbol; /* <i> Incoming symbol recieved from key press */
+KeySym Symbol; /* <i> Incoming symbol recieved from key press */
 {
 
     //	printf("Keyboard Press %d\n",Symbol);

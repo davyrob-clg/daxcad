@@ -1,10 +1,8 @@
-#
-#
 ###############################################################################
 #                                                                             #
 #        DAXCAD Makefile                                                      #
 #                                                                             #
-#        Platform:    Linux - Ubuntu                                          #
+#        Platform:    WSL Ubuntu & Cygwin                                     #
 #        Graphics:    X11                                                     # 
 #                                                                             #
 ###############################################################################
@@ -36,8 +34,6 @@ COBJS    = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(CSRCS))
 FSRCS    = $(shell find $(SRCDIR) -name '*.f')
 SRCDIRS = $(shell find . -name '*.f' | dirname {} | sort | uniq | sed 's/\/$(SRCDIR)//g' )
 FOBJS    = $(patsubst $(SRCDIR)/%.f,$(OBJDIR)/%.o,$(FSRCS))
-
-
 
 
 # Targets

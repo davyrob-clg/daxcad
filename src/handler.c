@@ -29,7 +29,7 @@
 static int FaultOccured=0;   /* a fault has occured must quit again */
 
 
-DAXCADFault(Sig,Code)       /* genaeral fault handler for the tools */
+void DAXCADFault(Sig,Code)       /* genaeral fault handler for the tools */
 
 int Sig;
 int Code;
@@ -49,6 +49,7 @@ int st;
    if ( FaultOccured )
        exit(1);                    /* quit out now to be safe */
 
+   fprintf(stderr,"Signal and Code: %d %d\n",Sig,Code);
 
    FAULTHANDLER();
    cleanid = 0;			/* allows all files to be closed */

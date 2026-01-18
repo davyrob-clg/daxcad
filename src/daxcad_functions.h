@@ -18,6 +18,7 @@
 
 #ifdef USE_UNDERSCORE      /* Functions need underscore in X lang  (APOLLO F77 ) */
 
+#define DAXCADFault			DAXCADFault_
 #define DAXCAD				daxcad_
 #define DAXCADREPAINT 		daxcadrepaint_
 #define WRMX00				wrmx00_
@@ -26,7 +27,7 @@
 #define DEWC02				dewc02_
 #define SSFLAG				ssflag_
 #define CREATETEXT			createtext_
-#define CREATEPROFILE			createprofile_
+#define CREATEPROFILE		createprofile_
 #define FINDP0				findp0_
 #define WORKLAYER			worklayer_
 #define RSCRF				rscrf_
@@ -52,8 +53,8 @@
 #define GETNMIPOS			getnmipos_
 #define EPRINT				eprint_
 #define FINDGROUP			findgroup_
-#define MXPICKPROFILE			mxpickprofile_
-#define MXWRITECHANGE			mxwritechange_
+#define MXPICKPROFILE		mxpickprofile_
+#define MXWRITECHANGE		mxwritechange_
 #define CONFRM				confrm_
 #define MXDELETE			mxdelete_
 #define ALLDRW				alldrw_

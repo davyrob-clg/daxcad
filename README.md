@@ -2,9 +2,32 @@
 
 DAXCAD is a Fortran based CAD package from the 1980s. 
 
-It has a everybodywiki entry and you can read it here:
+It has a everybodywiki entry and you can read it here since Wikipedia deleted the original entry... 
 
 https://en.everybodywiki.com/Daxcad
+
+I've updated this in 2026 - well why not.  I had the repo on Bitbucket but I'm moving it to github. I've updated a couple of things so that it runs on WSL with WSLg. You can still use an XWindows server on Windows - my recommendation for 2026 is MobXTerm - the best without a doubt.
+
+I found myself still fixing the bugs.  In this case mostly argument between INTEGER*4 and INTEGER*2 types in the Fortran code. But it still all runs. Maybe if I get the time I'll do a podman then it will be easy to just run it.
+
+You can also run it with Cygwin in native Windows and the Makefile is the dame for both. 
+So just download the bundle - git clone or download zip. 
+
+So best way is to install cygwin64 - to c:\cywin64 and then cd to the downloaded folder and use the terminal to run it with ./daxcad.exe
+
+You should end up with something like this:
+
+![alt text]({0BBBA400-9465-4B86-8337-5E28F1197F88}.png)
+
+Same for WSL - run WSL and then in a terminal window 
+
+./daxcad -display hostname:0
+
+You can also use WSLg - so you dont need an Xserver - which also works well.
+
+![alt text]({761CEB95-0571-474B-AD85-8DF802C79B77}.png)
+
+
 
 ## Code 
 

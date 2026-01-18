@@ -17,9 +17,12 @@
 
 #include <stdio.h>
 #include <sys/file.h>
+
 #include <time.h>
+#include <string.h>
 #include <errno.h>
 #include <unistd.h>
+
 
 #include "daxcad_functions.h"
 #include "xlang.h" /* Cross language refernce file must be updated if
@@ -553,20 +556,15 @@ daxseterror()
 
 {
 
-    /*
-extern char *sys_errlist[ ];
-extern int sys_nerr;
-*/
-    if (errno)
-    {
+    if (errno) {
+        int errnum = errno;
+        // Print error number
+        printf("Error number: %d\n", errnum);
 
-        if (errno > sys_nerr)
-        {
-            sprintf(ErrorMessage, "%d : errno undefined ", errno);
-        }
+        // Get human-readable error message
+        printf("Error message: %s\n", strerror(errnum));
 
-        else
-            sprintf(ErrorMessage, "%d : %s", errno, sys_errlist[errno]);
+        sprintf(ErrorMessage, "%d : %s", errno, strerror(errnum));
     }
     curerrno = errno;
 }

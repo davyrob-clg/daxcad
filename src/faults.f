@@ -117,7 +117,7 @@ C     bring down cleanly
 C
 C     try to delete the bitmap
       KILL=.FALSE.
-      CALL GPR_$TERMINATE(KILL,ST)
+C      CALL GPR_$TERMINATE(KILL,ST)
       RETURN
 99    CONTINUE
 C

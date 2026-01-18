@@ -33,6 +33,9 @@
 
 #include "xlang.h"
 
+#include "daxcad_functions.h"
+
+
 
 
 #define WAITPROC 0     /* parent wil wait for child */
@@ -67,7 +70,7 @@
 char *strrchr();
 
 
-int DAXCADFault();            /* the tools base fault handler */
+extern void DAXCADFault();            /* the tools base fault handler */
 
 static int ToolsArgc = 0;      /* global argument count */
 static char *ToolsArgv[256];       /* argument vector */
@@ -120,11 +123,11 @@ setdaxsignals()
 
 {
 
-   signal(SIGINT  ,DAXCADFault );
+  signal(SIGINT  ,DAXCADFault );
   signal(SIGILL  ,DAXCADFault );
-     signal(SIGFPE  ,DAXCADFault );
+  signal(SIGFPE  ,DAXCADFault );
 
-#ifndef DAXWIN32
+
 
    signal(SIGHUP  ,DAXCADFault );
 
@@ -132,7 +135,7 @@ setdaxsignals()
  
    signal(SIGTRAP ,DAXCADFault );
    signal(SIGIOT  ,DAXCADFault );
-   signal(SIGEMT  ,DAXCADFault );
+   //signal(SIGEMT  ,DAXCADFault );
 
    signal(SIGBUS  ,DAXCADFault );
    signal(SIGSEGV ,DAXCADFault ); 
@@ -150,16 +153,13 @@ setdaxsignals()
    signal(SIGTTIN ,DAXCADFault );
    signal(SIGTTOU ,DAXCADFault );
    signal(SIGIO   ,DAXCADFault );
-#ifdef SIGXCPU
+
    signal(SIGXCPU ,DAXCADFault );
-#endif
-#ifdef SIGXFSZ
+
+
    signal(SIGXFSZ ,DAXCADFault );
-#endif
-   signal(SIGVTALRM,DAXCADFault );
-   signal(SIGPROF ,DAXCADFault );
-   signal(SIGURG  ,DAXCADFault );
-#endif
+
+   
 
 }
 

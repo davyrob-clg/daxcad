@@ -25,6 +25,8 @@
 #include "gprx_errors.h"
 
 #include "xlang.h"
+#include "daxcad_functions.h"
+
 
 static currentbitmap; /* for uses by the environment saver */
 

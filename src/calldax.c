@@ -22,6 +22,8 @@
 extern char *Xdisplay;
 #endif
 
+extern DAXCADFault();
+
 #define F77false ((int)00)
 #define F77true ((int)-1)
 
@@ -62,7 +64,7 @@ char **argv;
 	extern int DAXCADXFault();
 	/* extern int daxerrorhandler() ; */
 
-	strcpy(display, "localhost:0"); /* set the display as null */
+ 	strcpy(display, ":0"); /* set the display as null */
 	demo = F77false;
 	server = F77false;
 	WantMyDrawingsBackedUp = F77true;
@@ -172,7 +174,7 @@ char **argv;
 	setdaxsignals(); /* set all signals for fault handling */
 
 	printf("\n");
-	printf("%s\n", "DAXCAD 1986, 2020 - Release Version 5.0 - X86 64");
+	printf("%s\n", "DAXCAD 1986, 2026 - Release Version 5.1 - X86 64");
 
 #if 0
 	printf("\n%s\n", sid);
