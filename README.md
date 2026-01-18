@@ -10,7 +10,7 @@ I've updated this in 2026 - well why not.  I had the repo on Bitbucket but I'm 
 
 I found myself still fixing the bugs.  In this case mostly argument between INTEGER*4 and INTEGER*2 types in the Fortran code. But it still all runs. Maybe if I get the time I'll do a podman then it will be easy to just run it.
 
-You can also run it with Cygwin in native Windows and the Makefile is the dame for both. 
+You can also run it with Cygwin in native Windows and the Makefile is the same for both. 
 So just download the bundle - git clone or download zip. 
 
 So best way is to install cygwin64 - to c:\cywin64 and then cd to the downloaded folder and use the terminal to run it with ./daxcad.exe
@@ -45,19 +45,11 @@ CAD was expensive in the 80s - DAXCAD made it accessible - AutoCAD did it better
 
 ## Installation
 
-With eclispe you can import this from git and just clone - general project
-You need to install CYGWIN on Windows
-Ensure you have gcc and gfortran 
-run make from the daxcad dir
-ensure that the daxcad.4.0 directory is eithr copied or linked to /daxcad.4.0 in your path
-then run ./daxcad from a cygwin session
+The leatest build is with VS Studio so it should work quite well.  I've kept the launch.json - it does work from WSL quite well and you can debug the Fortran!
 
-I use xming and that works pretty well 
+I use MobaXterm - which is pretty good - and you can easily use WSLg as well
 
-https://sourceforge.net/projects/xming/
-
-CYGWIN has its own Xserver - just type xstart at the command prompt
-
+I tend to use make on the command line and then debug with VS Studio. 
 
 
 ## Contributors
