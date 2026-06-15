@@ -265,13 +265,13 @@ PTICopyRight()
 	puts(" |                                                      |");
 	puts(" |          DAXCAD for Windows & Linux 2026             |");
 	puts(" |                                                      |");
-	puts(" |           Built with CYGWIN 64 DLL                   |");
+	puts(" |                                                      |");
 	puts(" |                                                      |");
 	puts(" |                                                      |");
 	puts(" |       This software was originally written by        |");
 	puts(" |         Practical Technology Ltd in Glasgow          |");
 	puts(" |                                                      |");
-	puts(" |         https://github.com/davy-clg/daxcad           |");
+	puts(" |         https://github.com/unigib/daxcad             |");
 	puts(" |                                                      |");
 	puts(" |       NO WARRANTY APPLIES NOT THAT IT EVER DID       |");
 	puts(" |                                                      |");
