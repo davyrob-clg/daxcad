@@ -8,10 +8,10 @@
 *.o
 # DAXCAD Extensions
 
-/*.inf
-/*.daxcad
-/*.rpt
-/*.Identifier
+*.inf
+*.daxcad
+*.rpt
+*.Identifier
 
 # eclipse specific git ignore
 *.pydevproject
