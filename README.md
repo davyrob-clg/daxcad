@@ -23,6 +23,11 @@ You can also use WSLg - so you dont need an Xserver - which also works well.
 
 <img width="1296" height="1766" alt="image" src="https://github.com/user-attachments/assets/95999348-2901-47f5-bad4-ee5faad60895" />
 
+DAXCAD looks the same as it did in 1987
+
+<img width="2530" height="1621" alt="image" src="https://github.com/user-attachments/assets/b7dec4ca-7ce8-4be7-8b81-c971e5e48162" />
+
+
 ## Code 
 
 Most of the code is Fortran 77 - some bits are C - its a mixture.  The code was originally written for an Apollo Aegis platform and used Apollo GPR.  You can google that.  It was then ported to a PC and used PC based device drivers and a Pharlap Extender.  
