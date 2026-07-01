@@ -6,6 +6,12 @@
 *.ear
 *.class
 *.o
+# DAXCAD Extensions
+
+/*.inf
+/*.daxcad
+/*.rpt
+/*.Identifier
 
 # eclipse specific git ignore
 *.pydevproject
