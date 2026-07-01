@@ -15,20 +15,13 @@ So just download the bundle - git clone or download zip. 
 
 So best way is to install cygwin64 - to c:\cywin64 and then cd to the downloaded folder and use the terminal to run it with ./daxcad.exe
 
-You should end up with something like this:
-
-<img width="1296" height="1766" alt="image" src="https://github.com/user-attachments/assets/95999348-2901-47f5-bad4-ee5faad60895" />
-
-
 Same for WSL - run WSL and then in a terminal window 
 
 ./daxcad -display hostname:0
 
 You can also use WSLg - so you dont need an Xserver - which also works well.
 
-![alt text]({761CEB95-0571-474B-AD85-8DF802C79B77}.png)
-
-
+<img width="1296" height="1766" alt="image" src="https://github.com/user-attachments/assets/95999348-2901-47f5-bad4-ee5faad60895" />
 
 ## Code 
 
