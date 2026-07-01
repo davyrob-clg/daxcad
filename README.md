@@ -17,7 +17,8 @@ So best way is to install cygwin64 - to c:\cywin64 and then cd to the downloade
 
 You should end up with something like this:
 
-![alt text]({0BBBA400-9465-4B86-8337-5E28F1197F88}.png)
+<img width="1296" height="1766" alt="image" src="https://github.com/user-attachments/assets/95999348-2901-47f5-bad4-ee5faad60895" />
+
 
 Same for WSL - run WSL and then in a terminal window 
 
