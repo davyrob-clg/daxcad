@@ -28,9 +28,9 @@ typedef struct {                   /* the descripter of an individual bitmap */
 
                Window WindowId;        /* X window ID for the window */
 
-               GContext  XgcText;      /* X graphics context for this bitmap */
-               GContext  XgcFills;     /* X graphics context for this bitmap */
-               GContext  XgcDraw;      /* X graphics context for this bitmap */
+               GC  XgcText;      /* X graphics context for this bitmap */
+               GC  XgcFills;     /* X graphics context for this bitmap */
+               GC  XgcDraw;      /* X graphics context for this bitmap */
                Pixmap PixmapId;        /* The pixmap id if a hidden bitmap */
                Drawable DrawId;        /* extra item for drawble */
 

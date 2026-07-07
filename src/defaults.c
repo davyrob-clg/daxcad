@@ -20,6 +20,9 @@
 #include <sys/file.h>
 #include <time.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "xlang.h"    /* Cross language refernce file must be updated if
                          any functions added to in this file
@@ -27,8 +30,9 @@
 
 #include "defaults.h"
 
-int
-OpenDefaults()
+static void CloseDefaults(void);
+
+int OpenDefaults(void)
 
       /* Description   :- Open the defaults file and keep it open
        * 		  If another open is detected then the function will
@@ -77,7 +81,7 @@ OpenDefaults()
 
 }
 
-getdefaults(Name,Type,Value,st)
+void getdefaults(char *Name, int Type, int *Value, int *st)
 
       /* Description   :- Reads defaults file to obtain values from DAXCAD defaults file
        * 
@@ -102,13 +106,6 @@ getdefaults(Name,Type,Value,st)
        *
        *
        */
-
-char *Name;		/*	<i>	Name of property */
-int Type;		/*	<i>	Type of property to assign */
-int *Value;		/*	<o>	The value Note this must be of the correct size to hold whatever
-					is requested */
-int *st;
-
 
 {
 
@@ -146,7 +143,7 @@ int ret;
 
 		sscanf(buffer,"%s",name);		/* scanf internaly */
 
-		if ( strcmp(name,Name) == NULL )	{	/* look for name */
+                if ( strcmp(name,Name) == 0 )	{	/* look for name */
 
 			len = strlen(Name);
 			
@@ -178,7 +175,7 @@ int ret;
 
 				case DAX_LOGICAL :
 
-					if ( strncmp ( p,"true",4 ) == NULL )	{
+                                        if ( strncmp ( p,"true",4 ) == 0 )	{
 
 						*Value = (int)-1;
 					}
@@ -197,7 +194,7 @@ int ret;
 			                while (isspace(*end) && end > p ) /* take out trailing blanks */
 				              end--;
                                         *(end + 1) = '\0';
-					strcpy (Value,p);
+                                        strcpy ((char *)Value,p);
 					*st = 0;
 					break;
 				default :
@@ -215,7 +212,7 @@ int ret;
 
 }
 
-CloseDefaults()
+static void CloseDefaults(void)
 
       /* Description   :- Closes defaults file
        * 

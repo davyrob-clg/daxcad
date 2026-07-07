@@ -20,6 +20,8 @@
 
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
 
@@ -28,6 +30,30 @@
 #include "xlang.h" /* Cross language refernce file must be updated if
                          any functions added to in this file 
                       */
+
+/* External display lock helpers are defined elsewhere in the graphics layer. */
+extern void RelDaxDisplay(void);
+extern void AqDaxDisplay(void);
+extern void SPAWNPROCESS(int *streams, char *command, int *length, int *retcode, int *status);
+extern void get_dirs_wild_(char *search, int *search_len,
+                                    char *wild, int *wild_len,
+                                    char *path, int *path_len,
+                                    int *match, int *status);
+extern int GPR_$INQ_ROOTWINDOW();
+extern int GPR_$SET_WINDOW_START();
+extern int GPR_$INIT();
+extern int GPR_$ENABLE_INPUT();
+extern int GPR_$LOAD_FONT_FILE();
+extern int GPR_$SET_TEXT_FONT();
+extern int GPR_$SERVER_FLUSH_X();
+extern int GPR_$EVENT_WAIT();
+extern int GPR_$DEALLOCATE_BITMAP();
+extern int GPR_$SET_BITMAP();
+extern int GPR_$CLEAR();
+extern int GPR_$INQ_BITMAP_DIMENSIONS();
+extern int GPR_$INQ_TEXT_EXTENT();
+extern int GPR_$MOVE();
+extern int GPR_$TEXT();
 
 #define MAXCOMLEN 1024
 #define MAXFILE 1025 /* Number of bytes to store */
@@ -58,7 +84,10 @@ static int streams[] = {-1, -1, -1}; /* stream control */
 
 char localcom[MAXFILE]; /*  local command string */
 
-char *strdupn();
+char *strdupn(const char *String, int Length);
+static void f77strcpy(char *string1, char *string2, int lens2);
+static void DrawText(void);
+void daxseterror(void);
 
 static char ErrorMessage[MAXFILE]; /* the current system error message */
 static int curerrno;               /* currebt error message number */
@@ -91,7 +120,7 @@ struct pdrtag
 
 typedef short ent_type;
 
-void SHELLPC(Command, Comlen, st)
+void SHELLPC(char *Command, int *Comlen, int *st)
 
     /* Description   :- Invokes a program in the command line 
        *                  It must use a shell in order to invoke
@@ -109,10 +138,6 @@ void SHELLPC(Command, Comlen, st)
        *                  
        *
        */
-
-    char *Command; /*  <i>     The command line to exec */
-int *Comlen;       /*  <i>     The length of the command string */
-int *st;
 
 {
 
@@ -149,13 +174,17 @@ int *st;
     if (!shell)
     { /* no env look for actuacl shell */
 
+        shell = (char *)NULL;
         i = 0;
         while (SystemShells[i])
         {
 
-            shell = SystemShells[i++];
-            if (!access(shell, F_OK)) /* got something valid */
+            char *candidate = SystemShells[i++];
+            if (!access(candidate, F_OK)) /* got something valid */
+            {
+                shell = candidate;
                 break;
+            }
         }
     }
 
@@ -175,6 +204,7 @@ int *st;
     {
 
         strncpy(localcom, Command, *Comlen);
+        localcom[*Comlen] = '\0';
     }
 
     len = strlen(localcom);
@@ -185,7 +215,7 @@ int *st;
 }
 
 void
-    DELETEC(File, Length, st)
+    DELETEC(char *File, int *Length, int *st)
 
     /* Description   :- This will delete the file specified. It uses
        *                  the unix lib unlink() to do the deletion.
@@ -203,10 +233,6 @@ void
        *                  
        *
        */
-
-    char *File; /*  <i>  File name to be deleted */
-int *Length;    /*  <i>  Length of file */
-int *st;        /*  <o>  return flag */
 
 {
 
@@ -237,7 +263,7 @@ int *st;        /*  <o>  return flag */
     free(f);
 }
 
-void f77strcpy(string1, string2, lens2) /* f77 string copy */
+static void f77strcpy(char *string1, char *string2, int lens2) /* f77 string copy */
 
     /* Description   :- Copies a f77 string into something c can do with it
        *                  bu appending a null at the last active character
@@ -256,9 +282,6 @@ void f77strcpy(string1, string2, lens2) /* f77 string copy */
        *
        */
 
-    char *string1; /*  <o>  The outgounf new string (Must be supplied ) */
-char *string2;     /*  <i>  F77 type string */
-int lens2;         /*  <i>  Length of f77 stirng */
 {
     int i;
     for (i = 0; i < lens2; i++)
@@ -266,7 +289,7 @@ int lens2;         /*  <i>  Length of f77 stirng */
     string1[lens2] = '\0';
 }
 
-char *strdupn(String, Length)
+char *strdupn(const char *String, int Length)
 
     /* Description   :- This routine will duplicate a string. It uses 
        *                  malloc to get memory. Primary use is for converting
@@ -284,9 +307,6 @@ char *strdupn(String, Length)
        *                  
        *
        */
-
-    char *String; /*  <i>     String input */
-int Length;       /*  <i>     Number of bytes to malloc */
 
 {
 
@@ -310,7 +330,7 @@ int Length;       /*  <i>     Number of bytes to malloc */
     return p;
 }
 
-COPYFC(Target, Tlen, Source, Slen, st)
+void COPYFC(char *Target, int *Tlen, char *Source, int *Slen, int *st)
 
 /* Description   :- Copies one file to another file. Uses a system utiliity
        *                  and uses spawn process to do the copy. If Apollo decide to 
@@ -330,12 +350,6 @@ COPYFC(Target, Tlen, Source, Slen, st)
        *
        */
 
-char *Target; /*  <i>     Target file for copy */
-int *Tlen;    /*  <i>     Length */
-char *Source; /*  <i>     Source file for copy */
-int *Slen;    /*  <i>     length */
-int *st;
-
 {
 
     int i;
@@ -349,13 +363,17 @@ int *st;
     *st = 0;
 
     i = 0;
+    cp = (char *)NULL;
 
     while (SystemCopy[i])
     {
 
-        cp = SystemCopy[i++];
-        if (!access(cp, F_OK)) /* got something valid */
+        char *candidate = SystemCopy[i++];
+        if (!access(candidate, F_OK)) /* got something valid */
+        {
+            cp = candidate;
             break;
+        }
     }
 
     if (!cp)
@@ -368,7 +386,7 @@ int *st;
     f1 = strdupn(Target, *Tlen); /* get local stirng */
     f2 = strdupn(Source, *Slen);
 
-    sprintf(localcom, "%s %s %s ", cp, f1, f2); /* build command line */
+    snprintf(localcom, sizeof(localcom), "%s %s %s ", cp, f1, f2); /* build command line */
 
     len = strlen(localcom);
     SPAWNPROCESS(streams, localcom, &len, &retcode, &status); /* spawn the process */
@@ -380,7 +398,7 @@ int *st;
         *st = -retcode; /* an error came form the invoker */
 }
 
-DIRFINC(Pathname, Plen, SearchFiles, Slen, st)
+void DIRFINC(char *Pathname, int *Plen, char *SearchFiles, int *Slen, int *st)
 
 /* Description   :- Searches the SearcFiles path and wild card
        *                  putting the output into Pathname
@@ -398,12 +416,6 @@ DIRFINC(Pathname, Plen, SearchFiles, Slen, st)
        *                  
        *
        */
-
-char *Pathname;    /*  <i>     output pathname */
-int *Plen;         /*  <i>     Length */
-char *SearchFiles; /*  <i>     Searchfile pattern and directory */
-int *Slen;         /*  <i>     Length */
-int *st;
 
 {
 
@@ -424,11 +436,13 @@ int *st;
     search = (char *)strdupn(SearchFiles, len);
     path = (char *)strdupn(Pathname, *Plen);
 
-    wildc = (char *)rindex(search, '/');
+    wildc = (char *)strrchr(search, '/');
 
     if (!wildc)
     {
         *st = 1;
+        free(search);
+        free(path);
         return;
     }
     else
@@ -451,6 +465,7 @@ int *st;
                        &typed,&match, &status);
 
 */
+    status = 0;
     if (status)
         *st = status;
 
@@ -458,7 +473,7 @@ int *st;
     free(path);
 }
 
-DIRFINC1(Pathname, Plen, SearchFiles, Slen, st)
+void DIRFINC1(char *Pathname, int *Plen, char *SearchFiles, int *Slen, int *st)
 
 /* Description   :- Searches the SearcFiles path and wild card
        *                  putting the output into Pathname
@@ -476,12 +491,6 @@ DIRFINC1(Pathname, Plen, SearchFiles, Slen, st)
        *                  
        *
        */
-
-char *Pathname;    /*  <i>     output pathname */
-int *Plen;         /*  <i>     Length */
-char *SearchFiles; /*  <i>     Searchfile pattern and directory */
-int *Slen;         /*  <i>     Length */
-int *st;
 
 {
 
@@ -502,11 +511,13 @@ int *st;
     search = (char *)strdupn(SearchFiles, len);
     path = (char *)strdupn(Pathname, *Plen);
 
-    wildc = (char *)rindex(search, '/');
+    wildc = (char *)strrchr(search, '/');
 
     if (!wildc)
     {
         *st = 1;
+        free(search);
+        free(path);
         return;
     }
     else
@@ -535,7 +546,7 @@ int *st;
     free(path);
 }
 
-daxseterror()
+void daxseterror(void)
 
 /* Description   :- Sets the current error message from the system
        *                  I hope its machine indep.
@@ -569,7 +580,7 @@ daxseterror()
     curerrno = errno;
 }
 
-DAXGETERROR(String, Passed, Length, st)
+void DAXGETERROR(char *String, int *Passed, int *Length, int *st)
 
 /* Description   :- Gets the current error message set.
        *                  String is assumed to have at least the Passed
@@ -587,11 +598,6 @@ DAXGETERROR(String, Passed, Length, st)
        *                  
        *
        */
-
-char *String; /*  <o>     The string to be set */
-int *Passed;  /*  <i>     The maximum number of bytes in the string */
-int *Length;  /*  <o>     The number of bytes to be set */
-int *st;
 
 {
 
@@ -613,7 +619,7 @@ int *st;
     *Length = l;
 }
 
-PGM_$EXIT()
+void PGM_$EXIT(void)
 
 /* Description   :- Exits from F77 cleanly
        * 
@@ -636,7 +642,7 @@ PGM_$EXIT()
     /* SPB - 230994 - Added bits to remove temporary files */
     char tryit[80];
     /* Do a little tidying up - remove tmp.????pid files */
-    sprintf(tryit, "/bin/rm -f tmp.[A-z][A-z][A-z][A-z][A-z]%05d", getpid());
+    snprintf(tryit, sizeof(tryit), "/bin/rm -f tmp.[A-z][A-z][A-z][A-z][A-z]%05d", getpid());
     system(tryit);
     /* SPB - 230994 - Added bits to remove temporary files */
 
@@ -645,7 +651,7 @@ PGM_$EXIT()
     exit(0);  /* shut */
 }
 
-INQFS1C(File, Length, st)
+void INQFS1C(char *File, int *Length, int *st)
 
 /* Description   :- This routine will return the file status requested present
        *                  state within the system. 
@@ -663,10 +669,6 @@ INQFS1C(File, Length, st)
        *                  
        *
        */
-
-char *File;  /*  <i>     the file to be checked */
-int *Length; /*  <i>     Length */
-int *st;     /*  <i>     Apollo error code (Not applicable )*/
 
 {
 
@@ -694,7 +696,7 @@ int *st;     /*  <i>     Apollo error code (Not applicable )*/
     free(f);
 }
 
-LOCALT(TimeData)
+void LOCALT(int TimeData[6])
 
 /* Description   :- Gets the local time format
        * 
@@ -719,12 +721,10 @@ LOCALT(TimeData)
        *
        */
 
-int TimeData[6]; /* <o>  Array containg time data */
-
 {
 
     struct tm *data;
-    int clock;
+    time_t clock;
 
     time(&clock);
 
@@ -738,7 +738,7 @@ int TimeData[6]; /* <o>  Array containg time data */
     TimeData[5] = data->tm_sec;
 }
 
-SIZEC(File, Length, LineMax, LineCount, st)
+void SIZEC(char *File, int *Length, int *LineMax, int *LineCount, int *st)
 
 /* Description   :- This function will return the number of lines
        *                  and the biggest line in the file. It uses
@@ -756,12 +756,6 @@ SIZEC(File, Length, LineMax, LineCount, st)
        *                  
        *
        */
-
-char *File;     /*  <i>  Filename */
-int *Length;    /*  <i>  Length */
-int *LineMax;   /*  <o>  Maximum line length */
-int *LineCount; /*  <o>  Total line count */
-int *st;
 
 {
 
@@ -785,7 +779,7 @@ int *st;
 
     fd = open(f, O_RDONLY); /* open file for buffering */
 
-    if (!fd)
+    if (fd < 0)
     {
         *st = 1;
         daxseterror();
@@ -793,7 +787,7 @@ int *st;
     else
     {
 
-        while (n = read(fd, &buff, 1))
+        while ((n = read(fd, &buff, 1)) > 0)
         { /* read 1 byte */
 
             bc++; /* byte count */
@@ -814,7 +808,7 @@ int *st;
     free(f); /* free up file name and go home */
 }
 
-TIMEWAIT(Time)
+void TIMEWAIT(float *Time)
 
 /* Description   :- Waits for a period of time
        * 
@@ -833,8 +827,6 @@ TIMEWAIT(Time)
        *
        */
 
-float *Time; /*  <i>     Time to wait */
-
 {
 
     int w;
@@ -846,7 +838,7 @@ float *Time; /*  <i>     Time to wait */
     sleep(w);
 }
 
-UNIXTIME(CurrentTime)
+void UNIXTIME(double *CurrentTime)
 
 /* Description   :- This routine will return the current unix clock time
        *                  in seconds as a double preciosn time of seconds and
@@ -865,8 +857,6 @@ UNIXTIME(CurrentTime)
        *
        */
 
-double *CurrentTime; /*  <o> Current time as DP number */
-
 {
 
     time_t tp;       /* timeval strcture */
@@ -881,8 +871,7 @@ double *CurrentTime; /*  <o> Current time as DP number */
     *CurrentTime += fraction; /* add on float time */
 }
 
-split_i2(in, out1, out2) short *in;
-short *out1, *out2;
+void split_i2(short *in, short *out1, short *out2)
 {
     unsigned char *temp;
     temp = (unsigned char *)in;
@@ -890,7 +879,7 @@ short *out1, *out2;
     *out2 = *(++temp);
 }
 
-MIRGETOLD(mifile, p, imbuff)
+void MIRGETOLD(struct mitag *mifile, short *p, short imbuff[13])
 
 /* Description   :- Part data record decoder. Called from F77 it decodes       
        *                  a packed record into usefule data.
@@ -909,9 +898,6 @@ MIRGETOLD(mifile, p, imbuff)
        *
        */
 
-struct mitag *mifile; /*  <i>     Pointer to MI record */
-short *p;             /*  <i>     record number */
-short imbuff[13];     /*  <o>     filled record buffer */
 {
 
     mifile += (*p - 1);
@@ -930,7 +916,7 @@ short imbuff[13];     /*  <o>     filled record buffer */
     imbuff[12] = mifile->r13;
 }
 
-PDRGETOLD(pdfi, pdfr, p, idbuff, rdbuff)
+void PDRGETOLD(struct pditag *pdfi, struct pdrtag *pdfr, short *p, short idbuff[4], float rdbuff[6])
 
 /* Description   :- Part data record decoder. Called from F77 it decodes
        *                  a packed record into usefule data.
@@ -949,11 +935,6 @@ PDRGETOLD(pdfi, pdfr, p, idbuff, rdbuff)
        *
        */
 
-struct pditag *pdfi; /*  <i>  Pointer to structure */
-struct pdrtag *pdfr; /*  <i>  Pointer to structure */
-short *p;            /*  <i>  part data record */
-short idbuff[4];     /*  <o>  Out going filled buffer */
-float rdbuff[6];     /*  <o>  Out going filled buffer */
 {
     pdfi += (*p - 1);
     pdfr += (*p - 1);
@@ -1021,7 +1002,7 @@ short *in2;     /*  <i> args 2 */
 static FILE *fp;                 /* file pointer to read file */
 static GprBitmapDesc WindowDesc; /* returned descripter */
 
-POPAWINDOW(File, Length, Rect, st)
+void POPAWINDOW(char *File, int *Length, GprWindow Rect, GprStatus *st)
 
 /* Description   :- Pop an X window on the screen with the contents
        *                  of the file File on the window
@@ -1041,11 +1022,6 @@ POPAWINDOW(File, Length, Rect, st)
        *                  
        *
        */
-char *File;     /*	<i>	The input file to be used */
-int *Length;    /*  <i> Length of filename */
-GprWindow Rect; /*	<i>	The size of the window to be displayed */
-GprStatus *st;
-
 {
 
     short opmode;        /* GPR op mode must be 3 to give window */
@@ -1126,7 +1102,7 @@ GprStatus *st;
     GPR_$SET_BITMAP(&cdesc, &status);
 }
 
-DrawText()
+static void DrawText(void)
 /* Description   :- Paints in the text at the start of the window
        * Return status :- NONE
        * Notes         :- 
@@ -1174,7 +1150,7 @@ DrawText()
     }
 }
 
-POPPEDWINDOW()
+void POPPEDWINDOW(void)
 /* Description   :- Repaints popped window This will be called by some
        *                  other repaint routine. It assumes to repaint just
        *                  the size.
@@ -1186,7 +1162,7 @@ POPPEDWINDOW()
     DrawText();
 }
 
-GETMPFILE(Name, Supplied, Length, St)
+void GETMPFILE(char *Name, int *Supplied, int *Length, int *St)
 
 /* Description   :- Return a tempory file name for use by the system
        *                  Intended for F77 use
@@ -1196,10 +1172,7 @@ GETMPFILE(Name, Supplied, Length, St)
        *                
        * Notes         :- 
        */
-char *Name;    /* <o> Name of file */
-int *Supplied; /* <i> Supplied buffer length */
-int *Length;   /* <o> returned length */
-int *St;       /* status */
+
 {
 
     char temp[1024]; /* maximum size of file name */
@@ -1221,7 +1194,7 @@ int *St;       /* status */
     strcpy(Name, temp);
 }
 
-GETNODEID(Id)
+void GETNODEID(int *Id)
 
 /* Description   :- Gets a hostid in a machine independant format
        *                  
@@ -1230,7 +1203,7 @@ GETNODEID(Id)
        * Notes         :- 1 .. Apollo uses environ to get nodeid
        *                  2 .. Sun uses simple hostid call
        */
-int *Id; /* <o> Hostid id */
+
 {
 
     char *nodeid;
@@ -1256,7 +1229,7 @@ int *Id; /* <o> Hostid id */
 #endif
 }
 
-DAXGETSIZE(Size)
+void DAXGETSIZE(int *Size)
 
 /* Description   :- Gets a description of the size of DAXCAD
        * 
@@ -1274,8 +1247,6 @@ DAXGETSIZE(Size)
        *                  5 micro   (dingky)
        *
        */
-
-int *Size; /* <o> Size variable */
 
 {
     char *var;
@@ -1301,7 +1272,7 @@ int *Size; /* <o> Size variable */
     }
 }
 
-SETHOME()
+void SETHOME(void)
 
 /* Description   :- Sets users home directory
        * 
@@ -1331,7 +1302,7 @@ SETHOME()
     }
 }
 
-ICHAR(Chr)
+int ICHAR(char *Chr)
 
 /* Description   :- For systems that return a -ve number > 127
        *                
@@ -1349,8 +1320,6 @@ ICHAR(Chr)
        *                  
        *
        */
-char *Chr; /* <i> Cahracter variable */
-
 {
 
     unsigned char chr;
@@ -1359,7 +1328,7 @@ char *Chr; /* <i> Cahracter variable */
     return chr;
 }
 
-DAX_XOR(Arg1, Arg2, Output)
+void DAX_XOR(unsigned int *Arg1, unsigned int *Arg2, unsigned int *Output)
 
 /* Description   :- XORs Arg1 and Arg2 and return value
        *                  in Output.
@@ -1378,15 +1347,11 @@ DAX_XOR(Arg1, Arg2, Output)
        *
        */
 
-unsigned int *Arg1;   /* <i>  first value to be XORed  */
-unsigned int *Arg2;   /* <i>  first value to be XORed  */
-unsigned int *Output; /* <o>  Resultant                */
 {
     *Output = *Arg1 ^ *Arg2;
 }
 
-int
-    IsBitSet(bit, mask)
+int IsBitSet(unsigned int bit, unsigned int mask)
 
     /* Description   :- checks if bit is set in mask
        *                  
@@ -1405,8 +1370,6 @@ int
        *
        */
 
-    unsigned int bit; /* <i>  bit to be checked        */
-unsigned int mask;    /* <i>  mask to be checked       */
 {
     return 1 << bit & mask;
 }

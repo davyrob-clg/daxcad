@@ -12,9 +12,10 @@
 #include "gprx_errors.h"
 #include "xlang.h"
 #include "daxcad_functions.h"
+#include <stdio.h>
 
 
-GPR_$ACQUIRE_DISPLAY(st)
+INT GPR_$ACQUIRE_DISPLAY(st)
 
       /* Description   :- Acqure the GPR display. Not used.
        * 
@@ -42,8 +43,7 @@ GprStatus *st;
 
 }
 
-INT
-GPR_$RELEASE_DISPLAY(st)
+void GPR_$RELEASE_DISPLAY(st)
 
       /* Description   :- Acqure the GPR display. Not used.
        * 
@@ -70,8 +70,7 @@ GprStatus *st;
 
 }
 
-INT
-GPR_$FORCE_RELEASE(Count,st)
+void GPR_$FORCE_RELEASE(Count,st)
 
       /* Description   :- Acqure the GPR display. Not used.
        * 
@@ -100,7 +99,7 @@ GprStatus *st;
 
 }
 
-GPR_$SET_ACQ_TIME_OUT(TimeOut,st)
+void GPR_$SET_ACQ_TIME_OUT(TimeOut,st)
 
       /* Description   :- Sets timeout of aqcure display. Not used.
        * 
@@ -128,7 +127,7 @@ GprStatus *st;
 
 }
 
-GPR_$SET_OBSCURED_OPT(ObsOpt,st)
+void GPR_$SET_OBSCURED_OPT(ObsOpt,st)
 
       /* Description   :- Sets the action on diusplay being obscured
        * 
@@ -158,7 +157,7 @@ GprStatus *st;
 
 
 
-GPR_$RASTER_OP_PRIM_SET(PrimSet,st)
+void GPR_$RASTER_OP_PRIM_SET(PrimSet,st)
 
       /* Description   :- Allows certain ops to be done on individual primitives
        *                  Not supprted on GPRX ( all primitives have all raster ops )
@@ -186,7 +185,7 @@ GprStatus *st;
 
 }
 
-GPR_$ALLOCATE_ATTRIBUTE_BLOCK(Ablock,st)
+void GPR_$ALLOCATE_ATTRIBUTE_BLOCK(Ablock,st)
 
       /* Description   :- allocates a descripter for bitmap ops. This allows switching
        *                  of information about bitmaps. GPRX does not support this
@@ -215,7 +214,7 @@ GprStatus *st;
    
 }
 
-GPR_$DEALLOCATE_ATTRIBUTE_BLOCK(Ablock,st)
+void GPR_$DEALLOCATE_ATTRIBUTE_BLOCK(Ablock,st)
 
       /* Description   :- dealocate allocates a descripter for bitmap ops. This allows switching
        *                  of information about bitmaps. GPRX does not support this
@@ -249,8 +248,7 @@ GprStatus *st;
 
 
 
-INT
-GPR_$SET_TEXT_PATH(Direction,st)
+void GPR_$SET_TEXT_PATH(Direction,st)
 
       /* Description   :- Sets text direction
        * 
@@ -281,8 +279,7 @@ GprStatus *st;
 
 
 
-INT
-GPR_$INQ_COLOR_MAP()
+void GPR_$INQ_COLOR_MAP(void)
 
       /* Description   :- Sets text direction
        * 
@@ -309,8 +306,7 @@ GPR_$INQ_COLOR_MAP()
 
 
 
-INT
-GPR_$INQ_RASTER_OPS()
+void GPR_$INQ_RASTER_OPS(void)
 
       /* Description   :- Sets text direction
        * 
@@ -336,8 +332,7 @@ GPR_$INQ_RASTER_OPS()
 }
 
 
-INT
-AqDaxDisplay()
+void AqDaxDisplay(void)
 
       /* Description   :- DAXCAD specific stub
        * 
@@ -357,8 +352,7 @@ AqDaxDisplay()
        */
 {
 }
-INT
-RelDaxDisplay()
+void RelDaxDisplay(void)
 
       /* Description   :- DAXCAD specific stub
        * 
@@ -380,8 +374,7 @@ RelDaxDisplay()
 }
 
 
-INT 
-ERROR_$PRINT(st)
+void ERROR_$PRINT(st)
 
       /* Description   :- APOLLO specific stub
        *
@@ -403,11 +396,10 @@ ERROR_$PRINT(st)
 int *st;
 {
 
-	printf("Apollo error code %d\n",&st);
+   printf("Apollo error code %d\n", *st);
 }
 
-INT
-GPR_$SET_HORIZONTAL_SPACING(Font,Space,st)
+void GPR_$SET_HORIZONTAL_SPACING(Font,Space,st)
 
       /* Description   :- Sets text direction
        * 
@@ -434,8 +426,7 @@ int *st;
 
 
 }
-INT
-GPR_$INQ_HORIZONTAL_SPACING(Fontid,Space,st)
+void GPR_$INQ_HORIZONTAL_SPACING(Fontid,Space,st)
 
       /* Description   :- Sets text direction
        * 
@@ -465,8 +456,7 @@ int *st;
 }
 
 
-INT
-GPR_$REPLICATE_FONT(Font1,Font2,st)
+void GPR_$REPLICATE_FONT(Font1,Font2,st)
 
 short *Font1;
 short *Font2;

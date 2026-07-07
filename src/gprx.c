@@ -13,6 +13,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #define XK_MISCELLANY
 
@@ -29,19 +30,32 @@
 
 #include "xlang.h"
 
-KeySym MapToKeypad(); /* allow keypad to function correctly */
+KeySym MapToKeypad(KeySym Symbol); /* allow keypad to function correctly */
 
-void KillAutoRefresh(Desc);
-void GPR_$SET_BITMAP(Desc, st);
-void GPR_$ALLOCATE_BITMAP(Size, HiPlane, AttributeBlock, BitmapDesc, st);
-void GPR_$DEALLOCATE_BITMAP(Desc, st);
-void GPR_$DEALLOCATE_BITMAP_X(Desc, st);
-INT GPR_$EVENT_WAIT_X(EventType, EventData, ScrPos, st);
-INT GPR_$COND_EVENT_WAIT(EventType, EventData, ScrPos, st);
-INT GPR_$COND_EVENT_WAIT_X(EventType, EventData, ScrPos, st);
-void GPR_$UNLOAD_FONT_FILE(FontId, st);
-INT AllocPoint();
-INT GprWordBoundary(Num, Word);
+void KillAutoRefresh(GprBitmapDesc Desc);
+void GPR_$SET_BITMAP();
+void GPR_$ALLOCATE_BITMAP();
+void GPR_$DEALLOCATE_BITMAP();
+void GPR_$DEALLOCATE_BITMAP_X();
+INT GPR_$EVENT_WAIT_X();
+INT GPR_$COND_EVENT_WAIT();
+INT GPR_$COND_EVENT_WAIT_X();
+void GPR_$UNLOAD_FONT_FILE();
+INT AllocPoint(void);
+INT GprWordBoundary(int Num, int Word);
+void GPRXError(char *Func, char *Error, int Code);
+
+void SetProperty(Window win);
+void CreateBlankCursor(GprBitmapDesc Desc);
+void CreateWaitCursor(GprBitmapDesc Desc);
+void DeterminePixels(void);
+void GPR_$SET_CLIP_WINDOW();
+void GPR_$INQ_BITMAP_DIMENSIONS();
+void GPR_$INQ_TEXT_EXTENT();
+void GPR_$PIXEL_BLT();
+int IsKeyLocked(int Key);
+void SetsKeyLocked(int Key, int Pressed);
+void TOOLPEN();
 
 INT ValidDesc();
 
@@ -215,9 +229,9 @@ GprBitmapDesc *BitmapDesc; /*  <o>  ID of bitmap to be used */
     Pixmap pixmap;             /* pix map drawble needed for hidden bitmaps */
     Window win;                /* pixmap window ( InputOnly ) */
     Window pixwin;             /* pixmap window ( InputOnly ) */
-    GContext gcdraw;           /* The GC for the bitmap */
-    GContext gctext;           /* The GC for the bitmap */
-    GContext gcfill;           /* The GC for the bitmap */
+    GC gcdraw;           /* The GC for the bitmap */
+    GC gctext;           /* The GC for the bitmap */
+    GC gcfill;           /* The GC for the bitmap */
     Visual visual;             /* visual id */
     XEvent pe;                 /* ready to get events */
     XExposeEvent *ee;          /* event exposure */
@@ -355,11 +369,11 @@ GprBitmapDesc *BitmapDesc; /*  <o>  ID of bitmap to be used */
 
         xgcv.plane_mask = AllPlanes;
 
-        gcdraw = (GContext)XCreateGC(Xdisplay, win,
+        gcdraw = XCreateGC(Xdisplay, win,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
-        gctext = (GContext)XCreateGC(Xdisplay, win,
+        gctext = XCreateGC(Xdisplay, win,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
-        gcfill = (GContext)XCreateGC(Xdisplay, win,
+        gcfill = XCreateGC(Xdisplay, win,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
 
         Bitmaps[desc]->WindowId = win; /* store window id */
@@ -438,15 +452,15 @@ GprBitmapDesc *BitmapDesc; /*  <o>  ID of bitmap to be used */
         for (i = 0; i <= HiPlane; i++)
             xgcv.plane_mask |= (1L << i); /* set the number of planes */
 
-        gcdraw = (GContext)XCreateGC(Xdisplay, pixmap,
+        gcdraw = XCreateGC(Xdisplay, pixmap,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
-        gctext = (GContext)XCreateGC(Xdisplay, pixmap,
+        gctext = XCreateGC(Xdisplay, pixmap,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
 
         xgcv.foreground = GprBlackPixel;
         xgcv.background = GprBlackPixel;
 
-        gcfill = (GContext)XCreateGC(Xdisplay, pixmap,
+        gcfill = XCreateGC(Xdisplay, pixmap,
                                      GCFunction | GCFillStyle | GCPlaneMask | GCLineStyle | GCBackground | GCForeground, &xgcv);
 
         XFillRectangle(Xdisplay, /* clear the space */
@@ -937,7 +951,7 @@ GprStatus *st;                /*  <o>  Return status */
     return;
 }
 
-GPR_$INIT(OpMode, Unit, Size, HiPlane, BitmapDesc, st)
+void GPR_$INIT(OpMode, Unit, Size, HiPlane, BitmapDesc, st)
 
 /* Description   :- Allocates a bitmap in X. This will be done as a hidden
  *                  bitmap descripter.
@@ -979,7 +993,7 @@ GprStatus *st;             /*  <o>  Return status */
     GprColormapId = SystemColormap; /* set the colormap */
 }
 
-GPR_$PIXEL_BLT(SourceDesc, SourceWindow, DestOrigin, st)
+void GPR_$PIXEL_BLT(SourceDesc, SourceWindow, DestOrigin, st)
 
 /* Description   :- Performs a pixel block transfer from
  *                  the source bitmap to the current bitmap
@@ -1180,7 +1194,7 @@ GprBitmapDesc Desc; /*  <i> Bitmap descripter */
     return True;
 }
 
-GPR_$TERMINATE(Dummy, st)
+void GPR_$TERMINATE(Dummy, st)
 /* Description   :- Terminates all windows and shuts down display
  * Return status :- None.
  * Notes         :-
@@ -1326,7 +1340,7 @@ GprStatus *st;               /*  <o> GprStatus return */
     Bitmaps[CurrentBitmapId]->eventmask = EventMask;
 }
 
-GPR_$DISABLE_INPUT(EventType, st)
+void GPR_$DISABLE_INPUT(EventType, st)
 
 /* Description   :- Enables different types of events to be
  *                  disabled. Each GPR type event is mapped
@@ -1706,7 +1720,7 @@ GprStatus *st;           /*  <o> Return state */
     return F77true; /* window is marked unobscured */
 }
 
-IsKeyLocked(Key)
+int IsKeyLocked(Key)
 
     /* Description   :- Checks a a special key lock mode to make sure
      *                  that control characters and shifted characters are
@@ -1732,7 +1746,7 @@ IsKeyLocked(Key)
     return KeyLockModes & Key; /* return if the bit is set */
 }
 
-SetsKeyLocked(Key, Pressed)
+void SetsKeyLocked(Key, Pressed)
 
     /* Description   :- Locks up a special key mixed modes are possible
      *
@@ -2002,7 +2016,7 @@ GprStatus *st;   /*  <o> Return status */
     Bitmaps[CurrentBitmapId]->text_f = *Index; /* save color */
 }
 
-GPR_$SET_TEXT_BACKGROUND_VALUE(Index, st)
+void GPR_$SET_TEXT_BACKGROUND_VALUE(Index, st)
 
 /* Description   :- Sets the background colour for text.
  *
@@ -2095,7 +2109,7 @@ GprStatus *st;   /*  <o> Return status */
     XChangeGC(Xdisplay,
               Bitmaps[CurrentBitmapId]->XgcFills,
               GCForeground,
-              &LocalGcFill);
+              &gv);
 
     pixel = *Index;
 
@@ -2440,7 +2454,7 @@ GprStatus *st;
     Bitmaps[CurrentBitmapId]->rasterop = *RasterOp; /* save into struct */
 }
 
-GPR_$LOAD_FONT_FILE(FontName, Length, FontId, st)
+void GPR_$LOAD_FONT_FILE(FontName, Length, FontId, st)
 
 /* Description   :- Loads an X font file.
  *
@@ -2646,7 +2660,7 @@ GprStatus *st;     /*  <o> status                                 */
               &gv);
 }
 
-GPR_$TEXT(String, Length, st)
+void GPR_$TEXT(String, Length, st)
 
 /* Description   :- Draws text string with current GC values.
  *
@@ -2786,7 +2800,7 @@ GprStatus *st;
     }
 }
 
-GPR_$SET_CLIP_WINDOW(ClipWindow, st)
+void GPR_$SET_CLIP_WINDOW(ClipWindow, st)
 
 /* Description   :- Defines a clip region for the current bitmap
  *                  but does not actually set it. It uses set clipping active
@@ -2848,7 +2862,7 @@ GprStatus *st;
     }
 }
 
-GPR_$RECTANGLE(Rect, st)
+void GPR_$RECTANGLE(Rect, st)
 
 /* Description   :- Draws a filled rectangle of the current color
  *
@@ -3259,7 +3273,7 @@ GprStatus *st;
 
 */
 
-GPR_$SET_WAIT_CURSOR(st)
+void GPR_$SET_WAIT_CURSOR(st)
 
 /* Description   :- This routine sets the system wait cursor
  *                  It does not set it immediatly. You must call
@@ -3462,7 +3476,7 @@ GprStatus *st;
     }
 }
 
-GPR_$CLOSE_FILL_PGON(st)
+void GPR_$CLOSE_FILL_PGON(st)
 
 /* Description   :- Closes and fills polygon
  *
@@ -3532,7 +3546,7 @@ GprStatus *st;
     free((char *)Points);
 }
 
-INT AllocPoint()
+INT AllocPoint(void)
 
 /* Description   :- Allocates a number of points depending on the next
  *                  word to be used.
@@ -3563,7 +3577,7 @@ INT AllocPoint()
     }
 }
 
-INT GprWordBoundary(Num, Word)
+INT GprWordBoundary(int Num, int Word)
 
 /* Description   :- This routine calculates if the number supplied lies in
  *                  the range also supplied. eg if the number does then
@@ -3581,9 +3595,6 @@ INT GprWordBoundary(Num, Word)
  *
  *
  */
-
-int Word; /*  <i>  the word boundary value */
-int Num;  /*  <i   the number supplied */
 
 {
 
@@ -3759,7 +3770,7 @@ int planes;
 #endif
 }
 
-GPR_$TRIANGLE(V1, V2, V3, st)
+void GPR_$TRIANGLE(V1, V2, V3, st)
 
 /* Description   :- Closes and fills polygon
  *
@@ -3820,7 +3831,7 @@ GprStatus *st;
     }
 }
 
-GPR_$INQ_TEXT(Fontid, Direct, st)
+void GPR_$INQ_TEXT(Fontid, Direct, st)
 
 /* Description   :- Returns the current font id of the current bitmap
  *
@@ -3850,7 +3861,7 @@ GprStatus *st;
     *st = 0;
 }
 
-GPR_$SET_CURSOR_POSITION(Curpos, st)
+void GPR_$SET_CURSOR_POSITION(Curpos, st)
 
 /* Description   :-  Moves cursor to new postion
  *

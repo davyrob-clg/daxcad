@@ -49,9 +49,9 @@ GprBitmapDesc CurrentBitmapId;     /* The ID of the current bitmap being used */
 
 short GprWindowOrg[2];             /* default window positions */
 
-GContext LocalGcText;              /* local GC for the current bitmap */
-GContext LocalGcFill;             /* local GC for the current bitmap */
-GContext LocalGcDraw;              /* local GC for the current bitmap */
+GC LocalGcText;              /* local GC for the current bitmap */
+GC LocalGcFill;             /* local GC for the current bitmap */
+GC LocalGcDraw;              /* local GC for the current bitmap */
 
 Drawable LocalDrawable;            /* drawble for local OP */
 

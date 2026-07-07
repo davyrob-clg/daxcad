@@ -1,6 +1,7 @@
+﻿#include <stdio.h>
+#include <stdlib.h>
 
-int hack_get_fb_(f, b)
-int *f, *b;
+int hack_get_fb_(int *f, int *b)
 {
 	char *s;
 

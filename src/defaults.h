@@ -19,7 +19,7 @@
 
 static char *DefaultFile = NULL;
 static FILE *DefaultsFp;
-static DefaultsOpened=NULL;
+static int DefaultsOpened = 0;
 
 /*	Error defintions */
 

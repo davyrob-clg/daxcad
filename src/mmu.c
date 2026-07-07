@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 #include "xlang.h"
 
 
@@ -109,9 +111,18 @@ typedef  struct {
 static MifileRec *MasterIndex;	/* Master index pointer */
 static PartdataRec *PartData;	/* Part data index pointer */
 static TextRec *TextData;	/* text data index pointer */
+void DATABASEINIT(INT4 *Status);
+INT4 MIFILE(INT4 Pos, INT4 Recnum, INT4 *Value, INT4 Set);
+int WordBoundary(int Num, int Word);
+void MIRGET(DAXINT *Recnum, DAXINT Imbuff[13]);
+void MIRSET(DAXINT *Recnum, DAXINT Imbuff[13]);
+INT4 PDFILE(INT4 Pos, INT4 Recnum, DAXPD *Value, INT4 Set);
+void PDRGET(DAXINT *Recnum, DAXINT Idbuff[4], DAXFLOAT Rdbuff[6]);
+void PDRSET(DAXINT *Recnum, DAXINT Idbuff[4], DAXFLOAT Rdbuff[6]);
+void CBUFFSET(DAXINT *Recnum, DAXINT Icbuff[2], char *String, DAXINT *Length);
 
 
-mainmmu()
+int mainmmu(void)
 
 
 {
@@ -184,15 +195,14 @@ int i;
 
 
 	}
-
-
+	return 0;
 
 }
 
 
 
 
-DATABASEINIT(Status)
+void DATABASEINIT(INT4 *Status)
 
       /* Description   :-Initialise the database pointer system
        *                 free anything taht is not set;
@@ -210,8 +220,6 @@ DATABASEINIT(Status)
        *                  
        *
        */
-
-INT4 *Status;	/* status return */
 
 {
 

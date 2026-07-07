@@ -16,7 +16,7 @@ MISALIGN=-misalign
 
 FFLAGS = -g -fallow-argument-mismatch -fdollar-ok -w  -fno-second-underscore  -finit-local-zero -ff2c -fd-lines-as-comments  
 #CFLAGS= -DDAXWIN32 -g -DUSE_UNDERSCORE -w -Iinclude -I. -Ic:/cygwin//usr/X11R6/include
-CFLAGS= -DDAXLINUX -g -DUSE_UNDERSCORE -w -Iinclude -I. -I/usr/include
+CFLAGS= -DDAXLINUX -g -DUSE_UNDERSCORE -w -Iinclude -I. -I/usr/include   -Wno-error=return-mismatch -std=gnu89
 CC=gcc
 FC=gfortran
 

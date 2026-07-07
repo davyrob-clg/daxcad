@@ -34,6 +34,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "xlang.h"
 #include "daxcad_functions.h"
@@ -63,6 +66,9 @@ extern void tools_qsort();
 extern void tools_qswap();
 extern void tools_search_wild();
 extern char *strdup();
+extern char *strdupn(const char *String, int Length);
+extern void daxseterror(void);
+extern void tools_match(char *str, int *length, int *end, int *index);
 
 /* main(){ INT_4 len =11, status; sort("daxcad.test",&len,&status);} */
 
@@ -582,7 +588,7 @@ INT_4 *status;  /* <o> status code             */
     }
 }
 
-VALDIRC(Path, Length, st)
+void VALDIRC(char *Path, int *Length, int *st)
 
 /* Description   :- Checks the validity of the path sent
        * 
@@ -600,10 +606,6 @@ VALDIRC(Path, Length, st)
        *                  
        *
        */
-
-char *Path;  /*  <i>  The directory path */
-int *Length; /*  <i>  length */
-int *st;
 
 {
 
@@ -623,7 +625,7 @@ int *st;
     free(p);
 }
 
-tools_search_this_directory_raw(path, fp, count, status)
+void tools_search_this_directory_raw(char *path, FILE *fp, INT_4 *count, INT_4 *status)
 
     /* Description   :- This function scans a directory for any files
                          *                  that match a preset regular expression that 
@@ -641,11 +643,6 @@ tools_search_this_directory_raw(path, fp, count, status)
                          * Notes         :-
                          *
                          */
-    char *path; /* <i> The search directory */
-FILE *fp;       /* <i> output file stream */
-INT_4 *count;   /* <o> number of files matched */
-INT_4 *status;  /* <o> status code             */
-
 {
 #define LINK 1
 #define DIRECTORY 2
@@ -684,7 +681,7 @@ INT_4 *status;  /* <o> status code             */
     }
 }
 
-EXISTPATH(Path, Length, st) /* checks existance of the file link or dir */
+void EXISTPATH(char *Path, int *Length, int *st) /* checks existance of the file link or dir */
 
 /* Description   :- Checks the existance of a path for validity 
        *                  Can be aither file or directory.
@@ -703,10 +700,6 @@ EXISTPATH(Path, Length, st) /* checks existance of the file link or dir */
        *
        */
 
-char *Path;  /*  <i>     Path being checked */
-int *Length; /*  <i>     Length */
-int *st;
-
 {
 
     struct stat buff;
@@ -723,7 +716,7 @@ int *st;
     free(p);
 }
 
-TOOLSGETCWD(Path, Size, Status)
+void TOOLSGETCWD(char *Path, int *Size, int *Status)
 
 /* Description   :- Gets a current working directory.
        * 
@@ -742,13 +735,9 @@ TOOLSGETCWD(Path, Size, Status)
        *
        */
 
-char *Path;  /*  <o> The path that will be set */
-int *Size;   /*  <o> The length of the path */
-int *Status; /*  <o> Status return */
-
 {
 
-    int ret;
+    char *ret;
 
     *Status = 0;
 
@@ -759,7 +748,7 @@ int *Status; /*  <o> Status return */
         *Size = strlen(Path);
 }
 
-TOOLSSETCWD(Path, Size, Status)
+void TOOLSSETCWD(char *Path, int *Size, int *Status)
 
 /* Description   :- Sets a working directory.
        * 
@@ -777,10 +766,6 @@ TOOLSSETCWD(Path, Size, Status)
        *                  
        *
        */
-
-char *Path;  /*  <i> The path that will be set */
-int *Size;   /*  <i> The length of the path */
-int *Status; /*  <o> Status return */
 
 {
 

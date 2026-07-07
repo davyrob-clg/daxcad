@@ -17,8 +17,12 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "daxcad_functions.h"
 #include "signal.h"
+
+extern void FAULTHANDLER(void);
+extern void TMPCLEANUP(int *cleanid, int *st);
 
 #ifdef APOLLO
 

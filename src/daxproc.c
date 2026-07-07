@@ -30,6 +30,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "xlang.h"
 
@@ -67,10 +69,12 @@
 #define INVALIDPATH 1
 #define TOOMANYARGS 2
 
-char *strrchr();
+extern void DAXCADFault(int Sig, int Code); /* the tools base fault handler */
 
-
-extern void DAXCADFault();            /* the tools base fault handler */
+static void DAXCADFaultSignalShim(int sig)
+{
+    DAXCADFault(sig, 0);
+}
 
 static int ToolsArgc = 0;      /* global argument count */
 static char *ToolsArgv[256];       /* argument vector */
@@ -81,7 +85,7 @@ static char ProcName[MAXNAMESIZE];     /* main progarm buffer */
 
 
 
-SPAWNPROCESS(Streams,ProcLocal,Length,Pid,st)
+void SPAWNPROCESS(int Streams[3], char *ProcLocal, int *Length, int *Pid, int *st)
 
   /* Description   :- Invoke a process under the DAXTOOLS environment
   *                  
@@ -96,13 +100,6 @@ SPAWNPROCESS(Streams,ProcLocal,Length,Pid,st)
   *
   */
 
-int Streams[3];      /* connection streams */
-
-char *ProcLocal;  /* program name */
-int *Length;       /* length of name */
-int *Pid;          /* the pid or exit code depending on the waiting mode */
-int *st;       /* return status described above */
-
 {
 
 	/* Must do a system herte */
@@ -110,7 +107,7 @@ int *st;       /* return status described above */
 }
 
 
-setdaxsignals()   
+void setdaxsignals(void)
                          /* Description   :- set all signals for DAXCAD
                          *                   MACHINE will have to be altered
                          * 
@@ -123,48 +120,48 @@ setdaxsignals()
 
 {
 
-  signal(SIGINT  ,DAXCADFault );
-  signal(SIGILL  ,DAXCADFault );
-  signal(SIGFPE  ,DAXCADFault );
+    signal(SIGINT  ,DAXCADFaultSignalShim );
+    signal(SIGILL  ,DAXCADFaultSignalShim );
+    signal(SIGFPE  ,DAXCADFaultSignalShim );
 
 
 
-   signal(SIGHUP  ,DAXCADFault );
+    signal(SIGHUP  ,DAXCADFaultSignalShim );
 
-   signal(SIGQUIT ,DAXCADFault );
+    signal(SIGQUIT ,DAXCADFaultSignalShim );
  
-   signal(SIGTRAP ,DAXCADFault );
-   signal(SIGIOT  ,DAXCADFault );
+    signal(SIGTRAP ,DAXCADFaultSignalShim );
+    signal(SIGIOT  ,DAXCADFaultSignalShim );
    //signal(SIGEMT  ,DAXCADFault );
 
-   signal(SIGBUS  ,DAXCADFault );
-   signal(SIGSEGV ,DAXCADFault ); 
-   signal(SIGSYS  ,DAXCADFault ); 
-   signal(SIGPIPE ,DAXCADFault );
+    signal(SIGBUS  ,DAXCADFaultSignalShim );
+    signal(SIGSEGV ,DAXCADFaultSignalShim ); 
+    signal(SIGSYS  ,DAXCADFaultSignalShim ); 
+    signal(SIGPIPE ,DAXCADFaultSignalShim );
 
-   signal(SIGTERM ,DAXCADFault );
-   signal(SIGUSR1 ,DAXCADFault );
-   signal(SIGUSR2 ,DAXCADFault );
+    signal(SIGTERM ,DAXCADFaultSignalShim );
+    signal(SIGUSR1 ,DAXCADFaultSignalShim );
+    signal(SIGUSR2 ,DAXCADFaultSignalShim );
 
-   signal(SIGTSTP ,DAXCADFault );
-   signal(SIGCONT ,DAXCADFault );
-
-
-   signal(SIGTTIN ,DAXCADFault );
-   signal(SIGTTOU ,DAXCADFault );
-   signal(SIGIO   ,DAXCADFault );
-
-   signal(SIGXCPU ,DAXCADFault );
+    signal(SIGTSTP ,DAXCADFaultSignalShim );
+    signal(SIGCONT ,DAXCADFaultSignalShim );
 
 
-   signal(SIGXFSZ ,DAXCADFault );
+    signal(SIGTTIN ,DAXCADFaultSignalShim );
+    signal(SIGTTOU ,DAXCADFaultSignalShim );
+    signal(SIGIO   ,DAXCADFaultSignalShim );
+
+    signal(SIGXCPU ,DAXCADFaultSignalShim );
+
+
+    signal(SIGXFSZ ,DAXCADFaultSignalShim );
 
    
 
 }
 
 
-BuildArgv(Path,Argc,Argv,NewPath)       
+int BuildArgv(char *Path, int *Argc, char ***Argv, char *NewPath)
 
                         /* Description   :- build an argument list for invoking
                               programs. Holds malloced in main storage
@@ -185,13 +182,6 @@ BuildArgv(Path,Argc,Argv,NewPath)
 
 
 
-
-char *Path;        /* the full path of the prgram including arguments */
-int *Argc;         /* the number of arguments included in the list. 
-                      This does not include the final null 
-                   */
-char **Argv;        /* the returned pointer to the argument list */
-char **NewPath;     /* The new path to be executed */
 
 {
 
@@ -272,7 +262,7 @@ char *pos;
 
    ToolsArgv[ToolsArgc] = NULL;
 
-   *Argv = (char*)ToolsArgv;
+    *Argv = ToolsArgv;
    *Argc = ToolsArgc;
 
    return SUCCESS;

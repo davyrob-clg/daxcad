@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -27,9 +28,10 @@
 #include "xlang.h"
 #include "daxcad_functions.h"
 
-char *Strdupn();
+static char *Strdupn(const char *String, int Length);
+static void IsWindowVisable(Window Win, int *Visable);
 
-GPR_$INQ_MONO_PIXELS(WPixel, BPixel, st)
+void GPR_$INQ_MONO_PIXELS(WPixel, BPixel, st)
 /* Description   :- Returns the value of White and Black pixels
        *                  under the current X environent.
        *
@@ -41,12 +43,14 @@ GPR_$INQ_MONO_PIXELS(WPixel, BPixel, st)
        */
 GprColor *WPixel; /*  <o>     The set White pixel color */
 GprColor *BPixel; /*  <o>     The set black pixel */
+GprStatus *st;
 {
+   *st = 0;
    *WPixel = GprWhitePixel;
    *BPixel = GprBlackPixel;
 }
 
-GPR_$INQ_ROOTWINDOW(Size, BitmapDepth, WPixel, BPixel, st)
+void GPR_$INQ_ROOTWINDOW(Size, BitmapDepth, WPixel, BPixel, st)
 /* Description   :- returns information about the root window
        *                  Used to determine maximum dimensions etc
        *
@@ -93,7 +97,7 @@ GprStatus *st;
    *BitmapDepth = attr.depth - 1;
 }
 
-GPR_$SET_ICON_NAME(IconName, Length, st)
+void GPR_$SET_ICON_NAME(IconName, Length, st)
 
 /* Description   :- Sets the name of the icon that is displayed.
        * 
@@ -142,7 +146,7 @@ GprStatus *st;
    free(p);
 }
 
-GPR_$SERVER_FLUSH_X(st)
+void GPR_$SERVER_FLUSH_X(st)
 
 /* Description   :- Flushes the server output queue on the current 
        *                  display. Does an XFlush 
@@ -169,7 +173,7 @@ GprStatus *st;
    XFlush(Xdisplay);
 }
 
-char *Strdupn(String, Length)
+static char *Strdupn(const char *String, int Length)
 
     /* Description   :- This routine will duplicate a string. It uses 
        *                  malloc to get memory. Primary use is for converting
@@ -187,9 +191,6 @@ char *Strdupn(String, Length)
        *                  
        *
        */
-
-    char *String; /*  <i>     String input */
-int Length;       /*  <i>     Number of bytes to malloc */
 
 {
 
@@ -213,7 +214,7 @@ int Length;       /*  <i>     Number of bytes to malloc */
    return p;
 }
 
-GPR_$SET_INPUT_FOCUS(st)
+void GPR_$SET_INPUT_FOCUS(st)
 
 /* Description   :- EXTENSION for GPRX allows focus to be set on the current bitmap window
        *                  if the window manager doesnt do it for you!!!
@@ -252,7 +253,7 @@ GprStatus *st;
    XSetInputFocus(Xdisplay, focus, RevertToParent, focustime);
 }
 
-IsWindowVisable(Win, Visable)
+static void IsWindowVisable(Window Win, int *Visable)
 
     /* Description   :- Returns the visbale or map status of a 
        *                  window
@@ -270,9 +271,6 @@ IsWindowVisable(Win, Visable)
        *                  
        *
        */
-
-    Window Win; /* <i> X window id */
-int *Visable;   /* <o> Visable flag */
 
 {
 

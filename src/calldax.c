@@ -5,7 +5,7 @@
 
    Practical Technology Int'l 1991
 
-   Public domain 2000-2017
+   Public domain 2000-2026
 
    Main start up file for DAXCAD based applications
 
@@ -13,6 +13,8 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "daxcad_functions.h"
 #include "xlang.h"
@@ -22,7 +24,14 @@
 extern char *Xdisplay;
 #endif
 
-extern DAXCADFault();
+extern void DAXCADFault(int Sig, int Code);
+extern int DAXCADXFault(void);
+extern int GPR_$OPEN_X_DISPLAY(char *display, int *st);
+extern int XSetIOErrorHandler();
+extern void setdaxsignals(void);
+extern void daxcad_(int *version, int *demo, int *server,
+			  char *ServerMacro, int *mlen, int cursor[3],
+			  int *track, int *redraw_interrupt);
 
 #define F77false ((int)00)
 #define F77true ((int)-1)
@@ -30,29 +39,27 @@ extern DAXCADFault();
 typedef int LOGICAL;
 LOGICAL WantMyDrawingsBackedUp; /* flag to backup drawings */
 LOGICAL server;					/* are we running -server ?*/
-static char *sid = "5.1.0 date 17/01/26";
 
-LOGICAL doabu_(wantBackups) int *wantBackups;
+static void ErrorAndAbort(const char *ErrorMessage);
+static void PTICopyRight(void);
+static void PTIOldCopyRight(void);
+
+LOGICAL doabu_(int *wantBackups)
 {
 	/* the trailing underscore is especially for RSTALL:datah9.f */
 	/* returns F77True if the user really does want files bu'ed  */
-	*wantBackups = (int)WantMyDrawingsBackedUp;
+	if (wantBackups)
+	{
+		*wantBackups = (int)WantMyDrawingsBackedUp;
+	}
+	return WantMyDrawingsBackedUp;
 }
 
-main(argc, argv) int argc;
-char **argv;
+int main(int argc, char **argv)
 {
-	static int debug = 1;
 	int st;
-	int status;
-	int c;
-	int opt;
-	short type;
-	char data;
-	int rep;
 	char display[256];
 	char buff[256];
-	int DAXCADREPAINT();
 	LOGICAL version;
 	LOGICAL demo;
 	LOGICAL track;			  /* cursor tracking mode     */
@@ -61,12 +68,13 @@ char **argv;
 	int mlen;
 	int i;
 	int cursor[3]; /* current cursor defs */
-	extern int DAXCADXFault();
 	/* extern int daxerrorhandler() ; */
 
- 	strcpy(display, ":0"); /* set the display as null */
+	strcpy(display, ":0"); /* set the display as null */
 	demo = F77false;
 	server = F77false;
+	ServerMacro[0] = '\0';
+	mlen = 0;
 	WantMyDrawingsBackedUp = F77true;
 	redraw_interrupt = F77true;
 	version = F77false; /* X version */
@@ -93,7 +101,7 @@ char **argv;
 				ErrorAndAbort("Missing or misplaced argument for -display");
 			else
 			{
-				strcpy(display, argv[i]); /* copy into the display */
+				snprintf(display, sizeof(display), "%s", argv[i]); /* copy into the display */
 			}
 		}
 		else if (!strcmp(argv[i], "-server")) /* delay before startup */
@@ -104,7 +112,7 @@ char **argv;
 			else
 			{
 				server = F77true;
-				strcpy(ServerMacro, argv[i]);
+				snprintf(ServerMacro, sizeof(ServerMacro), "%s", argv[i]);
 				mlen = strlen(ServerMacro);
 			}
 		}
@@ -142,12 +150,12 @@ char **argv;
 		}
 		else if (!strcmp(argv[i], "-help")) /* cursor tracking  on */
 		{
-			sprintf(buff, " ");
+			snprintf(buff, sizeof(buff), " ");
 			ErrorAndAbort(buff);
 		}
 		else
 		{ /* jobs in rags chief */
-			sprintf(buff, "Invalid Argument (%d) %s ", i, argv[i]);
+			snprintf(buff, sizeof(buff), "Invalid Argument (%d) %s ", i, argv[i]);
 			ErrorAndAbort(buff);
 		}
 	}
@@ -174,7 +182,7 @@ char **argv;
 	setdaxsignals(); /* set all signals for fault handling */
 
 	printf("\n");
-	printf("%s\n", "DAXCAD 1986, 2026 - Release Version 5.1 - X86 64");
+	printf("%s\n", "DAXCAD 1986, 2026 - Release Version 5.2 - X86 64");
 
 #if 0
 	printf("\n%s\n", sid);
@@ -212,9 +220,10 @@ char **argv;
 #endif
 
 	daxcad_(&version, &demo, &server, ServerMacro, &mlen, cursor, &track, &redraw_interrupt); /* start daxcad */
+	return 0;
 }
 
-ErrorAndAbort(ErrorMessage)
+static void ErrorAndAbort(const char *ErrorMessage)
 	/* Description   :- Boy has foobarred the command so
  *                  give him error message usage and exit
  *
@@ -228,7 +237,6 @@ ErrorAndAbort(ErrorMessage)
  *
  */
 
-	char *ErrorMessage; /* <i> meaningful error message         */
 {
 
 	fprintf(stderr, " %s \n Usage: daxcad [-display host:screen [-server macro.mac| [-demo]\\\n", ErrorMessage);
@@ -248,10 +256,10 @@ ErrorAndAbort(ErrorMessage)
 
 	fprintf(stderr, "\n\nDefault values depend on graphics version\n");
 
-	exit(-1);
+	exit(EXIT_FAILURE);
 }
 
-PTICopyRight()
+static void PTICopyRight(void)
 /* Description   :- Display a copy right message
  * Return status :-
  * Notes         :-
@@ -288,7 +296,7 @@ PTICopyRight()
 	puts("  ------------------------------------------------------");
 }
 
-PTIOldCopyRight()
+static void PTIOldCopyRight(void)
 /* Description   :- Display a copy right message - just for nostaliga!
  * Return status :-
  * Notes         :-

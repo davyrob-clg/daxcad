@@ -34,7 +34,7 @@
 #include "daxcad_functions.h"
 
 
-CreateBlankCursor(Desc)
+void CreateBlankCursor(Desc)
 
 
       /* Description   :- Creates a blank cursor for the window requested
@@ -123,7 +123,7 @@ XColor bg;
 
 
 
-CreateWaitCursor(Desc)
+void CreateWaitCursor(Desc)
 
 
       /* Description   :- Creates a waiting cursor for the window requested
@@ -230,7 +230,7 @@ XColor bg;
 
 
 
-GPR_$INQ_CURSOR()
+void GPR_$INQ_CURSOR()
 
       /* Description   :- Returns Cursor information
        *

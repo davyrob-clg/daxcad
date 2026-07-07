@@ -21,6 +21,7 @@
 #include <time.h>
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "xlang.h"    /* Cross language refernce file must be updated if
                          any functions added to in this file 
@@ -30,8 +31,91 @@
 #include "daxcad_functions.h"
 #include "defaults.h"
 
+extern void RelDaxDisplay(void);
+extern void AqDaxDisplay(void);
+extern void SetLocalDrawable(void);
+extern void TOOLPEN();
+extern int FullCircle(DAXCADINT firstent);
+extern void GetAutoEnd(int *Points, float *Hpsx, float *Hpsy, float *Hpfx, float *Hpfy);
+extern void MxMarkerAngles(int StartPos, int EndPos, float Spx, float Spy, float Fpx, float Fpy, double *SAngle, double *EAngle, int *ClockS, int *ClockE);
+extern int CreateMarker(Marker *MarkDef, DAXCADINT *Pointer);
+extern void CreateTextSequence(DAXCADINT *Pointer);
+extern void MxResequence(void);
+extern void MxWriteChanges(void);
+extern int MxMarkProfile(DAXCADINT Mipp, int State);
+extern int MxDelete(DAXCADINT MipDelete);
+extern int MxInsert(DAXCADINT MipInsert);
+extern int MxSwap(DAXCADINT MipSwap1, DAXCADINT MipSwap2);
+extern int NcEditProperty(DAXCADINT Mipp, int Noun);
+extern int CreateSequence(void);
+extern int MxBuildList(void);
+extern void MxMainSort(void);
+extern void MxSortSwap(int Elem1, int Elem2);
+extern void WORKLAYER(int *layer);
+extern void MXMODMRK(DAXCADINT *retp, DAXCADINT *direction);
+extern void DEWC02(float *x, float *y, float *angle, float *scalex, float *scaley, DAXCADINT *form, DAXCADINT *tfont, DAXCADINT *tlay, DAXCADINT *retp, DAXCADLOGICAL *ok);
+extern void VALLDRW(DAXCADINT *ent, DAXCADINT *retp);
+extern void SSFLAG(DAXCADINT *Pointer, float *xp, float *yp, DAXCADINT *tdfp, DAXCADINT *p2, DAXCADLOGICAL *flag);
+extern void CREATETEXT(double *x, double *y, char *string, DAXCADINT *Pointer);
+extern void CREATEPROFILE(int *seq, int *layer);
+extern void MXWRITECHANGE(DAXCADINT *mipp, int *seqno);
+extern int CONFRM(void);
+extern int getdefaults(char *name, int type, void *value, int *st);
+extern int PTOL(double *x1, double *y1, double *x2, double *y2);
+extern void NCATTACH(int *mode, char *name, int *flag, DAXCADINT *Mipp, DAXCADINT *pmip, int *st);
+extern void NCEDIT(DAXCADINT *Mipp, char *name);
+extern void NCPROP(char *pname, char *prompt, int *type, DAXCADINT *mip, int *st);
+extern void NCTOL(double *tolerance);
+extern void GETDRAWINGNAME(char *drgnam, int *length);
+extern void GETDRAWINGPARAMS(double *drgscale, double *dbufac, char units[4]);
+extern void TCURS(int *ch, float *hpx, float *hpy);
+extern void GTCLRM(int *menu);
+extern void GTDMHD(int *header, int *menu);
+extern void GTDMEN(int *cell, int *menu);
+extern void MNLPTS(void);
+extern void MNUPTS(void);
+extern void GETPROFILE(int *numData, int *st);
+extern void NCEXTRACTPROPERTY(DAXCADINT *profmip);
+extern void GETGROUP(DAXCADINT *rlp, int *pntr, DAXCADINT *mip);
+extern int NcGetPoint(DAXCADINT Mip, int Point, double *Xp, double *Yp);
+extern void NcShut(void);
+extern int NcOutput(void);
+extern int GetNextSequence(int *Seqnum);
+extern int BuildNewProfile(void);
+extern int NcInitProperties(void);
+extern int NcAttachProperty(DAXCADINT Mipp, int Noun);
+extern int NcEditProperty(DAXCADINT Mipp, int Noun);
+extern int MxGetDatum(int mode);
+extern void MxMenu(int Menu, int State);
+extern int EditSequence(void);
+extern void daxcadread(DAXCADINT Mip, int *st);
+extern void NOSRCH(void);
+extern void ALSRCH(DAXCADINT *ent);
+extern void MISOLAYER(int *layer, int *state);
+extern void MXPICKPROFILE(DAXCADINT *mipp, DAXCADINT *textmip, int *seqnum, DAXCADLOGICAL *option, DAXCADLOGICAL *quit);
+extern void MENPOP(int *popup, DAXCADLOGICAL *ok);
+extern void GETCELL(int *cell, int *menu, int *num, int *noun);
+extern void GTMCLO(int *menu, int *cell);
+extern void GTMCHI(int *menu, int *cell);
+extern void DEPRNT(int *msg);
+extern void FINDP0(void *proc, float *x, float *y, DAXCADLOGICAL *option, DAXCADLOGICAL *quit);
+extern void MXMARKER(DAXCADINT *mip, float *x, float *y);
+extern void GETNMIPOS(DAXCADINT *nmipos);
+extern void FULLREAD(DAXCADINT *Mip, DAXCADINT *mip, double *pdp, DAXCADINT *pdi, double *m, char *text, int *status);
+extern void RDISPF(DAXCADINT *dfp, DAXCADINT *ent, DAXCADINT *mipp, DAXCADLOGICAL *ok);
+extern void MAXDISPLAY(DAXCADINT *dfp, DAXCADINT *cvpn);
+extern void ZSFLAG(unsigned int *flag, DAXCADLOGICAL *ok);
+extern void RSCRF(int *pos, DAXCADINT *mip, float *x, float *y, DAXCADINT *dfp, DAXCADINT *p2);
+extern void MXDELETE(DAXCADINT *mip);
+extern void LABFLG(DAXCADINT *mip);
+extern void LABNFG(DAXCADINT *mip);
+extern void ALLDRW(int *ent, DAXCADINT *mip);
+extern void DCVL14(double *x1, double *y1, double *x2, double *y2, double *l1, double *l2, double *l3);
+extern void DVV0L6(double *l1, double *l2, double *l3, double *x, double *y, double *p1, double *p2, double *p3);
+extern void DVC0P4(double *x, double *y, double *radius, double *p1, double *p2, double *p3, double *xp1, double *yp1);
 
-mxinit(status)
+
+int mxinit(int *status)
 
 
       /* Description   :- Initalise MISOMEX plotter interface.
@@ -51,9 +135,6 @@ mxinit(status)
        *                  
        *
        */
-
-int *status;
-
 
 {
 
@@ -88,10 +169,11 @@ unsigned int bytes;
 	MISOLAYER(&MisomexLayer,&LayerOn);
 
 	NcInitProperties();
+	return SUCCESS;
 
 }
 
-NcShut()
+void NcShut(void)
 
       /* Description   :- Shut down Misomex system
        * 
@@ -124,7 +206,7 @@ int i;
 	MisomexInit = 0;		/* set inial flag */
 }
 
-WRMX00()
+int WRMX00(void)
 
       /* Description   :- This routine is the main driver for the MISOMEX 
        *                  plotter interface routine with DAXCAD
@@ -397,7 +479,7 @@ int exitcode;
 
 
 
-daxcadread(Mip,st)
+void daxcadread(DAXCADINT Mip, int *st)
 
 
       /* Description   :- Reads an element from DAXCADs database. It requires the master index
@@ -420,9 +502,6 @@ daxcadread(Mip,st)
        *
        */
 
-
-DAXCADINT Mip;				/*	<i>	The Master index pointer */
-int *st;				/*	<o>	return status */
 
 {
 
@@ -463,7 +542,7 @@ int status;
 
 }
 	
-DisplayFile(Dfp,Mip,Ent,st)
+void DisplayFile(DAXCADINT Dfp, DAXCADINT *Mip, DAXCADINT *Ent, DAXCADINT *st)
 
 
       /* Description   :- This routine gets a master index and entity type from the current
@@ -486,10 +565,6 @@ DisplayFile(Dfp,Mip,Ent,st)
        *
        */
 
-DAXCADINT Dfp;	/*	<i>	The requested Display file pointer */
-DAXCADINT *Mip;	/*	<o>	Master index pointer */
-DAXCADINT *Ent;	/*	<o>	Entity type */
-DAXCADINT *st;	/*	<o>	Status */
 {
 
 DAXCADINT dfp1;		/*	Display file pointer for daxcad */
@@ -517,7 +592,7 @@ DAXCADLOGICAL	ok;	/*	Logical ok flag */
 }
 
 
-MaxDisplay(MaxDfp,Cvpn)
+void MaxDisplay(DAXCADINT *MaxDfp, DAXCADINT *Cvpn)
 
 
       /* Description   :- Returns the current display file pointer for the current viewport in use.
@@ -537,9 +612,6 @@ MaxDisplay(MaxDfp,Cvpn)
        *                  
        *
        */
-DAXCADINT *MaxDfp;	/*	<o>	The maximum value for display file */
-DAXCADINT *Cvpn;	/*	<o>	The current viwport number */
-
 {
 	
 DAXCADINT dfp;		/* the display file pointer */
@@ -555,7 +627,7 @@ DAXCADINT cvpn;		/* current viewport number */
 
 
 
-MxMenu(Menu,State)
+void MxMenu(int Menu, int State)
 
 
       /* Description   :- Sets up current menu cells for MISOMEX plotter inteface
@@ -575,8 +647,6 @@ MxMenu(Menu,State)
        *
        */
 
-int Menu;	/*	<i>	Menu number defined in include file */
-int State;	/*	<i>	Controls all cells. 0 means allow header only */
 {
 
 
@@ -751,8 +821,7 @@ int pnoun;
 
 }
 
-int
-GetNextSequence(Seqnum)
+int GetNextSequence(int *Seqnum)
 
       /* Description   :- This routine gets a next valid sequnce for CreateSequence 
        *                  routines. It uses the MxBuildList to obtain a 
@@ -773,7 +842,6 @@ GetNextSequence(Seqnum)
        *
        */
 
-int *Seqnum;		/*	<o>	Sequence number that is obtained */
 {
 
 int count;
@@ -987,7 +1055,7 @@ int clocke;
 
 }
 
-CreateTextSequence(Pointer)
+void CreateTextSequence(DAXCADINT *Pointer)
 
       /* Description   :- Create a text string containing the sequence number
        * 
@@ -1005,8 +1073,6 @@ CreateTextSequence(Pointer)
        *                  
        *
        */
-
-DAXCADINT *Pointer;
 
 {
 
@@ -1027,7 +1093,7 @@ DAXCADINT p2;
 
 }
 
-CreateMarker(MarkDef,Pointer)
+int CreateMarker(Marker *MarkDef, DAXCADINT *Pointer)
 
 
       /* Description   :- This routine creates a marker at the specified location
@@ -1047,10 +1113,6 @@ CreateMarker(MarkDef,Pointer)
        *                  
        *
        */
-Marker *MarkDef;		/* structure containing marker definitions */
-DAXCADINT *Pointer;		/* returned DAXCAD database pointer */
-
-
 {
 DAXCADLOGICAL ok;
 DAXCADINT tlay;
@@ -1085,7 +1147,7 @@ DAXCADREAL scaley;
 
 	*Pointer = retp;			/* set retrning MIP for new marker */
 
-	MXMODMRK(&retp,&MarkDef->direction);
+	MXMODMRK(&retp,(DAXCADINT *)&MarkDef->direction);
 
 	ent = MARKER;
 	VALLDRW(&ent,&retp);
@@ -1137,7 +1199,7 @@ int st;
 
 
 
-EntityConnect(Mip1,Mip2,Connect1X,Connect1Y,Connect2X,Connect2Y,Connection)
+void EntityConnect(DAXCADINT Mip1, DAXCADINT Mip2, double *Connect1X, double *Connect1Y, double *Connect2X, double *Connect2Y, int *Connection)
 
 
 
@@ -1157,14 +1219,6 @@ EntityConnect(Mip1,Mip2,Connect1X,Connect1Y,Connect2X,Connect2Y,Connection)
        *                  
        *
        */
-
-DAXCADINT Mip1;			/*	<i>	Mip pointer to 1st entity */
-DAXCADINT Mip2;			/*	<i>	Mip pointer to 2nd entity */
-double *Connect1X;		/*	<o>	Connection point X */
-double *Connect1Y;		/*	<o>	Connection point Y */
-double *Connect2X;		/*	<o>	Connection point X */
-double *Connect2Y;		/*	<o>	Connection point Y */
-int *Connection;		/*	<o>	Connection flag control */
 
 {
 int st;
@@ -1269,7 +1323,7 @@ double xf2,yf2;
 
 
 
-GetAutoEnd(Points,Hpsx,Hpsy,Hpfx,Hpfy)
+void GetAutoEnd(int *Points, float *Hpsx, float *Hpsy, float *Hpfx, float *Hpfy)
 
 
       /* Description   :- Gets the end points of a selected profile. 
@@ -1289,12 +1343,6 @@ GetAutoEnd(Points,Hpsx,Hpsy,Hpfx,Hpfy)
        *                  
        *
        */
-
-int *Points;		/*	<o>	The number of points used */
-float *Hpsx;		/*	<o>	End Points start and finish */
-float *Hpsy;            /*      <o>     End Points start and finish */
-float *Hpfx;            /*      <o>     End Points start and finish */
-float *Hpfy;            /*      <o>     End Points start and finish */
 
 {
 DAXCADINT firstent;
@@ -1675,7 +1723,7 @@ int pnoun;
 }
 
 
-MxMainSort()
+void MxMainSort(void)
 
       /* Description   :- Sorts eelements in EditList into order by seqno
        * 
@@ -1711,7 +1759,7 @@ int n1,n2;	/* local sequence numbers */
 	}
 }
 
-MxSortSwap(Elem1,Elem2)
+void MxSortSwap(int Elem1, int Elem2)
 
       /* Description   :- Swaps 2 elements of Editlist
        * 
@@ -1729,9 +1777,6 @@ MxSortSwap(Elem1,Elem2)
        *                  
        *
        */
-
-int Elem1;	/* <i>	First elements to be swapped */
-int Elem2;	/* <i>	Second elements to be swapped */
 
 {
 
@@ -1844,7 +1889,7 @@ unsigned bytes;
 
 }
 
-MxWriteChanges()
+void MxWriteChanges(void)
 
       /* Description   :- Write all changes to DAXCAD database from EditList global
        * 
@@ -1889,8 +1934,7 @@ int seqno;
 
 
 
-int
-MxInsert(MipInsert)
+int MxInsert(DAXCADINT MipInsert)
 
       /* Description   :- Inserst a sequence number at the specified mip
        * 
@@ -1908,8 +1952,6 @@ MxInsert(MipInsert)
        *                  
        *
        */
-DAXCADINT MipInsert;	/*	<i) The group mip of the picked profile */
-
 {
 int increment;
 int i;
@@ -1941,8 +1983,7 @@ int i;
 }
 
 
-int
-MxSwap(MipSwap1,MipSwap2)
+int MxSwap(DAXCADINT MipSwap1, DAXCADINT MipSwap2)
 
       /* Description   :- Swaps 2 Mips around. Must be supplied ( MXPRICKPROFILE )
        * 
@@ -1960,9 +2001,6 @@ MxSwap(MipSwap1,MipSwap2)
        *                  
        *
        */
-
-DAXCADINT MipSwap1;	/*	<i) The 1st group mip of the picked profile */
-DAXCADINT MipSwap2;	/*	<i) The 2nd group mip of the picked profile */
 
 {
 int found1;		/* located first elem */
@@ -2002,8 +2040,7 @@ int i;
 }
 
 
-int 
-MxDelete(MipDelete)
+int MxDelete(DAXCADINT MipDelete)
 
       /* Description   :-Deletes the group from the sequence list.
        *                
@@ -2021,8 +2058,6 @@ MxDelete(MipDelete)
        *                  
        *
        */
-
-DAXCADINT MipDelete;	/*	<i> The group mip of the picked profile */
 
 {
 
@@ -2044,7 +2079,7 @@ int i;
 
 }
 
-MxResequence()
+void MxResequence(void)
 
       /* Description   :- Resequence the current edit list
        *               
@@ -2083,7 +2118,7 @@ int count;
 }
 
 
-MxMarkProfile(Mipp,State)
+int MxMarkProfile(DAXCADINT Mipp, int State)
 
       /* Description   :- Marks a profile while in use by highlighting text
        *                  of that profile
@@ -2101,9 +2136,6 @@ MxMarkProfile(Mipp,State)
        *                  
        *
        */
-DAXCADINT Mipp;		/*	<i>	Text master index for marking */
-int State;		/*	<i>	Marker Up or Down */
-
 {
 
 int ent;
@@ -2121,7 +2153,7 @@ int ent;
 
 }
 
-MxMarkerAngles(StartPos,EndPos,Spx,Spy,Fpx,Fpy,SAngle,EAngle,ClockS,ClockE)
+void MxMarkerAngles(int StartPos, int EndPos, float Spx, float Spy, float Fpx, float Fpy, double *SAngle, double *EAngle, int *ClockS, int *ClockE)
 
       /* Description   :- Calculates the start and end rotation angles for each marker
        * 		  on a sequence. The direction of the arc either CW or CCW
@@ -2170,16 +2202,6 @@ MxMarkerAngles(StartPos,EndPos,Spx,Spy,Fpx,Fpy,SAngle,EAngle,ClockS,ClockE)
        *  
       */                      
 
-int StartPos;	/*	<i>	Starting postion in DAXCAD  Display file */
-int EndPos;	/*	<i>	end postion in DAXCAD  Display file */
-float Spx;	/*	<i>	Starting point for a single ent only */
-float Spy;	/*	<i>	Starting point for a single ent only */
-float Fpx;	/*	<i>	Finish point for a single ent only */
-float Fpy;	/*	<i>	Finish point for a single ent only */
-double *SAngle;	/*	<o>	Angle in radians of starting marker */
-double *EAngle;	/*	<o>	Angle in radians of starting marker */
-int *ClockS;	/*	<o>	Whether the start arc is clockwise 0 CW 1 CCW */
-int *ClockE;	/*	<o>	Whether the end arc is clockwise 0 CW 1 CCW */
 {
 
 DAXCADINT firstent;		/* MIP of first entity */
@@ -2429,8 +2451,7 @@ int st;
 
 
 
-int
-NcInitProperties()
+int NcInitProperties(void)
 
       /* Description   :- Initialise NC propeties by reading DAXCAD_DEFAULTS file
        *                  and setting the proerties found in that
@@ -2506,7 +2527,7 @@ DAXCADINT mip;
 }
 
 
-NcAttachProperty(Mipp,Noun)
+int NcAttachProperty(DAXCADINT Mipp, int Noun)
 
       /* Description   :-Attach a property onto a Profile
        *                
@@ -2537,9 +2558,6 @@ NcAttachProperty(Mipp,Noun)
        *
        *
        */
-
-DAXCADINT Mipp;		/*	<i>	Group master index */
-int Noun;		/*	<i>	DAXCAD popup noun number  */
 
 {
 
@@ -2593,7 +2611,7 @@ int i;
 
 
 
-NcEditProperty(Mipp,Noun)
+int NcEditProperty(DAXCADINT Mipp, int Noun)
 
       /* Description   :-Edit a property onto a Profile
        *                
@@ -2613,9 +2631,6 @@ NcEditProperty(Mipp,Noun)
        *
        *
        */
-
-DAXCADINT Mipp;		/*	<i>	Group master index */
-int Noun;		/*	<i>	DAXCAD popup noun number  */
 
 {
 
@@ -2637,7 +2652,7 @@ int i;
 
 }
 
-NcOutput()
+int NcOutput(void)
 
       /* Description   :- This outputs the data from a drawing into a file which relates
        *                  to the drawing by name. The output file will be called 
@@ -2679,7 +2694,7 @@ double drgscale;
 double dbufac;
 double tolerance;
 char *curdate;
-int clock;
+time_t clock;
 
       time(&clock);
       curdate = ctime(&clock);
@@ -2700,7 +2715,7 @@ int clock;
 
 		fclose(OutputFP);
 		if (MAKEOK() == F77False)	{
-			return;
+			return EXIT_MENU;
 		}
 	}
 
@@ -2710,7 +2725,7 @@ int clock;
 		perror("Cannot open NC output file");
 		AqDaxDisplay();
 		DEPRNT(&NoNcOpen);
-		return;
+		return EXIT_MENU;
 	}
 
 	exitcode = MxGetDatum(DATUM_RETURN);	/* get datum if there is one and load globals */
@@ -2871,7 +2886,7 @@ double y2;
 	return 0;	/* hit point not on arc */
 }
 
-NcGetPoint(Mip,Point,Xp,Yp)
+int NcGetPoint(DAXCADINT Mip, int Point, double *Xp, double *Yp)
 
       /* Description   :- This routine is part of the Output code. It gets the
        *                  start point of a profile defined by a MARKER entity 
@@ -2890,10 +2905,6 @@ NcGetPoint(Mip,Point,Xp,Yp)
        *
        */
 
-DAXCADINT Mip;		/* <i>	DAXCAD group entity MIP */
-int Point;		/* <i>  Indicates either a start or an end point */
-double *Xp;		/* <o>	Hit point X */
-double *Yp;		/* <o>	Hit point X */
 
 {
 
@@ -2938,7 +2949,7 @@ int pntr;
 
 }
 
-NCWRITEPROPERTY(Property,Type,Value)
+void NCWRITEPROPERTY(char *Property, int *Type, char *Value)
 
       /* Description   :- Writes the property NAME and value to the current output file
        * 
@@ -2956,10 +2967,6 @@ NCWRITEPROPERTY(Property,Type,Value)
        *                  
        *
        */
-
-char *Property;	/*	<i>	Property name */
-int *Type;	/*	<i>	DAXCAD type */
-char *Value;	/*	<i>	Value in text for */
 
 {
 
